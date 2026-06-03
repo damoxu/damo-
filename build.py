@@ -5,6 +5,7 @@ import os
 import shutil
 import markdown
 from jinja2 import Environment, FileSystemLoader
+from datetime import date
 
 # ─────────────────────────────────────────
 # 1. 配置：整个项目只有这里需要改
@@ -54,14 +55,26 @@ def collect_all_posts(posts_dir):
 
         filepath = os.path.join(posts_dir, filename)
         meta, html_body = read_markdown_file(filepath)
+        # 没有填 title 就用文件名（去掉 .md 后缀）
+        title = meta.get("title", "").strip()
+        if not title:
+            title = filename.replace(".md", "")
 
+        # 没有填 date 就用今天的日期
+        date_str = meta.get("date", "").strip()
+        if not date_str:
+            date_str = date.today().strftime("%Y-%m-%d")
+
+        # 没有填 tags 就留空列表
+        tags_str = meta.get("tags", "").strip()
+        tags = tags_str.split(",") if tags_str else []
         post = {
-            "slug"  : filename.replace(".md", ""),  # 用于生成文件名
-            "title" : meta.get("title", "无标题"),
-            "date"  : meta.get("date",  "未知日期"),
-            "tags"  : meta.get("tags",  "").split(","),
+            "slug"  : filename.replace(".md", ""),
+            "title" : title,
+            "date"  : date_str,
+            "tags"  : tags,
             "body"  : html_body,
-            "url" : f"posts/{filename.replace('.md', '.html')}",
+            "url"   : f"posts/{filename.replace('.md', '.html')}",
         }
         posts.append(post)
 
@@ -82,14 +95,19 @@ def collect_all_works(works_dir):
         filepath = os.path.join(works_dir, filename)
         meta, html_body = read_markdown_file(filepath)
 
+        # 没有填 title 就用文件名
+        title = meta.get("title", "").strip()
+        if not title:
+            title = filename.replace(".md", "")
+
         work = {
             "slug"  : filename.replace(".md", ""),
-            "title" : meta.get("title", "无标题"),
+            "title" : title,
             "desc"  : meta.get("desc",  ""),
             "link"  : meta.get("link",  "#"),
             "body"  : html_body,
-            "url" : f"works/{filename.replace('.md', '.html')}",
-            }
+            "url"   : f"works/{filename.replace('.md', '.html')}",
+        }
         works.append(work)
 
     return works
