@@ -32,6 +32,14 @@
     "type": "post"
   },
   {
+    "title": "github_atention解析",
+    "date": "2026-06-03",
+    "tags": [],
+    "url": "/posts/github_atention解析.html",
+    "body": "搜索功能解析：纯前端搜索\n\n不需要后端，不需要数据库，全部在浏览器里完成。\n\n\n原理\n构建时\n  build.py 扫描所有文章和作品\n      ↓\n  生成 search-index.json\n  （包含每篇文章的标题、正文、标签、链接）\n\n用户搜索时\n  浏览器加载 search-index.json\n      ↓\n  用 JavaScript 过滤匹配的条目\n      ↓\n  实时显示结果，高亮关键词\n\n\nsearch-index.json 结构\n[\n  {\n    &quot;title&quot;: &quot;我的第一篇文章&quot;,\n    &quot;date&quot;: &quot;2024-01-01&quot;,\n    &quot;tags&quot;: [&quot;随笔&quot;, &quot;开始&quot;],\n    &quot;url&quot;: &quot;/posts/2024-01-hello-world.html&quot;,\n    &quot;body&quot;: &quot;这是正文的前500个字...&quot;,\n",
+    "type": "post"
+  },
+  {
     "title": "build解析",
     "date": "2026-06-03",
     "tags": [
@@ -57,7 +65,7 @@
     "type": "work"
   },
   {
-    "title": "我的第一个作品",
+    "title": "静态博客生成器",
     "desc": "一个静态博客生成器",
     "url": "/works/project-one.html",
     "body": "这是作品的详细介绍。",

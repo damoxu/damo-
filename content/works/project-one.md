@@ -1,4 +1,4 @@
-title: 我的第一个作品
+title: 静态博客生成器
 desc: 一个静态博客生成器
 link: https://github.com/damoxu
 
