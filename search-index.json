@@ -32,7 +32,7 @@
     "type": "post"
   },
   {
-    "title": "build.py 解析",
+    "title": "build解析",
     "date": "2026-06-03",
     "tags": [
       "技术"
@@ -48,6 +48,13 @@
     "url": "/posts/bserve解析.html",
     "body": "serve.py 解析：本地预览服务器\n\n改完文章不用每次手动下载文件，直接在浏览器里看效果。\n\n\n使用方法\npython serve.py\n# 然后打开浏览器访问 http://localhost:8000\n\n修改 content/、templates/、static/ 里的任何文件，会自动重新构建，刷新浏览器即可看到最新效果。\n按 Ctrl + C 停止服务器。\n\n它做了什么\n启动时\n  ↓\n先构建一次，确保 output/ 是最新的\n  ↓\n启动后台线程：每隔 1 秒扫描文件变化\n  ↓\n启动 HTTP 服务器，提供 output/ 里的文件\n  ↓\n浏览器访问 http://localhost:8000 → 看到博客\n\n\n文件结构\n# 1. 配置\n#    PORT = 8000\n#    WATCH_DIRS = [&quot;content&quot;, &quot;templates&quot;, &quot;static&quot;]\n#    CHECK_INTERVAL = 1  # 每秒检查一次\n\n# 2. 文件变化检测\n#    get_all_files_wi",
     "type": "post"
+  },
+  {
+    "title": "基本项目",
+    "desc": "未归类的文章都在这里",
+    "url": "/works/basic.html",
+    "body": "这里收录了所有未归类的文章。",
+    "type": "work"
   },
   {
     "title": "我的第一个作品",
