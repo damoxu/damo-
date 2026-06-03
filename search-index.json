@@ -28,7 +28,7 @@
     "date": "2026-06-03",
     "tags": [],
     "url": "/posts/学习部署静态网志之制作页面.html",
-    "body": "静态网志项目完整指南\n适用场景：前端新手，使用 Python + Markdown 生成纯静态博客，支持本地预览、自动构建、搜索功能，可一键部署到 GitHub Pages。\n一、项目结构\ntext\nmy-blog/\n├── content/               # 存放 Markdown 文章和作品\n│   ├── posts/\n│   │   └── 2024-01-hello-world.md\n│   └── works/\n│       └── project-one.md\n├── templates/             # HTML 模板\n│   ├── base.html\n│   ├── post.html\n│   ├── work.html\n│   ├── index.html\n│   └── search.html\n├── static/                # CSS 和图片\n│   └── style.css\n├── output/                # 构建后的成品（自动生成，不用手动改）\n├── build.py       ",
+    "body": "静态网志项目完整指南\n适用场景：前端新手，使用 ```python + Markdown 生成纯静态博客，支持本地预览、自动构建、搜索功能，可一键部署到 GitHub Pages。\n\n一、项目结构\n\nmy-blog/\n├── content/               # 存放 Markdown 文章和作品\n│   ├── posts/\n│   │   └── 2024-01-hello-world.md\n│   └── works/\n│       └── project-one.md\n├── templates/             # HTML 模板\n│   ├── base.html\n│   ├── post.html\n│   ├── work.html\n│   ├── index.html\n│   └── search.html\n├── static/                # CSS 和图片\n│   └── style.css\n├── output/                # 构建后的成品（自动生成，不用手动改）\n├── build.py       ",
     "type": "post"
   },
   {
