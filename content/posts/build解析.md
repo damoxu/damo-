@@ -1,5 +1,3 @@
-title: build.py 解析
-date: 2026-06-03
 tags: 技术
 project: 静态博客项目
 # build.py 解析：博客的构建引擎

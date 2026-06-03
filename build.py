@@ -72,7 +72,7 @@ def collect_all_posts(posts_dir):
             "slug"  : filename.replace(".md", ""),
             "title" : title,
             "date"  : date_str,
-            "project" : meta.get("project", "").strip(), 
+            "project" : meta.get("project", "基本项目").strip(),
             "tags"  : tags,
             "body"  : html_body,
             "url"   : f"posts/{filename.replace('.md', '.html')}",
