@@ -1,0 +1,38 @@
+# .github/workflows/deploy.yml
+# 作用：每次推送到 main 分支，自动构建并发布博客
+
+name: 构建并部署博客
+
+on:
+  push:
+    branches: [main]   # 只监听 main 分支的推送
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. 拉取代码
+      - name: 拉取代码
+        uses: actions/checkout@v4
+
+      # 2. 安装 Python
+      - name: 安装 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # 3. 安装依赖
+      - name: 安装依赖
+        run: pip install markdown jinja2
+
+      # 4. 运行构建脚本，生成 output/
+      - name: 构建博客
+        run: python build.py
+
+      # 5. 把 output/ 目录发布到 GitHub Pages
+      - name: 发布到 GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./output
