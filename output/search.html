@@ -60,7 +60,7 @@ let searchIndex = [];  // 存放从 JSON 加载的所有文章数据
 
 
 // 第一步：页面加载时，读取搜索索引文件
-fetch("/search-index.json")
+fetch("/damo-/search-index.json")
   .then(response => response.json())
   .then(data => {
     searchIndex = data;
