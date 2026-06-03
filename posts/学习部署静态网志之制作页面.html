@@ -1,0 +1,862 @@
+<!-- 继承 base.html，只需要填 content 块 -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- 页面标题：子模板可以覆盖 page_title 这个变量 -->
+  <title>无标题 - 我的博客</title>
+
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+  <!-- 顶部导航：每个页面都一样 -->
+  <header class="site-header">
+    <a href="/index.html" class="site-title">我的博客</a>
+    <nav>
+      <a href="/index.html">首页</a>
+      <a href="/works/">作品集</a>
+    </nav>
+  </header>
+
+  <!-- 主体内容：由子模板填充 -->
+  <main class="site-main">
+    
+
+  <article class="post">
+
+    <!-- 文章头部：标题、日期、标签 -->
+    <header class="post-header">
+      <h1 class="post-title">无标题</h1>
+      <div class="post-meta">
+        <span class="post-date">未知日期</span>
+        
+          <span class="post-tag"></span>
+        
+      </div>
+    </header>
+
+    <!-- 文章正文：Markdown 已转成 HTML，用 safe 告诉 Jinja2 不要转义 -->
+    <div class="post-body">
+      <p>帮我设计一个静态网志的项目，然后要求代码可读性极强，你指导我15:41Claude responded: 先了解一下你的情况，方便给出最合适的方案。先了解一下你的情况，方便给出最合适的方案。You said: Q: 你的技术背景是？Q: 你的技术背景是？
+A: 前端新手，HTML/CSS 会一点Q: 博客的定位是？
+A: 作品集 + 博客Q: 希望怎么管理内容？
+A: 写 Markdown 文件15:43Claude responded: 好，方案很清晰了。我来给你规划一个适合新手、代码极易读的静态博客项目。好，方案很清晰了。我来给你规划一个适合新手、代码极易读的静态博客项目。</p>
+<p>整体思路
+你写 Markdown → 一个脚本把它转成 HTML → 直接放到浏览器里看
+不用框架，不用 npm，不用配置地狱。整个项目你能读懂每一行。</p>
+<p>项目结构
+my-blog/
+│
+├── content/              ← 你写文章的地方
+│   ├── posts/
+│   │   ├── 2024-01-hello-world.md
+│   │   └── 2024-02-my-project.md
+│   └── works/
+│       └── project-one.md
+│
+├── templates/            ← HTML 模板（页面骨架）
+│   ├── base.html
+│   ├── post.html
+│   └── index.html
+│
+├── static/               ← 样式和图片
+│   ├── style.css
+│   └── images/
+│
+├── output/               ← 构建后的成品（不用手动碰）
+│
+└── build.py              ← 构建脚本（核心，~100行）</p>
+<p>技术选型（为什么这样选）
+用途选择理由构建脚本Python你已有环境，语法直白Markdown 转 HTMLmarkdown 库一行代码搞定模板引擎Jinja2语法像写 HTML，极易读样式纯 CSS不依赖任何框架部署GitHub Pages免费，推代码自动上线</p>
+<p>我们一步步来
+第一步：搭项目骨架，写 build.py 核心逻辑
+第二步：写 HTML 模板（首页 + 文章页 + 作品集页）
+第三步：写 CSS 样式
+第四步：教你写第一篇 Markdown 文章
+第五步：部署到 GitHub Pages</p>
+<p>你现在电脑上有 Python 吗？在终端里跑一下确认版本：
+bashpython --version</p>
+<h1>或</h1>
+<p>python3 --version
+有的话告诉我版本号，我们就开始第一步。You said: (base) [damoxu@whshare-ccs-cli-2 damo许个人空间]$ mkdir content(base) [damoxu@whshare-ccs-cli-2 damo许个人空间]$ mkdir content
+(base) [damoxu@whshare-ccs-cli-2 damo许个人空间]$ mkdir templates
+(base) [damoxu@whshare-ccs-cli-2 damo许个人空间]$ mkdir static
+(base) [damoxu@whshare-ccs-cli-2 damo许个人空间]$ mkdir output
+(base) [damoxu@whshare-ccs-cli-2 damo许个人空间]$ python --version
+Python 3.12.4
+(base) [damoxu@whshare-ccs-cli-2 damo许个人空间]$15:46Claude responded: 完美，Python 3.完美，Python 3.12 很新，结构也建好了。现在装两个依赖库：
+bashpip install markdown jinja2
+装好后告诉我输出结果，然后我们开始写 build.py。
+这个文件是整个项目的心脏，我会带你一行一行理解它在做什么。You said: Successfully installed MarkupSafe-2.Successfully installed MarkupSafe-2.1.5 importlib-metadata-8.5.0 jinja2-3.1.6 markdown-3.715:48Claude responded: 装好了，开始写核心文件。装好了，开始写核心文件。
+先创建 build.py，把下面的内容完整复制进去：
+python# build.py</p>
+<h1>作用：把 content/ 里的 Markdown 文件，转成 output/ 里的 HTML 文件</h1>
+<p>import os
+import shutil
+import markdown
+from jinja2 import Environment, FileSystemLoader</p>
+<h1>─────────────────────────────────────────</h1>
+<h1>1. 配置：整个项目只有这里需要改</h1>
+<h1>─────────────────────────────────────────</h1>
+<p>BLOG_TITLE  = "我的博客"
+AUTHOR_NAME = "damoxu"</p>
+<p>DIR_CONTENT   = "content"    # Markdown 文章放这里
+DIR_TEMPLATES = "templates"  # HTML 模板放这里
+DIR_STATIC    = "static"     # CSS / 图片放这里
+DIR_OUTPUT    = "output"     # 生成结果放这里</p>
+<h1>─────────────────────────────────────────</h1>
+<h1>2. 工具函数：每个函数只做一件事</h1>
+<h1>─────────────────────────────────────────</h1>
+<p>def read_markdown_file(filepath):
+    """
+    读取一个 Markdown 文件，返回：
+    - meta : 文章头部信息（标题、日期、标签）
+    - html : 正文转成的 HTML 字符串
+    """
+    with open(filepath, encoding="utf-8") as f:
+        raw_text = f.read()</p>
+<pre><code># markdown 库同时处理正文和头部元数据
+md = markdown.Markdown(extensions=["meta", "fenced_code", "tables"])
+html_body = md.convert(raw_text)
+
+# md.Meta 里的值是列表，取第一个元素变成字符串
+meta = {key: values[0] for key, values in md.Meta.items()}
+return meta, html_body
+</code></pre>
+<p>def collect_all_posts(posts_dir):
+    """
+    扫描 content/posts/ 目录，收集所有文章信息。
+    返回一个列表，每项是一篇文章的字典。
+    """
+    posts = []</p>
+<pre><code>for filename in sorted(os.listdir(posts_dir), reverse=True):
+    if not filename.endswith(".md"):
+        continue  # 跳过非 Markdown 文件
+
+    filepath = os.path.join(posts_dir, filename)
+    meta, html_body = read_markdown_file(filepath)
+
+    post = {
+        "slug"  : filename.replace(".md", ""),  # 用于生成文件名
+        "title" : meta.get("title", "无标题"),
+        "date"  : meta.get("date",  "未知日期"),
+        "tags"  : meta.get("tags",  "").split(","),
+        "body"  : html_body,
+        "url"   : f"posts/{filename.replace('.md', '.html')}",
+    }
+    posts.append(post)
+
+return posts
+</code></pre>
+<p>def collect_all_works(works_dir):
+    """
+    扫描 content/works/ 目录，收集所有作品信息。
+    逻辑和 collect_all_posts 一样，单独分开方便以后扩展。
+    """
+    works = []</p>
+<pre><code>for filename in sorted(os.listdir(works_dir)):
+    if not filename.endswith(".md"):
+        continue
+
+    filepath = os.path.join(works_dir, filename)
+    meta, html_body = read_markdown_file(filepath)
+
+    work = {
+        "slug"  : filename.replace(".md", ""),
+        "title" : meta.get("title", "无标题"),
+        "desc"  : meta.get("desc",  ""),
+        "link"  : meta.get("link",  "#"),
+        "body"  : html_body,
+        "url"   : f"works/{filename.replace('.md', '.html')}",
+    }
+    works.append(work)
+
+return works
+</code></pre>
+<h1>─────────────────────────────────────────</h1>
+<h1>3. 渲染函数：把数据填进模板，生成 HTML</h1>
+<h1>─────────────────────────────────────────</h1>
+<p>def setup_jinja(templates_dir):
+    """初始化 Jinja2 模板引擎，告诉它去哪里找模板文件。"""
+    env = Environment(loader=FileSystemLoader(templates_dir))
+    return env</p>
+<p>def render_page(env, template_name, output_path, <strong>data):
+    """
+    通用渲染函数：
+    - env           : Jinja2 引擎
+    - template_name : 用哪个模板（如 "post.html"）
+    - output_path   : 输出到哪里（如 "output/posts/my-post.html"）
+    - </strong>data        : 传给模板的所有变量
+    """
+    template = env.get_template(template_name)
+    html = template.render(**data, blog_title=BLOG_TITLE, author=AUTHOR_NAME)</p>
+<pre><code>os.makedirs(os.path.dirname(output_path), exist_ok=True)
+with open(output_path, "w", encoding="utf-8") as f:
+    f.write(html)
+
+print(f"  ✓ 生成：{output_path}")
+</code></pre>
+<h1>─────────────────────────────────────────</h1>
+<h1>4. 构建流程：按顺序执行每一步</h1>
+<h1>─────────────────────────────────────────</h1>
+<p>def clean_output_dir():
+    """清空 output/ 目录，确保每次构建都是干净的。"""
+    if os.path.exists(DIR_OUTPUT):
+        shutil.rmtree(DIR_OUTPUT)
+    os.makedirs(DIR_OUTPUT)</p>
+<p>def copy_static_files():
+    """把 static/ 里的 CSS、图片原样复制到 output/static/。"""
+    src = DIR_STATIC
+    dst = os.path.join(DIR_OUTPUT, "static")
+    shutil.copytree(src, dst)
+    print(f"  ✓ 复制静态文件：{src} → {dst}")</p>
+<p>def build():
+    """
+    主构建函数，按顺序做这几件事：
+    1. 清空输出目录
+    2. 复制静态文件
+    3. 收集所有文章和作品
+    4. 为每篇文章生成独立 HTML 页面
+    5. 为每个作品生成独立 HTML 页面
+    6. 生成首页
+    """
+    print("\n🔨 开始构建...\n")</p>
+<pre><code># 步骤 1 &amp; 2
+clean_output_dir()
+copy_static_files()
+
+# 步骤 3：收集内容
+posts = collect_all_posts(os.path.join(DIR_CONTENT, "posts"))
+works = collect_all_works(os.path.join(DIR_CONTENT, "works"))
+
+env = setup_jinja(DIR_TEMPLATES)
+
+# 步骤 4：每篇文章单独生成一个 HTML 页面
+print("\n📝 生成文章页面：")
+for post in posts:
+    output_path = os.path.join(DIR_OUTPUT, post["url"])
+    render_page(env, "post.html", output_path, post=post)
+
+# 步骤 5：每个作品单独生成一个 HTML 页面
+print("\n🎨 生成作品页面：")
+for work in works:
+    output_path = os.path.join(DIR_OUTPUT, work["url"])
+    render_page(env, "work.html", output_path, work=work)
+
+# 步骤 6：生成首页（把文章列表和作品列表都传进去）
+print("\n🏠 生成首页：")
+render_page(env, "index.html",
+            os.path.join(DIR_OUTPUT, "index.html"),
+            posts=posts,
+            works=works)
+
+print("\n✅ 构建完成！打开 output/index.html 查看结果。\n")
+</code></pre>
+<h1>─────────────────────────────────────────</h1>
+<h1>5. 入口：直接运行这个文件时执行构建</h1>
+<h1>─────────────────────────────────────────</h1>
+<p>if <strong>name</strong> == "<strong>main</strong>":
+    build()
+保存好之后告诉我，我来解释这个文件的结构，然后我们去写模板。You said: 创建python文件终端命令创建python文件终端命令15:49Claude responded: 用这个命令直接创建并打开编辑：用这个命令直接创建并打开编辑：
+bashcat &gt; build.py
+运行后终端会等待输入，把代码完整粘贴进去，然后按 Ctrl + D 保存退出。</p>
+<p>或者如果你更习惯编辑器：
+bash# nano（最简单）
+nano build.py</p>
+<h1>vim</h1>
+<p>vim build.py
+用 nano 的话，粘贴代码后按 Ctrl + O 保存，Ctrl + X 退出。You said: 可以了之后呢？可以了之后呢？15:51Claude responded: 现在建三个子目录，然后写第一个 Markdown 文章测试一下：现在建三个子目录，然后写第一个 Markdown 文章测试一下：
+bash# 建文章和作品目录
+mkdir -p content/posts content/works
+然后创建一篇测试文章：
+bashcat &gt; content/posts/2024-01-hello-world.md
+粘贴以下内容，然后 Ctrl + D 保存：
+markdowntitle: 我的第一篇文章
+date: 2024-01-01
+tags: 随笔, 开始</p>
+<h1>你好，世界</h1>
+<p>这是我的第一篇博客文章。</p>
+<h2>为什么写博客</h2>
+<ul>
+<li>记录学习过程</li>
+<li>整理自己的想法</li>
+<li>分享给有需要的人</li>
+</ul>
+<h2>代码示例</h2>
+<pre><code class="language-python">print(&quot;hello world&quot;)
+</code></pre>
+<p>再建一个作品：
+bashcat &gt; content/works/project-one.md
+markdowntitle: 我的第一个作品
+desc: 一个静态博客生成器
+link: https://github.com/damoxu</p>
+<p>这是作品的详细介绍。
+完成后告诉我，我们去写 HTML 模板。You said: 完成完成15:52Claude responded: 现在写三个模板文件。先创建基础模板：现在写三个模板文件。先创建基础模板：
+bashcat &gt; templates/base.html
+粘贴以下内容，Ctrl + D 保存：
+html&lt;!DOCTYPE html&gt;</p>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- 页面标题：子模板可以覆盖 page_title 这个变量 -->
+  <title>{{ page_title }} - {{ blog_title }}</title>
+
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+  <!-- 顶部导航：每个页面都一样 -->
+  <header class="site-header">
+    <a href="/index.html" class="site-title">{{ blog_title }}</a>
+    <nav>
+      <a href="/index.html">首页</a>
+      <a href="/works/">作品集</a>
+    </nav>
+  </header>
+
+  <!-- 主体内容：由子模板填充 -->
+  <main class="site-main">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- 底部 -->
+  <footer class="site-footer">
+    <p>© {{ author }} · 用 Python 和 Markdown 构建</p>
+  </footer>
+
+</body>
+</html>
+
+<p>然后是文章页模板：
+bashcat &gt; templates/post.html
+html<!-- 继承 base.html，只需要填 content 块 -->
+{% extends "base.html" %}</p>
+<!-- 设置这个页面的标题 -->
+<p>{% set page_title = post.title %}</p>
+<p>{% block content %}</p>
+<article class="post">
+
+    <!-- 文章头部：标题、日期、标签 -->
+    <header class="post-header">
+      <h1 class="post-title">{{ post.title }}</h1>
+      <div class="post-meta">
+        <span class="post-date">{{ post.date }}</span>
+        {% for tag in post.tags %}
+          <span class="post-tag">{{ tag.strip() }}</span>
+        {% endfor %}
+      </div>
+    </header>
+
+    <!-- 文章正文：Markdown 已转成 HTML，用 safe 告诉 Jinja2 不要转义 -->
+    <div class="post-body">
+      {{ post.body | safe }}
+    </div>
+
+    <!-- 返回链接 -->
+    <footer class="post-footer">
+      <a href="/index.html">← 返回首页</a>
+    </footer>
+
+  </article>
+
+<p>{% endblock %}</p>
+<p>然后是作品页模板：
+bashcat &gt; templates/work.html
+html{% extends "base.html" %}</p>
+<p>{% set page_title = work.title %}</p>
+<p>{% block content %}</p>
+<article class="post">
+
+    <header class="post-header">
+      <h1 class="post-title">{{ work.title }}</h1>
+      {% if work.link != "#" %}
+        <a href="{{ work.link }}" class="work-link" target="_blank">查看项目 →</a>
+      {% endif %}
+    </header>
+
+    <div class="post-body">
+      {{ work.body | safe }}
+    </div>
+
+    <footer class="post-footer">
+      <a href="/index.html">← 返回首页</a>
+    </footer>
+
+  </article>
+
+<p>{% endblock %}</p>
+<p>最后是首页模板：
+bashcat &gt; templates/index.html
+html{% extends "base.html" %}</p>
+<p>{% set page_title = "首页" %}</p>
+<p>{% block content %}</p>
+<!-- 作品集区块 -->
+<section class="section">
+    <h2 class="section-title">作品集</h2>
+
+    <div class="works-grid">
+      {% for work in works %}
+        <a href="/{{ work.url }}" class="work-card">
+          <h3 class="work-card-title">{{ work.title }}</h3>
+          <p class="work-card-desc">{{ work.desc }}</p>
+        </a>
+      {% endfor %}
+    </div>
+  </section>
+
+<!-- 文章列表区块 -->
+<section class="section">
+    <h2 class="section-title">文章</h2>
+
+    <ul class="post-list">
+      {% for post in posts %}
+        <li class="post-list-item">
+          <a href="/{{ post.url }}" class="post-list-title">{{ post.title }}</a>
+          <span class="post-list-date">{{ post.date }}</span>
+        </li>
+      {% endfor %}
+    </ul>
+  </section>
+
+<p>{% endblock %}
+四个模板都创建好后告诉我，我们写 CSS。You said: 完成完成15:54Claude responded: 现在写样式文件：现在写样式文件：
+bashcat &gt; static/style.css
+粘贴以下内容，Ctrl + D 保存：
+css/<em> ─────────────────────────────────────────
+   style.css
+   结构：
+   1. 全局变量（颜色、字体、间距）
+   2. Reset（清除浏览器默认样式）
+   3. 布局（header / main / footer）
+   4. 导航
+   5. 首页：作品集
+   6. 首页：文章列表
+   7. 文章 / 作品详情页
+   8. 响应式（手机适配）
+───────────────────────────────────────── </em>/</p>
+<p>/<em> ─────────────────────────────────────────
+   1. 全局变量
+   修改颜色、字体只需要改这里
+───────────────────────────────────────── </em>/</p>
+<p>:root {
+  /<em> 颜色 </em>/
+  --color-bg         : #ffffff;
+  --color-text       : #1a1a1a;
+  --color-text-muted : #888888;
+  --color-border     : #ebebeb;
+  --color-accent     : #4f46e5;   /<em> 链接、高亮色 </em>/
+  --color-tag-bg     : #f3f4f6;</p>
+<p>/<em> 字体 </em>/
+  --font-sans : "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+  --font-mono : "JetBrains Mono", "Fira Code", monospace;</p>
+<p>/<em> 间距 </em>/
+  --space-xs : 0.25rem;   /<em>  4px </em>/
+  --space-sm : 0.5rem;    /<em>  8px </em>/
+  --space-md : 1rem;      /<em> 16px </em>/
+  --space-lg : 2rem;      /<em> 32px </em>/
+  --space-xl : 4rem;      /<em> 64px </em>/</p>
+<p>/<em> 页面最大宽度 </em>/
+  --max-width: 720px;
+}</p>
+<p>/<em> ─────────────────────────────────────────
+   2. Reset
+───────────────────────────────────────── </em>/</p>
+<p><em>, </em>::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}</p>
+<p>body {
+  font-family : var(--font-sans);
+  font-size   : 16px;
+  line-height : 1.75;
+  color       : var(--color-text);
+  background  : var(--color-bg);
+}</p>
+<p>a {
+  color           : var(--color-accent);
+  text-decoration : none;
+}</p>
+<p>a:hover {
+  text-decoration: underline;
+}</p>
+<p>img {
+  max-width: 100%;
+  display  : block;
+}</p>
+<p>/<em> ─────────────────────────────────────────
+   3. 布局
+───────────────────────────────────────── </em>/</p>
+<p>/<em> 顶部导航栏 </em>/
+.site-header {
+  max-width     : var(--max-width);
+  margin        : 0 auto;
+  padding       : var(--space-lg) var(--space-md);
+  display       : flex;
+  align-items   : center;
+  justify-content: space-between;
+}</p>
+<p>/<em> 主体内容区 </em>/
+.site-main {
+  max-width : var(--max-width);
+  margin    : 0 auto;
+  padding   : 0 var(--space-md) var(--space-xl);
+}</p>
+<p>/<em> 底部 </em>/
+.site-footer {
+  max-width  : var(--max-width);
+  margin     : 0 auto;
+  padding    : var(--space-lg) var(--space-md);
+  border-top : 1px solid var(--color-border);
+  color      : var(--color-text-muted);
+  font-size  : 0.875rem;
+}</p>
+<p>/<em> ─────────────────────────────────────────
+   4. 导航
+───────────────────────────────────────── </em>/</p>
+<p>.site-title {
+  font-size  : 1.1rem;
+  font-weight: 600;
+  color      : var(--color-text);
+}</p>
+<p>.site-title:hover {
+  text-decoration: none;
+  color: var(--color-accent);
+}</p>
+<p>nav {
+  display: flex;
+  gap    : var(--space-lg);
+}</p>
+<p>nav a {
+  font-size : 0.9rem;
+  color     : var(--color-text-muted);
+}</p>
+<p>nav a:hover {
+  color          : var(--color-text);
+  text-decoration: none;
+}</p>
+<p>/<em> ─────────────────────────────────────────
+   5. 首页：作品集
+───────────────────────────────────────── </em>/</p>
+<p>.section {
+  margin-bottom: var(--space-xl);
+}</p>
+<p>.section-title {
+  font-size     : 0.8rem;
+  font-weight   : 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color         : var(--color-text-muted);
+  margin-bottom : var(--space-lg);
+}</p>
+<p>/<em> 作品卡片网格：一行两列 </em>/
+.works-grid {
+  display              : grid;
+  grid-template-columns: 1fr 1fr;
+  gap                  : var(--space-md);
+}</p>
+<p>.work-card {
+  display      : block;
+  padding      : var(--space-md);
+  border       : 1px solid var(--color-border);
+  border-radius: 8px;
+  color        : var(--color-text);
+  transition   : border-color 0.2s;
+}</p>
+<p>.work-card:hover {
+  border-color   : var(--color-accent);
+  text-decoration: none;
+}</p>
+<p>.work-card-title {
+  font-size    : 1rem;
+  font-weight  : 600;
+  margin-bottom: var(--space-xs);
+}</p>
+<p>.work-card-desc {
+  font-size: 0.875rem;
+  color    : var(--color-text-muted);
+}</p>
+<p>/<em> ─────────────────────────────────────────
+   6. 首页：文章列表
+───────────────────────────────────────── </em>/</p>
+<p>.post-list {
+  list-style: none;
+}</p>
+<p>/<em> 每行：标题在左，日期在右 </em>/
+.post-list-item {
+  display        : flex;
+  justify-content: space-between;
+  align-items    : baseline;
+  padding        : var(--space-md) 0;
+  border-bottom  : 1px solid var(--color-border);
+}</p>
+<p>.post-list-title {
+  color      : var(--color-text);
+  font-size  : 0.95rem;
+}</p>
+<p>.post-list-title:hover {
+  color: var(--color-accent);
+}</p>
+<p>.post-list-date {
+  font-size  : 0.8rem;
+  color      : var(--color-text-muted);
+  white-space: nowrap;
+  margin-left: var(--space-md);
+}</p>
+<p>/<em> ─────────────────────────────────────────
+   7. 文章 / 作品详情页
+───────────────────────────────────────── </em>/</p>
+<p>.post-header {
+  margin-bottom: var(--space-lg);
+  padding-bottom: var(--space-lg);
+  border-bottom: 1px solid var(--color-border);
+}</p>
+<p>.post-title {
+  font-size    : 1.75rem;
+  font-weight  : 700;
+  line-height  : 1.3;
+  margin-bottom: var(--space-sm);
+}</p>
+<p>.post-meta {
+  display    : flex;
+  align-items: center;
+  gap        : var(--space-sm);
+  font-size  : 0.875rem;
+  color      : var(--color-text-muted);
+}</p>
+<p>.post-tag {
+  background   : var(--color-tag-bg);
+  padding      : 2px 8px;
+  border-radius: 4px;
+  font-size    : 0.8rem;
+}</p>
+<p>/<em> 文章正文内的排版 </em>/
+.post-body h2 { font-size: 1.3rem; margin: var(--space-lg) 0 var(--space-sm); }
+.post-body h3 { font-size: 1.1rem; margin: var(--space-lg) 0 var(--space-sm); }
+.post-body p  { margin-bottom: var(--space-md); }</p>
+<p>.post-body ul,
+.post-body ol {
+  padding-left : var(--space-lg);
+  margin-bottom: var(--space-md);
+}</p>
+<p>/<em> 行内代码 </em>/
+.post-body code {
+  font-family  : var(--font-mono);
+  font-size    : 0.875em;
+  background   : var(--color-tag-bg);
+  padding      : 2px 5px;
+  border-radius: 3px;
+}</p>
+<p>/<em> 代码块 </em>/
+.post-body pre {
+  background   : #1e1e2e;
+  color        : #cdd6f4;
+  padding      : var(--space-md);
+  border-radius: 8px;
+  overflow-x   : auto;
+  margin-bottom: var(--space-md);
+  font-family  : var(--font-mono);
+  font-size    : 0.875rem;
+  line-height  : 1.6;
+}</p>
+<p>/<em> pre 里的 code 不需要背景色 </em>/
+.post-body pre code {
+  background: none;
+  padding   : 0;
+}</p>
+<p>.post-body blockquote {
+  border-left : 3px solid var(--color-accent);
+  padding-left: var(--space-md);
+  color       : var(--color-text-muted);
+  margin      : var(--space-md) 0;
+}</p>
+<p>.work-link {
+  display   : inline-block;
+  margin-top: var(--space-sm);
+  font-size : 0.9rem;
+}</p>
+<p>.post-footer {
+  margin-top : var(--space-xl);
+  padding-top: var(--space-lg);
+  border-top : 1px solid var(--color-border);
+  font-size  : 0.9rem;
+}</p>
+<p>/<em> ─────────────────────────────────────────
+   8. 响应式：手机屏幕适配
+───────────────────────────────────────── </em>/</p>
+<p>@media (max-width: 600px) {</p>
+<p>/<em> 作品集改成单列 </em>/
+  .works-grid {
+    grid-template-columns: 1fr;
+  }</p>
+<p>/<em> 文章列表日期换行到下面 </em>/
+  .post-list-item {
+    flex-direction: column;
+    gap           : var(--space-xs);
+  }</p>
+<p>.post-title {
+    font-size: 1.4rem;
+  }
+}
+保存后，直接运行构建：
+bashpython build.py
+告诉我输出结果，看看有没有报错。You said: (ct) [damoxu@whshare-ccs-cli-2 damo许个人空间]$ python build.(ct) [damoxu@whshare-ccs-cli-2 damo许个人空间]$ python build.py
+🔨 开始构建...
+  ✓ 复制静态文件：static → output/static
+📝 生成文章页面：
+  ✓ 生成：output/posts/2024-01-hello-world.html
+🎨 生成作品页面：
+  ✓ 生成：output/works/project-one.html
+🏠 生成首页：
+  ✓ 生成：output/index.html
+✅ 构建完成！打开 output/index.html 查看结果。
+(ct) [damoxu@whshare-ccs-cli-2 damo许个人空间]$15:56Claude responded: 完美，一次成功！🎉完美，一次成功！🎉
+现在验证一下生成的文件结构对不对：
+bashfind output -type f
+你应该看到这几个文件：
+output/index.html
+output/posts/2024-01-hello-world.html
+output/works/project-one.html
+output/static/style.css</p>
+<p>现在你已经有了一个完整的静态博客
+回顾一下整个流程：
+你写 Markdown          build.py 处理           浏览器显示
+─────────────    →    ──────────────────    →   ──────────
+content/posts/        1. 读取 .md 文件
+  <em>.md                2. 转成 HTML
+content/works/        3. 填入模板
+  </em>.md                4. 写到 output/</p>
+<p>接下来你可以做的事
+马上能做的：</p>
+<p>把 output/index.html 下载到本地，用浏览器打开看效果
+在 content/posts/ 里多写几篇文章，再跑一次 python build.py</p>
+<p>下一步想学哪个？</p>
+<p>部署到 GitHub Pages，让博客能被所有人访问
+给博客加搜索功能
+加一个本地预览服务器，不用每次手动下载文件
+You said: 123 都需要123 都需要16:01Claude responded: 好，我们按顺序来，先做最重要的——部署到 GitHub Pages。好，我们按顺序来，先做最重要的——部署到 GitHub Pages。</p>
+<p>第一步：初始化 Git 仓库
+bashgit init
+git add .
+git commit -m "first commit"</p>
+<p>第二步：创建 .gitignore
+有些文件不需要上传：
+bashcat &gt; .gitignore
+<strong>pycache</strong>/
+*.pyc
+.DS_Store
+Ctrl + D 保存。</p>
+<p>第三步：去 GitHub 创建仓库</p>
+<p>打开 github.com，登录
+右上角点 + → New repository
+仓库名填 my-blog（或任意名字）
+选 Public
+不要勾选任何初始化选项
+点 Create repository</p>
+<p>创建好之后，把页面上的仓库地址复制给我（格式是 https://github.com/你的用户名/my-blog.git）。You said: https://github.https://github.com/damoxu/damo-.git16:08Claude responded: 好，把本地仓库和 GitHub 连接起来：好，把本地仓库和 GitHub 连接起来：
+bashgit remote add origin https://github.com/damoxu/damo-.git
+git branch -M main
+git push -u origin main
+推送成功后告诉我输出结果。You said: Enumerating objects: 23, done.Enumerating objects: 23, done.
+Counting objects: 100% (23/23), done.
+Delta compression using up to 16 threads
+Compressing objects: 100% (20/20), done.
+Writing objects: 100% (23/23), 16.66 KiB | 2.08 MiB/s, done.
+Total 23 (delta 7), reused 0 (delta 0), pack-reused 0
+remote: Resolving deltas: 100% (7/7), done.
+To https://github.com/damoxu/damo-.git
+ * [new branch]      main -&gt; main
+Branch 'main' set up to track remote branch 'main' from 'origin'.
+(ct) [damoxu@whshare-ccs-cli-2 damo许个人空间]$16:14Claude responded: 上传成功！现在配置 GitHub Pages。上传成功！现在配置 GitHub Pages。</p>
+<p>开启 GitHub Pages</p>
+<p>打开 https://github.com/damoxu/damo-
+点顶部 Settings
+左侧菜单找 Pages
+在 Source 下选 GitHub Actions</p>
+<p>创建自动部署脚本
+每次你 git push，GitHub 会自动运行这个脚本，把 output/ 发布成网站。
+bashmkdir -p .github/workflows
+cat &gt; .github/workflows/deploy.yml
+粘贴以下内容，Ctrl + D 保存：
+yaml# .github/workflows/deploy.yml</p>
+<h1>作用：每次推送到 main 分支，自动构建并发布博客</h1>
+<p>name: 构建并部署博客</p>
+<p>on:
+  push:
+    branches: [main]   # 只监听 main 分支的推送</p>
+<p>jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest</p>
+<pre><code>steps:
+  # 1. 拉取代码
+  - name: 拉取代码
+    uses: actions/checkout@v4
+
+  # 2. 安装 Python
+  - name: 安装 Python
+    uses: actions/setup-python@v5
+    with:
+      python-version: "3.12"
+
+  # 3. 安装依赖
+  - name: 安装依赖
+    run: pip install markdown jinja2
+
+  # 4. 运行构建脚本，生成 output/
+  - name: 构建博客
+    run: python build.py
+
+  # 5. 把 output/ 目录发布到 GitHub Pages
+  - name: 发布到 GitHub Pages
+    uses: peaceiris/actions-gh-pages@v3
+    with:
+      github_token: ${{ secrets.GITHUB_TOKEN }}
+      publish_dir: ./output
+</code></pre>
+<p>然后推送到 GitHub：
+bashgit add .
+git commit -m "add github actions deploy"
+git push
+推送后告诉我，我们去 GitHub 上看部署是否成功。You said: git push(ct) [damoxu@whshare-ccs-cli-2 damo许个人空间]$ git commit -m "add github actions deploy"git push(ct) [damoxu@whshare-ccs-cli-2 damo许个人空间]$ git commit -m "add github actions deploy"
+[main 7ef5623] add github actions deploy
+ 2 files changed, 41 insertions(+)
+ create mode 100644 .github/workflows/deploy.yml
+ create mode 100644 .gitignore
+(ct) [damoxu@whshare-ccs-cli-2 damo许个人空间]$ git push16:17Claude responded: 好，现在去 GitHub 看部署状态：好，现在去 GitHub 看部署状态：</p>
+<p>打开 https://github.com/damoxu/damo-
+点顶部 Actions 标签
+能看到一条正在运行的任务，等它变成绿色 ✅</p>
+<p>等变绿之后，还需要最后一步设置 Pages 的来源：</p>
+<p>进 Settings → Pages
+Source 选 Deploy from a branch
+Branch 选 gh-pages，目录选 / (root)
+点 Save</p>
+<p>大概等 1~2 分钟，你的博客就会发布在：
+https://damoxu.github.io/damo-/
+Actions 变绿了告诉我，我们接着做本地预览服务器。</p>
+    </div>
+
+    <!-- 返回链接 -->
+    <footer class="post-footer">
+      <a href="/index.html">← 返回首页</a>
+    </footer>
+
+  </article>
+
+
+  </main>
+
+  <!-- 底部 -->
+  <footer class="site-footer">
+    <p>© damoxu · 用 Python 和 Markdown 构建</p>
+  </footer>
+
+</body>
+</html>
