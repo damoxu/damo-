@@ -17,7 +17,7 @@ DIR_CONTENT   = "content"    # Markdown 文章放这里
 DIR_TEMPLATES = "templates"  # HTML 模板放这里
 DIR_STATIC    = "static"     # CSS / 图片放这里
 DIR_OUTPUT    = "output"     # 生成结果放这里
-
+BASE_URL = "/damo-"   # 部署到子目录时的前缀，本地预览留空即可
 
 # ─────────────────────────────────────────
 # 2. 工具函数：每个函数只做一件事
@@ -61,7 +61,7 @@ def collect_all_posts(posts_dir):
             "date"  : meta.get("date",  "未知日期"),
             "tags"  : meta.get("tags",  "").split(","),
             "body"  : html_body,
-            "url" : f"/damo-/posts/{filename.replace('.md', '.html')}",
+            "url" : f"posts/{filename.replace('.md', '.html')}",
         }
         posts.append(post)
 
@@ -88,7 +88,7 @@ def collect_all_works(works_dir):
             "desc"  : meta.get("desc",  ""),
             "link"  : meta.get("link",  "#"),
             "body"  : html_body,
-            "url" : f"/damo-/works/{filename.replace('.md', '.html')}",
+            "url" : f"works/{filename.replace('.md', '.html')}",
             }
         works.append(work)
 
@@ -114,7 +114,7 @@ def render_page(env, template_name, output_path, **data):
     - **data        : 传给模板的所有变量
     """
     template = env.get_template(template_name)
-    html = template.render(**data, blog_title=BLOG_TITLE, author=AUTHOR_NAME)
+    html = template.render(**data, blog_title=BLOG_TITLE, author=AUTHOR_NAME, base_url=BASE_URL)
 
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
     with open(output_path, "w", encoding="utf-8") as f:

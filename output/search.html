@@ -1,8 +1,29 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-{% set page_title = "搜索" %}
+  <!-- 页面标题：子模板可以覆盖 page_title 这个变量 -->
+  <title>搜索 - 我的博客</title>
 
-{% block content %}
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+  <!-- 顶部导航：每个页面都一样 -->
+  <header class="site-header">
+    <a href="/damo-/index.html" class="site-title">我的博客</a>
+    <a href="/damo-/index.html">首页</a>
+    <a href="/damo-/works/">作品集</a>
+    <a href="/damo-/search.html">搜索</a>
+    </nav>
+  </header>
+
+  <!-- 主体内容：由子模板填充 -->
+  <main class="site-main">
+    
 
 <div class="search-page">
 
@@ -38,7 +59,7 @@ let searchIndex = [];  // 存放从 JSON 加载的所有文章数据
 
 
 // 第一步：页面加载时，读取搜索索引文件
-fetch("{{ base_url }}/search-index.json")
+fetch("/damo-/search-index.json")
   .then(response => response.json())
   .then(data => {
     searchIndex = data;
@@ -117,4 +138,13 @@ function highlight(text, query) {
 
 </script>
 
-{% endblock %}
+
+  </main>
+
+  <!-- 底部 -->
+  <footer class="site-footer">
+    <p>© damoxu · 用 Python 和 Markdown 构建</p>
+  </footer>
+
+</body>
+</html>
