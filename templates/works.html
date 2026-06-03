@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% set page_title = "作品集" %}
+
+{% block content %}
+
+  <section class="section">
+    <h2 class="section-title">作品集</h2>
+
+    <div class="works-grid">
+      {% for work in works %}
+        <a href="{{ base_url }}/{{ work.url }}" class="work-card">
+          <h3 class="work-card-title">{{ work.title }}</h3>
+          <p class="work-card-desc">{{ work.desc }}</p>
+        </a>
+      {% endfor %}
+    </div>
+  </section>
+
+{% endblock %}

@@ -1,12 +1,10 @@
 [
   {
-    "title": "无标题",
-    "date": "未知日期",
-    "tags": [
-      ""
-    ],
+    "title": "学习部署静态网志之制作页面",
+    "date": "2026-06-03",
+    "tags": [],
     "url": "/posts/学习部署静态网志之制作页面.html",
-    "body": "帮我设计一个静态网志的项目，然后要求代码可读性极强，你指导我15:41Claude responded: 先了解一下你的情况，方便给出最合适的方案。先了解一下你的情况，方便给出最合适的方案。You said: Q: 你的技术背景是？Q: 你的技术背景是？\nA: 前端新手，HTML/CSS 会一点Q: 博客的定位是？\nA: 作品集 + 博客Q: 希望怎么管理内容？\nA: 写 Markdown 文件15:43Claude responded: 好，方案很清晰了。我来给你规划一个适合新手、代码极易读的静态博客项目。好，方案很清晰了。我来给你规划一个适合新手、代码极易读的静态博客项目。\n整体思路\n你写 Markdown → 一个脚本把它转成 HTML → 直接放到浏览器里看\n不用框架，不用 npm，不用配置地狱。整个项目你能读懂每一行。\n项目结构\nmy-blog/\n│\n├── content/              ← 你写文章的地方\n│   ├── posts/\n│   │   ├── 2024-01-hello-world.md\n│   │   └── 20",
+    "body": "静态网志项目完整指南\n适用场景：前端新手，使用 Python + Markdown 生成纯静态博客，支持本地预览、自动构建、搜索功能，可一键部署到 GitHub Pages。\n一、项目结构\ntext\nmy-blog/\n├── content/               # 存放 Markdown 文章和作品\n│   ├── posts/\n│   │   └── 2024-01-hello-world.md\n│   └── works/\n│       └── project-one.md\n├── templates/             # HTML 模板\n│   ├── base.html\n│   ├── post.html\n│   ├── work.html\n│   ├── index.html\n│   └── search.html\n├── static/                # CSS 和图片\n│   └── style.css\n├── output/                # 构建后的成品（自动生成，不用手动改）\n├── build.py       ",
     "type": "post"
   },
   {

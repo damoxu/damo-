@@ -246,7 +246,11 @@ def build():
                 os.path.join(DIR_OUTPUT, "search.html"),
                 posts=posts,
                 works=works)
-
+    # 步骤 9：生成作品集列表页
+    print("\n🎨 生成作品集列表页：")
+    render_page(env, "works.html",
+                os.path.join(DIR_OUTPUT, "works", "index.html"),
+                works=works)
 
     print("\n✅ 构建完成！打开 output/index.html 查看结果。\n")
 
