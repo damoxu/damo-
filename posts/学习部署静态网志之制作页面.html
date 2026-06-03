@@ -15,11 +15,10 @@
 
   <!-- 顶部导航：每个页面都一样 -->
   <header class="site-header">
-    <a href="/index.html" class="site-title">我的博客</a>
-    <nav>
-      <a href="/index.html">首页</a>
-      <a href="/works/">作品集</a>
-      <a href="/search.html">搜索</a>
+    <a href="/damo-/index.html" class="site-title">我的博客</a>
+    <a href="/damo-/index.html">首页</a>
+    <a href="/damo-/works/">作品集</a>
+    <a href="/damo-/search.html">搜索</a>
     </nav>
   </header>
 
@@ -841,12 +840,592 @@ Branch 选 gh-pages，目录选 / (root)
 点 Save</p>
 <p>大概等 1~2 分钟，你的博客就会发布在：
 https://damoxu.github.io/damo-/
-Actions 变绿了告诉我，我们接着做本地预览服务器。</p>
+Actions 变绿了告诉我，我们接着做本地预览服务器。You said: (ct) [damoxu@whshare-ccs-cli-2 damo许个人空间]$ git push(ct) [damoxu@whshare-ccs-cli-2 damo许个人空间]$ git push
+^C
+(ct) [damoxu@whshare-ccs-cli-2 damo许个人空间]$ git push
+^C
+(ct) [damoxu@whshare-ccs-cli-2 damo许个人空间]$ git push --verbose
+Pushing to https://github.com/damoxu/damo-.git
+fatal: unable to access 'https://github.com/damoxu/damo-.git/': Failed to connect to github.com port 443: Connection timed out
+(ct) [damoxu@whshare-ccs-cli-2 damo许个人空间]$ git push --verbose
+Pushing to https://github.com/damoxu/damo-.git16:27Claude responded: 是网络问题，服务器连不上 GitHub。试几个方案：是网络问题，服务器连不上 GitHub。试几个方案：</p>
+<p>方案一：检查是否需要代理
+bash# 看看环境变量里有没有代理
+echo $http_proxy
+echo $https_proxy
+如果有输出（比如 http://127.0.0.1:7890），说明需要告诉 git 走代理：
+bashgit config --global http.proxy $http_proxy
+git config --global https.proxy $https_proxy
+git push</p>
+<p>方案二：换用 SSH 方式推送
+bash# 生成 SSH 密钥
+ssh-keygen -t ed25519 -C "你的邮箱"</p>
+<h1>一路回车就行</h1>
+<h1>查看公钥</h1>
+<p>cat ~/.ssh/id_ed25519.pub
+把输出的内容复制，然后：</p>
+<p>打开 GitHub → 右上角头像 → Settings
+左侧 SSH and GPG keys → New SSH key
+粘贴进去，保存</p>
+<p>然后换成 SSH 地址推送：
+bashgit remote set-url origin git@github.com:damoxu/damo-.git
+git push</p>
+<p>方案三：问一下管理员
+你用的是学校/公司服务器（从主机名 whshare-ccs-cli-2 看出来的），很可能是网络出口限制了 443 端口访问境外。这种情况需要联系管理员开放或者申请代理。</p>
+<p>先试方案一，把 echo $http_proxy 的结果告诉我。You said: (ct) [damoxu@whshare-ccs-cli-2 damo许个人空间]$ echo $http_proxy(ct) [damoxu@whshare-ccs-cli-2 damo许个人空间]$ echo $http_proxy
+(ct) [damoxu@whshare-ccs-cli-2 damo许个人空间]$ echo $https_proxy16:27Claude responded: 没有代理，是服务器网络限制了访问 GitHub。这种情况在学校/公司服务器上很常见。没有代理，是服务器网络限制了访问 GitHub。这种情况在学校/公司服务器上很常见。</p>
+<p>换个思路：在本地电脑上操作
+你有两个选择：
+选项 A：把项目下载到本地电脑，在本地推 GitHub</p>
+<p>把整个项目文件夹打包下载到你自己的电脑
+在本地电脑上装 Python、Git，然后推送</p>
+<p>选项 B：先跳过部署，继续做本地预览和搜索功能</p>
+<p>服务器上继续开发
+等有网络条件再部署</p>
+<p>我建议先选 选项 B，继续把功能做完，部署的事之后找个有网络的环境一次搞定。
+现在来做本地预览服务器，这个非常实用——以后每次改完文章，不用下载文件，直接在浏览器里看效果。
+要继续吗？You said: ct) [damoxu@whshare-ccs-cli-2 damo许个人空间]$ git add .ct) [damoxu@whshare-ccs-cli-2 damo许个人空间]$ git add .
+(ct) [damoxu@whshare-ccs-cli-2 damo许个人空间]$ git pull
+warning: Pulling without specifying how to reconcile divergent branches is
+discouraged. You can squelch this message by running one of the following
+commands sometime before your next pull:
+  git config pull.rebase false  # merge (the default strategy)
+  git config pull.rebase true   # rebase
+  git config pull.ff only       # fast-forward only
+You can replace "git config" with "git config --global" to set a default
+preference for all repositories. You can also pass --rebase, --no-rebase,
+or --ff-only on the command line to override the configured default per
+invocation.16:28Claude responded: 好，先把这个警告消掉，然后完成同步：好，先把这个警告消掉，然后完成同步：
+bashgit config pull.rebase false
+git pull
+pull 完之后告诉我结果，看看有没有冲突。You said: (ct) [damoxu@whshare-ccs-cli-2 damo许个人空间]$ git config pull.(ct) [damoxu@whshare-ccs-cli-2 damo许个人空间]$ git config pull.rebase false
+(ct) [damoxu@whshare-ccs-cli-2 damo许个人空间]$ git pull
+Already up to date.
+(ct) [damoxu@whshare-ccs-cli-2 damo许个人空间]$ git push
+Enumerating objects: 7, done.
+Counting objects: 100% (7/7), done.
+Delta compression using up to 16 threads
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (6/6), 970 bytes | 485.00 KiB/s, done.
+Total 6 (delta 1), reused 0 (delta 0), pack-reused 0
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+To https://github.com/damoxu/damo-.git
+   d37ed59..7ef5623  main -&gt; main
+(ct) [damoxu@whshare-ccs-cli-2 damo许个人空间]$Show more16:29Claude responded: 推送成功了！现在去 GitHub 检查部署：推送成功了！现在去 GitHub 检查部署：</p>
+<p>打开 https://github.com/damoxu/damo-/actions
+看到任务变成绿色 ✅ 了吗？</p>
+<p>同时去设置 Pages 来源：</p>
+<p>https://github.com/damoxu/damo-/settings/pages
+Source 选 Deploy from a branch
+Branch 选 gh-pages，目录选 / (root)
+点 Save</p>
+<p>告诉我 Actions 的状态，成功的话博客就上线了，然后我们做本地预览服务器。You said: 没有变绿没有变绿16:30Claude responded: 点进那条任务，把错误信息截图或者复制给我看一下。点进那条任务，把错误信息截图或者复制给我看一下。
+一般是这几种情况：</p>
+<p>权限问题（需要给 Actions 开写入权限）
+yml 格式写错了
+peaceiris/actions-gh-pages 这一步失败</p>
+<p>把错误日志贴过来，我帮你看。You said: Run peaceiris/actions-gh-pages@v3Run peaceiris/actions-gh-pages@v3
+[INFO] Usage https://github.com/peaceiris/actions-gh-pages#readme
+Dump inputs
+Setup auth token
+Prepare publishing assets
+Setup Git config
+Create a commit
+Push the commit or tag
+/usr/bin/git push origin gh-pages
+remote: Permission to damoxu/damo-.git denied to github-actions[bot].
+fatal: unable to access 'https://github.com/damoxu/damo-.git/': The requested URL returned error: 403
+Error: Action failed with "The process '/usr/bin/git' failed with exit code 128"16:31Claude responded: 是权限问题，Actions 没有写入仓库的权限。按以下步骤开启：是权限问题，Actions 没有写入仓库的权限。按以下步骤开启：</p>
+<p>打开 https://github.com/damoxu/damo-/settings/actions
+往下滚找到 Workflow permissions
+选 Read and write permissions
+点 Save</p>
+<p>然后重新触发一次部署：
+bashgit commit --allow-empty -m "retrigger deploy"
+git push
+告诉我 Actions 是否变绿。You said: 是的是的16:34Claude responded: 太好了！现在去确认博客上线：太好了！现在去确认博客上线：</p>
+<p>打开 https://github.com/damoxu/damo-/settings/pages
+Branch 选 gh-pages，目录选 / (root)
+点 Save</p>
+<p>等 1~2 分钟，然后打开：
+https://damoxu.github.io/damo-/
+能看到博客首页吗？You said: Branch 选 gh-pages，目录选 / (root)GitHub PagesBranch 选 gh-pages，目录选 / (root)GitHub Pages
+<a href="https://pages.github.com/">GitHub Pages</a> is designed to host your personal, organization, or project pages from a GitHub repository.
+Build and deployment
+Source
+Use a suggested workflow, <a href="https://github.com/damoxu/damo-/actions/new">browse all workflows</a>, or <a href="https://github.com/damoxu/damo-/new/main?filename=.github%2Fworkflows%2F&amp;workflow_template=ci%2Fblank">create your own</a>.
+GitHub Pages Jekyll By GitHub Actions
+Package a Jekyll site with GitHub Pages dependencies preinstalled.
+Static HTML By GitHub Actions
+Deploy static files in a repository without a build.
+Workflow details will appear here once your site has been deployed. <a href="https://github.com/damoxu/damo-/actions">View workflow runs.</a>
+Custom domain
+Custom domain
+Custom domains allow you to serve your site from a domain other than damoxu.github.io. <a href="https://docs.github.com/pages/configuring-a-custom-domain-for-your-github-pages-site">Learn more about configuring custom domains</a>.Enforce HTTPS— Required for your site because you are using the default domain (damoxu.github.io)
+HTTPS provides a layer of encryption that prevents others from snooping on or tampering with traffic to your site. When HTTPS is enforced, your site will only be served over HTTPS. <a href="https://docs.github.com/pages/getting-started-with-github-pages/securing-your-github-pages-site-with-https">Learn more about securing your GitHub Pages site with HTTPS</a>.
+Visibility
+GitHub Enterprise
+With a GitHub Enterprise account, you can restrict access to your GitHub Pages site by publishing it privately. You can use privately published sites to share your internal documentation or knowledge base with members of your enterprise. You can try GitHub Enterprise risk-free for 30 days. <a href="https://docs.github.com/pages/getting-started-with-github-pages/changing-the-visibility-of-your-github-pages-site">Learn more about the visibility of your GitHub Pages site.</a>Show more16:36Claude responded: 看起来 Pages 的 Source 还没选对。按这个步骤操作：看起来 Pages 的 Source 还没选对。按这个步骤操作：</p>
+<p>在同一个页面，Source 下面点 Deploy from a branch
+出现 Branch 下拉框后，选 gh-pages
+目录选 / (root)
+点 Save</p>
+<p>如果下拉框里没有 gh-pages 这个选项，说明 Actions 还没成功创建这个分支。去确认一下：
+https://github.com/damoxu/damo-/branches
+能看到 gh-pages 分支吗？You said: 能能16:37Claude responded: 好，那回到 Pages 设置：好，那回到 Pages 设置：</p>
+<p>打开 https://github.com/damoxu/damo-/settings/pages
+Source 点击下拉，选 Deploy from a branch
+下面会出现两个下拉框：</p>
+<p>左边选 gh-pages
+右边选 / (root)</p>
+<p>点 Save</p>
+<p>保存后等 1~2 分钟，然后打开：
+https://damoxu.github.io/damo-/
+告诉我能不能访问。You said: 首页 - 我的博客可以了<a href="https://damoxu.github.io/damo-/">首页 - 我的博客</a>可以了16:38Claude responded: 🎉 博客上线了！🎉 博客上线了！
+现在来做本地预览服务器，在项目根目录创建 serve.py：
+bashcat &gt; serve.py
+python# serve.py</p>
+<h1>作用：本地预览博客，每次修改文章后自动重新构建</h1>
+<h1></h1>
+<h1>使用方法：</h1>
+<h1>python serve.py</h1>
+<h1>然后打开浏览器访问 http://localhost:8000</h1>
+<p>import os
+import time
+import threading
+import http.server
+import webbrowser
+from build import build</p>
+<h1>─────────────────────────────────────────</h1>
+<h1>配置</h1>
+<h1>─────────────────────────────────────────</h1>
+<p>PORT         = 8000
+WATCH_DIRS   = ["content", "templates", "static"]  # 监听这些目录的变化
+OUTPUT_DIR   = "output"
+CHECK_INTERVAL = 1  # 每隔多少秒检查一次文件变化（秒）</p>
+<h1>─────────────────────────────────────────</h1>
+<h1>文件变化检测</h1>
+<h1>─────────────────────────────────────────</h1>
+<p>def get_all_files_with_mtime(dirs):
+    """
+    扫描指定目录下所有文件，返回一个字典：
+    { 文件路径: 最后修改时间 }
+    """
+    files = {}
+    for directory in dirs:
+        if not os.path.exists(directory):
+            continue
+        for root, _, filenames in os.walk(directory):
+            for filename in filenames:
+                filepath = os.path.join(root, filename)
+                files[filepath] = os.path.getmtime(filepath)
+    return files</p>
+<p>def has_any_file_changed(old_snapshot, new_snapshot):
+    """
+    对比两次文件快照，判断是否有文件被新增、删除或修改。
+    """
+    # 有文件被新增或删除
+    if set(old_snapshot.keys()) != set(new_snapshot.keys()):
+        return True</p>
+<pre><code># 有文件的修改时间变了
+for filepath, mtime in new_snapshot.items():
+    if old_snapshot.get(filepath) != mtime:
+        return True
+
+return False
+</code></pre>
+<h1>─────────────────────────────────────────</h1>
+<h1>自动重建监听器</h1>
+<h1>─────────────────────────────────────────</h1>
+<p>def watch_and_rebuild():
+    """
+    在后台持续监听文件变化。
+    一旦检测到变化，立刻重新构建博客。
+    """
+    print(f"👀 监听文件变化中：{WATCH_DIRS}")
+    snapshot = get_all_files_with_mtime(WATCH_DIRS)</p>
+<pre><code>while True:
+    time.sleep(CHECK_INTERVAL)
+    new_snapshot = get_all_files_with_mtime(WATCH_DIRS)
+
+    if has_any_file_changed(snapshot, new_snapshot):
+        print("\n📄 检测到文件变化，重新构建...")
+        build()
+        snapshot = new_snapshot
+</code></pre>
+<h1>─────────────────────────────────────────</h1>
+<h1>本地 HTTP 服务器</h1>
+<h1>─────────────────────────────────────────</h1>
+<p>class QuietHandler(http.server.SimpleHTTPRequestHandler):
+    """
+    继承标准 HTTP 处理器，只关掉每次请求的日志输出，
+    让终端不被刷屏，只显示构建信息。
+    """</p>
+<pre><code>def __init__(self, *args, **kwargs):
+    # 指定从 output/ 目录提供文件
+    super().__init__(*args, directory=OUTPUT_DIR, **kwargs)
+
+def log_message(self, format, *args):
+    pass  # 不打印每条请求日志
+</code></pre>
+<h1>─────────────────────────────────────────</h1>
+<h1>主函数：启动服务器 + 启动监听器</h1>
+<h1>─────────────────────────────────────────</h1>
+<p>def main():
+    # 先构建一次，确保 output/ 是最新的
+    build()</p>
+<pre><code># 在后台线程里启动文件监听器
+watcher_thread = threading.Thread(target=watch_and_rebuild, daemon=True)
+watcher_thread.start()
+
+# 启动本地服务器
+server = http.server.HTTPServer(("", PORT), QuietHandler)
+url = f"http://localhost:{PORT}"
+print(f"🌐 本地预览：{url}")
+print("   按 Ctrl+C 停止\n")
+
+# 自动在浏览器里打开
+webbrowser.open(url)
+
+try:
+    server.serve_forever()
+except KeyboardInterrupt:
+    print("\n👋 服务器已停止")
+</code></pre>
+<p>if <strong>name</strong> == "<strong>main</strong>":
+    main()
+Ctrl + D 保存，然后运行：
+bashpython serve.py
+因为是服务器环境没有浏览器，它会报一个 webbrowser 的警告，忽略就好。服务器启动后告诉我，我们继续做搜索功能。You said: 可以可以16:40Claude responded: 好，现在做搜索功能。思路是：好，现在做搜索功能。思路是：
+构建时生成一个 search-index.json → 搜索页读取这个文件 → 用 JS 在浏览器里实时过滤，不需要后端。</p>
+<p>第一步：让 build.py 生成搜索索引
+打开 build.py，在 copy_static_files() 函数后面加一个新函数：
+bashnano build.py
+找到这一段：
+pythondef build():
+在它上面插入这个函数：
+pythondef build_search_index(posts, works, output_dir):
+    """
+    把所有文章和作品的标题、正文提取出来，
+    生成一个 JSON 文件供前端搜索使用。
+    """
+    import json
+    import re</p>
+<pre><code>index = []
+
+for post in posts:
+    # 把 HTML 标签去掉，只保留纯文字
+    plain_text = re.sub(r"&lt;[^&gt;]+&gt;", "", post["body"])
+    index.append({
+        "title" : post["title"],
+        "date"  : post["date"],
+        "tags"  : post["tags"],
+        "url"   : "/" + post["url"],
+        "body"  : plain_text[:500],   # 只取前500字，节省体积
+        "type"  : "post",
+    })
+
+for work in works:
+    plain_text = re.sub(r"&lt;[^&gt;]+&gt;", "", work["body"])
+    index.append({
+        "title" : work["title"],
+        "desc"  : work["desc"],
+        "url"   : "/" + work["url"],
+        "body"  : plain_text[:500],
+        "type"  : "work",
+    })
+
+# 写入 JSON 文件
+index_path = os.path.join(output_dir, "search-index.json")
+with open(index_path, "w", encoding="utf-8") as f:
+    json.dump(index, f, ensure_ascii=False, indent=2)
+
+print(f"  ✓ 生成搜索索引：{index_path}")
+</code></pre>
+<p>然后在 build() 函数里，找到生成首页那行下面加一行调用：
+python    # 步骤 7：生成搜索索引
+    print("\n🔍 生成搜索索引：")
+    build_search_index(posts, works, DIR_OUTPUT)
+保存退出。</p>
+<p>第二步：创建搜索页模板
+bashcat &gt; templates/search.html
+html{% extends "base.html" %}</p>
+<p>{% set page_title = "搜索" %}</p>
+<p>{% block content %}</p>
+<div class="search-page">
+
+  <h2 class="section-title">搜索</h2>
+
+  <!-- 搜索输入框 -->
+  <input
+    type="text"
+    id="search-input"
+    class="search-input"
+    placeholder="搜索文章、作品..."
+    autofocus
+  />
+
+  <!-- 搜索结果数量提示 -->
+  <p id="search-count" class="search-count"></p>
+
+  <!-- 搜索结果列表，由 JS 动态填充 -->
+  <ul id="search-results" class="post-list"></ul>
+
+</div>
+
+<script>
+// ─────────────────────────────────────────
+// 搜索逻辑：全部在浏览器里运行，不需要后端
+// ─────────────────────────────────────────
+
+const searchInput   = document.getElementById("search-input");
+const searchResults = document.getElementById("search-results");
+const searchCount   = document.getElementById("search-count");
+
+let searchIndex = [];  // 存放从 JSON 加载的所有文章数据
+
+
+// 第一步：页面加载时，读取搜索索引文件
+fetch("/search-index.json")
+  .then(response => response.json())
+  .then(data => {
+    searchIndex = data;
+    // 读取 URL 里的 ?q= 参数，支持从其他页面跳转过来直接搜索
+    const urlParams = new URLSearchParams(window.location.search);
+    const query = urlParams.get("q") || "";
+    if (query) {
+      searchInput.value = query;
+      doSearch(query);
+    }
+  });
+
+
+// 第二步：监听输入框，用户每输入一个字就搜索一次
+searchInput.addEventListener("input", () => {
+  doSearch(searchInput.value.trim());
+});
+
+
+// 第三步：搜索函数
+function doSearch(query) {
+
+  // 没有输入时清空结果
+  if (!query) {
+    searchResults.innerHTML = "";
+    searchCount.textContent = "";
+    return;
+  }
+
+  const keyword = query.toLowerCase();
+
+  // 过滤：标题、正文、标签里有关键词就算匹配
+  const matched = searchIndex.filter(item => {
+    const inTitle = item.title.toLowerCase().includes(keyword);
+    const inBody  = item.body.toLowerCase().includes(keyword);
+    const inTags  = (item.tags || []).join(" ").toLowerCase().includes(keyword);
+    return inTitle || inBody || inTags;
+  });
+
+  // 渲染结果
+  renderResults(matched, query);
+}
+
+
+// 第四步：把搜索结果渲染成 HTML
+function renderResults(items, query) {
+
+  searchCount.textContent = `找到 ${items.length} 个结果`;
+
+  if (items.length === 0) {
+    searchResults.innerHTML = `
+      <li style="padding: 1rem 0; color: var(--color-text-muted)">
+        没有找到关于「${query}」的内容
+      </li>`;
+    return;
+  }
+
+  searchResults.innerHTML = items.map(item => `
+    <li class="post-list-item">
+      <a href="${item.url}" class="post-list-title">
+        ${highlight(item.title, query)}
+      </a>
+      <span class="post-list-date">
+        ${item.type === "post" ? item.date : "作品"}
+      </span>
+    </li>
+  `).join("");
+}
+
+
+// 第五步：高亮关键词（用 <mark> 标签包裹匹配到的文字）
+function highlight(text, query) {
+  const regex = new RegExp(`(${query})`, "gi");
+  return text.replace(regex, "<mark>$1</mark>");
+}
+
+</script>
+
+<p>{% endblock %}
+Ctrl + D 保存。</p>
+<p>第三步：加搜索入口和样式
+在导航栏加搜索链接，打开 templates/base.html：
+bashnano templates/base.html
+找到这一行：
+html      <a href="/works/">作品集</a>
+改成：
+html      <a href="/works/">作品集</a>
+      <a href="/search.html">搜索</a>
+保存退出。
+再给 static/style.css 加搜索框样式：
+bashnano static/style.css
+在文件最底部加：
+css/<em> ─────────────────────────────────────────
+   9. 搜索页
+───────────────────────────────────────── </em>/</p>
+<p>.search-page {
+  padding-top: var(--space-lg);
+}</p>
+<p>.search-input {
+  width        : 100%;
+  font-size    : 1rem;
+  padding      : 0.75rem 1rem;
+  border       : 1px solid var(--color-border);
+  border-radius: 8px;
+  outline      : none;
+  font-family  : var(--font-sans);
+  color        : var(--color-text);
+  background   : var(--color-bg);
+  margin-bottom: var(--space-md);
+}</p>
+<p>.search-input:focus {
+  border-color: var(--color-accent);
+}</p>
+<p>.search-count {
+  font-size    : 0.875rem;
+  color        : var(--color-text-muted);
+  margin-bottom: var(--space-md);
+}</p>
+<p>/<em> 搜索结果里高亮关键词 </em>/
+mark {
+  background   : #fef08a;
+  color        : var(--color-text);
+  border-radius: 2px;
+  padding      : 0 2px;
+}
+保存退出。</p>
+<p>第四步：让 build.py 生成搜索页
+打开 build.py，在 build() 函数里生成搜索索引那行下面加：
+python    # 步骤 8：生成搜索页
+    print("\n🔍 生成搜索页：")
+    render_page(env, "search.html",
+                os.path.join(DIR_OUTPUT, "search.html"),
+                posts=posts,
+                works=works)
+保存，然后重新构建：
+bashpython build.py
+告诉我输出结果，看看有没有报错。You said: 无报错无报错16:50Claude responded: 提交到 GitHub，博客自动更新：提交到 GitHub，博客自动更新：
+bashgit add .
+git commit -m "add search and live preview"
+git push
+推送成功后，等 Actions 变绿，然后打开：
+https://damoxu.github.io/damo-/search.html
+在搜索框里输入"你好"，看看能不能搜到第一篇文章。You said: 我的博客首页 作品集 搜索<a href="https://damoxu.github.io/index.html">我的博客</a><a href="https://damoxu.github.io/index.html">首页</a> <a href="https://damoxu.github.io/works/">作品集</a> <a href="https://damoxu.github.io/search.html">搜索</a>
+搜索
+找到 0 个结果没有找到关于「你好」的内容
+© damoxu · 用 Python 和 Markdown 构建16:51Claude responded: 搜索框能用了，但搜不到内容，是因为 fetch("/search-index.搜索框能用了，但搜不到内容，是因为 fetch("/search-index.json") 这个路径在 GitHub Pages 上需要加仓库名前缀。
+打开 templates/search.html：
+bashnano templates/search.html
+找到这一行：
+javascriptfetch("/search-index.json")
+改成：
+javascriptfetch("/damo-/search-index.json")
+保存，然后推送：
+bashpython build.py
+git add .
+git commit -m "fix search index path"
+git push
+等 Actions 变绿后再试。You said: 可以了可以了16:55Claude responded: 🎉 三个功能全部完成！🎉 三个功能全部完成！</p>
+<p>回顾一下你做了什么
+第一步  搭项目结构        mkdir + 规划目录
+第二步  写构建脚本        build.py（核心，100行）
+第三步  写 HTML 模板      base / post / work / index / search
+第四步  写 CSS 样式       干净的排版，支持手机
+第五步  部署上线          GitHub Actions 自动构建
+第六步  本地预览          serve.py 文件变化自动重建
+第七步  搜索功能          纯前端，无需后端</p>
+<p>以后写文章就这三步
+bash# 1. 在 content/posts/ 新建一个 .md 文件
+cat &gt; content/posts/2024-03-new-post.md</p>
+<h1>2. 写完后构建</h1>
+<p>python build.py</p>
+<h1>3. 推送，自动上线</h1>
+<p>git add .
+git commit -m "new post"
+git push</p>
+<p>后续可以继续扩展的方向</p>
+<p>文章加目录（自动从标题生成）
+支持暗色模式
+加 RSS 订阅
+首页加分页</p>
+<p>有需要的时候告诉我，随时可以继续。
+可是看不到内容</p>
+<p>16:56
+你是说打开文章页面，正文是空白的？还是首页看不到文章列表？</p>
+<p>把你看到的页面截图或者把 URL 发给我看一下。</p>
+<p><a href="https://damoxu.github.io/posts/2024-01-hello-world.html">Site not found · GitHub Pages</a></p>
+<p>16:57
+路径问题，GitHub Pages 上所有链接都需要加 /damo- 前缀。</p>
+<p>打开 build.py：</p>
+<p>bash
+nano build.py
+找到 collect_all_posts 函数里这一行：</p>
+<p>python
+"url" : f"posts/{filename.replace('.md', '.html')}",
+改成：</p>
+<p>python
+"url" : f"/damo-/posts/{filename.replace('.md', '.html')}",
+同样在 collect_all_works 函数里找：</p>
+<p>python
+"url" : f"works/{filename.replace('.md', '.html')}",
+改成：</p>
+<p>python
+"url" : f"/damo-/works/{filename.replace('.md', '.html')}",
+还有 templates/base.html 里的链接也要改：</p>
+<p>bash
+nano templates/base.html
+把这两行：</p>
+<p>html
+<a href="/index.html" class="site-title">{{ blog_title }}</a>
+<a href="/index.html">首页</a>
+<a href="/works/">作品集</a>
+<a href="/search.html">搜索</a>
+改成：</p>
+<p>html
+<a href="/damo-/index.html" class="site-title">{{ blog_title }}</a>
+<a href="/damo-/index.html">首页</a>
+<a href="/damo-/works/">作品集</a>
+<a href="/damo-/search.html">搜索</a>
+还有 templates/post.html 和 templates/work.html 里的返回链接：</p>
+<p>bash
+nano templates/post.html
+找到：</p>
+<p>html
+<a href="/index.html">← 返回首页</a>
+改成：</p>
+<p>html
+<a href="/damo-/index.html">← 返回首页</a>
+work.html 同样处理。</p>
+<p>改完后重新构建推送：</p>
+<p>bash
+python build.py
+git add .
+git commit -m "fix all paths for github pages"
+git push</p>
     </div>
 
     <!-- 返回链接 -->
     <footer class="post-footer">
-      <a href="/index.html">← 返回首页</a>
+      <a href="/damo-/index.html">← 返回首页</a>
     </footer>
 
   </article>
