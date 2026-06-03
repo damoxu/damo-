@@ -32,9 +32,11 @@
     "type": "post"
   },
   {
-    "title": "build解析",
+    "title": "build.py 解析",
     "date": "2026-06-03",
-    "tags": [],
+    "tags": [
+      "技术"
+    ],
     "url": "/posts/build解析.html",
     "body": "build.py 解析：博客的构建引擎\n\n整个博客的核心就是这一个文件，约 150 行，负责把 Markdown 变成网站。\n\n\n它做了什么\n你写的 .md 文件\n      ↓\n读取文件内容\n      ↓\n解析头部元数据（title / date / tags）\n      ↓\n正文转成 HTML\n      ↓\n填入 Jinja2 模板\n      ↓\n写到 output/ 目录\n\n每次运行 python build.py，就完成了以上全部步骤。\n\n文件结构\n# 1. 配置区\n#    BLOG_TITLE、AUTHOR_NAME、BASE_URL 等\n#    整个项目只需要改这里\n\n# 2. 工具函数\n#    read_markdown_file()   读取并解析一个 .md 文件\n#    collect_all_posts()    扫描 content/posts/ 收集所有文章\n#    collect_all_works()    扫描 content/works/ 收集所有作品\n\n# 3. 渲染函数\n#    setup_jinja()          初始",
     "type": "post"
