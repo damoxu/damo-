@@ -16,6 +16,14 @@
     "type": "post"
   },
   {
+    "title": "文章relate_work部分",
+    "date": "2026-06-03",
+    "tags": [],
+    "url": "/posts/文章relate_work部分.html",
+    "body": "2. Related Work\n2.1 Self-Supervised Pretraining in 3D Medical Imaging\n现有3D医学图像自监督预训练方法主要依赖掩码重建、对比学习或体积上下文预测任务。掩码图像建模方面，MAE~\\citep{he2022masked}提出随机掩码自编码器重建策略，成为视觉自监督的奠基性工作；SimMIM~\\citep{xie2022simmim}进一步简化了掩码重建流程，无需额外的tokenizer即可实现有效预训练。GMIM~\\citep{qi2024gmim}将自适应掩码建模引入3D医学图像，根据解剖结构动态调整掩码策略，提升了重建任务对组织边界的敏感性，但其仍局限于单域（人类CT）预训练，未建立跨物种迁移机制。\n3D医学图像预训练基础模型方面，MIS-FM~\\citep{wang2023mis}利用11万张无标注CT构建通用3D分割基础模型，展示了大规模自监督预训练的强大表征能力，但其预训练目标为通用重建，未显式编码解剖结构先验，且仅在人类数据上验证。Rubik's Cube+~\\citep{zhuang2020rubik}将3",
+    "type": "post"
+  },
+  {
     "title": "搜素功能解析",
     "date": "2026-06-03",
     "tags": [],
@@ -28,7 +36,7 @@
     "date": "2026-06-03",
     "tags": [],
     "url": "/posts/学习部署静态网志之制作页面.html",
-    "body": "静态网志项目完整指南\n适用场景：前端新手，使用 Python + Markdown 生成纯静态博客，支持本地预览、自动构建、搜索功能，可一键部署到 GitHub Pages。\n一、项目结构\ntext\nmy-blog/\n├── content/               # 存放 Markdown 文章和作品\n│   ├── posts/\n│   │   └── 2024-01-hello-world.md\n│   └── works/\n│       └── project-one.md\n├── templates/             # HTML 模板\n│   ├── base.html\n│   ├── post.html\n│   ├── work.html\n│   ├── index.html\n│   └── search.html\n├── static/                # CSS 和图片\n│   └── style.css\n├── output/                # 构建后的成品（自动生成，不用手动改）\n├── build.py       ",
+    "body": "静态网志项目完整指南\n适用场景：前端新手，使用 ```python + Markdown 生成纯静态博客，支持本地预览、自动构建、搜索功能，可一键部署到 GitHub Pages。\n\n一、项目结构\n\nmy-blog/\n├── content/               # 存放 Markdown 文章和作品\n│   ├── posts/\n│   │   └── 2024-01-hello-world.md\n│   └── works/\n│       └── project-one.md\n├── templates/             # HTML 模板\n│   ├── base.html\n│   ├── post.html\n│   ├── work.html\n│   ├── index.html\n│   └── search.html\n├── static/                # CSS 和图片\n│   └── style.css\n├── output/                # 构建后的成品（自动生成，不用手动改）\n├── build.py       ",
     "type": "post"
   },
   {
@@ -65,10 +73,17 @@
     "type": "work"
   },
   {
+    "title": "段落修改",
+    "desc": "文章的修改细节",
+    "url": "/works/paragraphy.html",
+    "body": "对每个文章具体段落的修改意见，具体修改文章是自监督模型",
+    "type": "work"
+  },
+  {
     "title": "静态博客生成器",
     "desc": "一个静态博客生成器",
     "url": "/works/project-one.html",
-    "body": "这是作品的详细介绍。",
+    "body": "静态博客的发展历史，本质上是一次从“动态驱动”回归“静态优先”的技术理念循环。早期互联网时代，个人网站大多靠手工编写 HTML 文件，每更新一篇文章都要手动修改首页链接，维护成本很高。为了解决这个问题，21世纪初涌现出 WordPress、Movable Type 等动态博客系统，它们依托数据库和服务器端脚本，使内容管理变得方便，却也带来了性能开销、安全漏洞和托管复杂性。2008年，GitHub 联合创始人 Tom Preston-Werner 发布了 Jekyll，它采用 Markdown 编写文章，再通过模板生成完整的静态 HTML 目录，最初只是个人工具，却恰好契合了开发者对“版本控制+纯静态”的需求。2010年 GitHub Pages 正式支持 Jekyll，用户只需推送代码就能自动构建并托管博客，极大降低了部署门槛，从此静态博客开始在小众技术圈复苏。随后，Node.js 生态的 Hexo、Go 语言编写的 Hugo、Python 的 Pelican 等静态站点生成器相继涌现，它们各自强调速度或易用性。2016年，Netlify 提出 Jamstack 概念，把 JavaSc",
     "type": "work"
   }
 ]
