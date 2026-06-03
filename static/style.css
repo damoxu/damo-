@@ -335,3 +335,41 @@ nav a:hover {
     font-size: 1.4rem;
   }
 }
+/* ─────────────────────────────────────────
+   9. 搜索页
+───────────────────────────────────────── */
+
+.search-page {
+  padding-top: var(--space-lg);
+}
+
+.search-input {
+  width        : 100%;
+  font-size    : 1rem;
+  padding      : 0.75rem 1rem;
+  border       : 1px solid var(--color-border);
+  border-radius: 8px;
+  outline      : none;
+  font-family  : var(--font-sans);
+  color        : var(--color-text);
+  background   : var(--color-bg);
+  margin-bottom: var(--space-md);
+}
+
+.search-input:focus {
+  border-color: var(--color-accent);
+}
+
+.search-count {
+  font-size    : 0.875rem;
+  color        : var(--color-text-muted);
+  margin-bottom: var(--space-md);
+}
+
+/* 搜索结果里高亮关键词 */
+mark {
+  background   : #fef08a;
+  color        : var(--color-text);
+  border-radius: 2px;
+  padding      : 0 2px;
+}

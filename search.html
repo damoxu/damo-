@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- 页面标题：子模板可以覆盖 page_title 这个变量 -->
+  <title>搜索 - 我的博客</title>
+
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+  <!-- 顶部导航：每个页面都一样 -->
+  <header class="site-header">
+    <a href="/index.html" class="site-title">我的博客</a>
+    <nav>
+      <a href="/index.html">首页</a>
+      <a href="/works/">作品集</a>
+      <a href="/search.html">搜索</a>
+    </nav>
+  </header>
+
+  <!-- 主体内容：由子模板填充 -->
+  <main class="site-main">
+    
+
+<div class="search-page">
+
+  <h2 class="section-title">搜索</h2>
+
+  <!-- 搜索输入框 -->
+  <input
+    type="text"
+    id="search-input"
+    class="search-input"
+    placeholder="搜索文章、作品..."
+    autofocus
+  />
+
+  <!-- 搜索结果数量提示 -->
+  <p id="search-count" class="search-count"></p>
+
+  <!-- 搜索结果列表，由 JS 动态填充 -->
+  <ul id="search-results" class="post-list"></ul>
+
+</div>
+
+<script>
+// ─────────────────────────────────────────
+// 搜索逻辑：全部在浏览器里运行，不需要后端
+// ─────────────────────────────────────────
+
+const searchInput   = document.getElementById("search-input");
+const searchResults = document.getElementById("search-results");
+const searchCount   = document.getElementById("search-count");
+
+let searchIndex = [];  // 存放从 JSON 加载的所有文章数据
+
+
+// 第一步：页面加载时，读取搜索索引文件
+fetch("/search-index.json")
+  .then(response => response.json())
+  .then(data => {
+    searchIndex = data;
+    // 读取 URL 里的 ?q= 参数，支持从其他页面跳转过来直接搜索
+    const urlParams = new URLSearchParams(window.location.search);
+    const query = urlParams.get("q") || "";
+    if (query) {
+      searchInput.value = query;
+      doSearch(query);
+    }
+  });
+
+
+// 第二步：监听输入框，用户每输入一个字就搜索一次
+searchInput.addEventListener("input", () => {
+  doSearch(searchInput.value.trim());
+});
+
+
+// 第三步：搜索函数
+function doSearch(query) {
+
+  // 没有输入时清空结果
+  if (!query) {
+    searchResults.innerHTML = "";
+    searchCount.textContent = "";
+    return;
+  }
+
+  const keyword = query.toLowerCase();
+
+  // 过滤：标题、正文、标签里有关键词就算匹配
+  const matched = searchIndex.filter(item => {
+    const inTitle = item.title.toLowerCase().includes(keyword);
+    const inBody  = item.body.toLowerCase().includes(keyword);
+    const inTags  = (item.tags || []).join(" ").toLowerCase().includes(keyword);
+    return inTitle || inBody || inTags;
+  });
+
+  // 渲染结果
+  renderResults(matched, query);
+}
+
+
+// 第四步：把搜索结果渲染成 HTML
+function renderResults(items, query) {
+
+  searchCount.textContent = `找到 ${items.length} 个结果`;
+
+  if (items.length === 0) {
+    searchResults.innerHTML = `
+      <li style="padding: 1rem 0; color: var(--color-text-muted)">
+        没有找到关于「${query}」的内容
+      </li>`;
+    return;
+  }
+
+  searchResults.innerHTML = items.map(item => `
+    <li class="post-list-item">
+      <a href="${item.url}" class="post-list-title">
+        ${highlight(item.title, query)}
+      </a>
+      <span class="post-list-date">
+        ${item.type === "post" ? item.date : "作品"}
+      </span>
+    </li>
+  `).join("");
+}
+
+
+// 第五步：高亮关键词（用 <mark> 标签包裹匹配到的文字）
+function highlight(text, query) {
+  const regex = new RegExp(`(${query})`, "gi");
+  return text.replace(regex, "<mark>$1</mark>");
+}
+
+</script>
+
+
+  </main>
+
+  <!-- 底部 -->
+  <footer class="site-footer">
+    <p>© damoxu · 用 Python 和 Markdown 构建</p>
+  </footer>
+
+</body>
+</html>
