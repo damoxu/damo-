@@ -61,7 +61,7 @@ def collect_all_posts(posts_dir):
             "date"  : meta.get("date",  "未知日期"),
             "tags"  : meta.get("tags",  "").split(","),
             "body"  : html_body,
-            "url"   : f"posts/{filename.replace('.md', '.html')}",
+            "url" : f"/damo-/posts/{filename.replace('.md', '.html')}",
         }
         posts.append(post)
 
@@ -88,8 +88,8 @@ def collect_all_works(works_dir):
             "desc"  : meta.get("desc",  ""),
             "link"  : meta.get("link",  "#"),
             "body"  : html_body,
-            "url"   : f"works/{filename.replace('.md', '.html')}",
-        }
+            "url" : f"/damo-/works/{filename.replace('.md', '.html')}",
+            }
         works.append(work)
 
     return works
