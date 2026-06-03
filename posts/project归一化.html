@@ -1,0 +1,320 @@
+<!-- 继承 base.html，只需要填 content 块 -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- 页面标题：子模板可以覆盖 page_title 这个变量 -->
+  <title>project归一化 - 我的博客</title>
+
+  <link rel="stylesheet" href="/damo-/static/style.css">
+</head>
+
+<body>
+
+  <!-- 顶部导航：每个页面都一样 -->
+  <header class="site-header">
+    <a href="/damo-/index.html" class="site-title">我的博客</a>
+    <a href="/damo-/index.html">首页</a>
+    <a href="/damo-/works/">作品集</a>
+    <a href="/damo-/search.html">搜索</a>
+    </nav>
+  </header>
+
+  <!-- 主体内容：由子模板填充 -->
+  <main class="site-main">
+    
+
+  <article class="post">
+
+    <!-- 文章头部：标题、日期、标签 -->
+    <header class="post-header">
+      <h1 class="post-title">project归一化</h1>
+      <div class="post-meta">
+        <span class="post-date">2026-06-03</span>
+        
+        
+          <a href="/damo-/works/" class="post-project">
+            📁 静态博客生成器
+          </a>
+        
+      </div>
+    </header>
+
+    <!-- 文章正文：Markdown 已转成 HTML，用 safe 告诉 Jinja2 不要转义 -->
+    <div class="post-body">
+      <p>作品集里面可不可以有很多文章?</p>
+<p>可以，作品集里的每个作品本身就是一篇 <code>.md</code> 文件，可以写很长的内容。</p>
+<p><strong>情况一：一个作品下面挂多篇文章</strong> 比如"静态博客项目"这个作品，下面有"build.py解析"、"模板解析"、"部署解析"几篇子文章。</p>
+<p><strong>情况二：作品集页面像文章列表一样，显示很多条目</strong> 现在已经支持了，<code>content/works/</code> 里有几个 <code>.md</code> 就显示几个卡片。</p>
+<p><strong>情况三：文章可以归属到某个作品/项目下</strong> 比如给文章加一个 <code>project: 静态博客</code> 字段，首页按项目分组显示。</p>
+<p>明白了，你是说一篇文章可以同时属于某个作品，比如：</p>
+<pre><code>作品：静态博客项目
+  └── build.py 解析
+  └── 模板系统解析
+  └── 搜索功能解析
+</code></pre>
+<p>想在作品页里能看到相关文章列表，文章页也能看到"所属项目"。</p>
+<p>实现方式是给文章加一个 <code>project</code> 字段：</p>
+<p>markdown</p>
+<pre><code class="language-markdown">title: build.py 解析
+date: 2026-06-03
+tags: 技术
+project: 静态博客项目    ← 加这一行
+</code></pre>
+<p>然后 <code>build.py</code> 收集文章时把这个字段读出来，作品页模板里过滤出相关文章显示。</p>
+<p>要做吗？我来带你改 <code>build.py</code> 和模板。</p>
+<p>嗯好</p>
+<p>19:34</p>
+<p>分三步来做。</p>
+<hr />
+<h3>第一步：改 <code>build.py</code> 读取 <code>project</code> 字段</h3>
+<p>bash</p>
+<pre><code class="language-bash">nano build.py
+</code></pre>
+<p>找到 <code>collect_all_posts</code> 函数里的 <code>post = {</code> 这段，加一行 <code>project</code>：</p>
+<p>python</p>
+<pre><code class="language-python">        post = {
+            &quot;slug&quot;    : filename.replace(&quot;.md&quot;, &quot;&quot;),
+            &quot;title&quot;   : title,
+            &quot;date&quot;    : date_str,
+            &quot;tags&quot;    : tags,
+            &quot;project&quot; : meta.get(&quot;project&quot;, &quot;&quot;).strip(),  # ← 加这行
+            &quot;body&quot;    : html_body,
+            &quot;url&quot;     : f&quot;posts/{filename.replace('.md', '.html')}&quot;,
+        }
+</code></pre>
+<hr />
+<h3>第二步：改 <code>work.html</code> 模板，显示相关文章</h3>
+<p>bash</p>
+<pre><code class="language-bash">nano templates/work.html
+</code></pre>
+<p>把整个文件改成：</p>
+<p>html</p>
+<pre><code class="language-html">{% extends &quot;base.html&quot; %}
+
+{% set page_title = work.title %}
+
+{% block content %}
+
+  &lt;article class=&quot;post&quot;&gt;
+
+    &lt;header class=&quot;post-header&quot;&gt;
+      &lt;h1 class=&quot;post-title&quot;&gt;{{ work.title }}&lt;/h1&gt;
+      {% if work.link != &quot;#&quot; %}
+        &lt;a href=&quot;{{ work.link }}&quot; class=&quot;work-link&quot; target=&quot;_blank&quot;&gt;查看项目 →&lt;/a&gt;
+      {% endif %}
+    &lt;/header&gt;
+
+    &lt;div class=&quot;post-body&quot;&gt;
+      {{ work.body | safe }}
+    &lt;/div&gt;
+
+    &lt;!-- 相关文章：title 里包含作品名，或 project 字段匹配的文章 --&gt;
+    {% set related = [] %}
+    {% for post in posts %}
+      {% if post.project == work.title %}
+        {% set _ = related.append(post) %}
+      {% endif %}
+    {% endfor %}
+
+    {% if related %}
+    &lt;div class=&quot;related-posts&quot;&gt;
+      &lt;h3 class=&quot;related-title&quot;&gt;相关文章&lt;/h3&gt;
+      &lt;ul class=&quot;post-list&quot;&gt;
+        {% for post in related %}
+          &lt;li class=&quot;post-list-item&quot;&gt;
+            &lt;a href=&quot;{{ base_url }}/{{ post.url }}&quot; class=&quot;post-list-title&quot;&gt;{{ post.title }}&lt;/a&gt;
+            &lt;span class=&quot;post-list-date&quot;&gt;{{ post.date }}&lt;/span&gt;
+          &lt;/li&gt;
+        {% endfor %}
+      &lt;/ul&gt;
+    &lt;/div&gt;
+    {% endif %}
+
+    &lt;footer class=&quot;post-footer&quot;&gt;
+      &lt;a href=&quot;{{ base_url }}/index.html&quot;&gt;← 返回首页&lt;/a&gt;
+    &lt;/footer&gt;
+
+  &lt;/article&gt;
+
+{% endblock %}
+</code></pre>
+<hr />
+<h3>第三步：改 <code>post.html</code>，显示所属项目</h3>
+<p>bash</p>
+<pre><code class="language-bash">nano templates/post.html
+</code></pre>
+<p>在 <code>post-meta</code> 那段加所属项目的显示：</p>
+<p>html</p>
+<pre><code class="language-html">    &lt;header class=&quot;post-header&quot;&gt;
+      &lt;h1 class=&quot;post-title&quot;&gt;{{ post.title }}&lt;/h1&gt;
+      &lt;div class=&quot;post-meta&quot;&gt;
+        &lt;span class=&quot;post-date&quot;&gt;{{ post.date }}&lt;/span&gt;
+        {% for tag in post.tags %}
+          &lt;span class=&quot;post-tag&quot;&gt;{{ tag.strip() }}&lt;/span&gt;
+        {% endfor %}
+        {% if post.project %}
+          &lt;a href=&quot;{{ base_url }}/works/&quot; class=&quot;post-project&quot;&gt;
+            📁 {{ post.project }}
+          &lt;/a&gt;
+        {% endif %}
+      &lt;/div&gt;
+    &lt;/header&gt;
+</code></pre>
+<hr />
+<h3>第四步：让 <code>render_page</code> 把 <code>posts</code> 传给作品页</h3>
+<p>bash</p>
+<pre><code class="language-bash">nano build.py
+</code></pre>
+<p>找到生成作品页那段：</p>
+<p>python</p>
+<pre><code class="language-python">    for work in works:
+        output_path = os.path.join(DIR_OUTPUT, work[&quot;url&quot;])
+        render_page(env, &quot;work.html&quot;, output_path, work=work)
+</code></pre>
+<p>改成：</p>
+<p>python</p>
+<pre><code class="language-python">    for work in works:
+        output_path = os.path.join(DIR_OUTPUT, work[&quot;url&quot;])
+        render_page(env, &quot;work.html&quot;, output_path, work=work, posts=posts)
+</code></pre>
+<hr />
+<h3>第五步：加样式</h3>
+<p>bash</p>
+<pre><code class="language-bash">nano static/style.css
+</code></pre>
+<p>在最底部加：</p>
+<p>css</p>
+<pre><code class="language-css">/* ─────────────────────────────────────────
+   11. 相关文章 / 所属项目
+───────────────────────────────────────── */
+
+.related-posts {
+  margin-top   : var(--space-xl);
+  padding-top  : var(--space-lg);
+  border-top   : 1px solid var(--color-border);
+}
+
+.related-title {
+  font-size     : 0.75rem;
+  font-weight   : 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color         : var(--color-text-light);
+  margin-bottom : var(--space-md);
+}
+
+.post-project {
+  font-size    : 0.8rem;
+  color        : var(--color-accent);
+  background   : var(--color-accent-light);
+  padding      : 2px 10px;
+  border-radius: 20px;
+}
+
+.post-project:hover {
+  background: #dde3ff;
+}
+</code></pre>
+<hr />
+<h3>第六步：给文章加 <code>project</code> 字段</h3>
+<p>打开你想关联的文章，比如：</p>
+<p>bash</p>
+<pre><code class="language-bash">nano content/posts/2026-06-03-build-py解析.md
+</code></pre>
+<p>在头部加一行：</p>
+<p>markdown</p>
+<pre><code class="language-markdown">title: build.py 解析
+date: 2026-06-03
+tags: 技术
+project: 静态博客项目
+</code></pre>
+<p><code>project</code> 的值要和 <code>content/works/</code> 里对应作品的 <code>title</code> 完全一致。</p>
+<hr />
+<p>全部改完后构建推送：</p>
+<p>bash</p>
+<pre><code class="language-bash">python build.py
+git add .
+git commit -m &quot;add project-post relation&quot;
+git push
+</code></pre>
+<p>如果没有默认放在基本项目</p>
+<p>19:35</p>
+<p>打开 <code>build.py</code>：</p>
+<p>bash</p>
+<pre><code class="language-bash">nano build.py
+</code></pre>
+<p>找到 <code>collect_all_posts</code> 函数里这行：</p>
+<p>python</p>
+<pre><code class="language-python">&quot;project&quot; : meta.get(&quot;project&quot;, &quot;&quot;).strip(),
+</code></pre>
+<p>改成：</p>
+<p>python</p>
+<pre><code class="language-python">&quot;project&quot; : meta.get(&quot;project&quot;, &quot;基本项目&quot;).strip(),
+</code></pre>
+<p>然后在 <code>content/works/</code> 下新建一个对应的作品：</p>
+<p>bash</p>
+<pre><code class="language-bash">cat &gt; content/works/basic.md
+</code></pre>
+<p>markdown</p>
+<pre><code class="language-markdown">title: 基本项目
+desc: 未归类的文章都在这里
+
+这里收录了所有未归类的文章。
+</code></pre>
+<p><code>Ctrl + D</code> 保存，构建推送：</p>
+<p>bash</p>
+<pre><code class="language-bash">python build.py
+git add .
+git commit -m &quot;add default project&quot;
+git push
+</code></pre>
+<p>这样所有没有填 <code>project</code> 字段的文章，都会自动归到"基本项目"下面。</p>
+<p>怎么加projiect</p>
+<p>19:43</p>
+<p>在文章的头部加一行 <code>project:</code> 就行，比如：</p>
+<p>bash</p>
+<pre><code class="language-bash">nano content/posts/2026-06-03-build-py解析.md
+</code></pre>
+<p>在头部加：</p>
+<p>markdown</p>
+<pre><code class="language-markdown">title: build.py 解析
+date: 2026-06-03
+tags: 技术
+project: 静态博客项目
+</code></pre>
+<p><code>project:</code> 的值必须和 <code>content/works/</code> 里对应作品的 <code>title</code> <strong>完全一致</strong>，否则匹配不上。</p>
+<hr />
+<p>批量加的话，用 <code>nano</code> 逐个打开改，或者用 <code>sed</code> 一次性加：</p>
+<p>bash</p>
+<pre><code class="language-bash"># 给某篇文章加 project 字段（在 tags 那行后面插入）
+sed -i '/^tags:/a project: 静态博客项目' content/posts/2026-06-03-build-py解析.md
+</code></pre>
+<p>改完后：</p>
+<p>bash</p>
+<pre><code class="language-bash">python build.py
+git add .
+git commit -m &quot;add project fields&quot;
+git push
+</code></pre>
+    </div>
+
+    <!-- 返回链接 -->
+    <footer class="post-footer">
+      <a href="/damo-/index.html">← 返回首页</a>
+    </footer>
+
+  </article>
+
+
+  </main>
+
+  <!-- 底部 -->
+  <footer class="site-footer">
+    <p>@damoxu · 一个用知识建立起来的小家</p>
+  </footer>
+
+</body>
+</html>
