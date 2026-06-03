@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% set page_title = "首页" %}
+
+{% block content %}
+
+  <!-- 作品集区块 -->
+  <section class="section">
+    <h2 class="section-title">作品集</h2>
+
+    <div class="works-grid">
+      {% for work in works %}
+        <a href="/{{ work.url }}" class="work-card">
+          <h3 class="work-card-title">{{ work.title }}</h3>
+          <p class="work-card-desc">{{ work.desc }}</p>
+        </a>
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- 文章列表区块 -->
+  <section class="section">
+    <h2 class="section-title">文章</h2>
+
+    <ul class="post-list">
+      {% for post in posts %}
+        <li class="post-list-item">
+          <a href="/{{ post.url }}" class="post-list-title">{{ post.title }}</a>
+          <span class="post-list-date">{{ post.date }}</span>
+        </li>
+      {% endfor %}
+    </ul>
+  </section>
+
+{% endblock %}
