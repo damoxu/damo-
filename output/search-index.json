@@ -10,6 +10,17 @@
     "type": "post"
   },
   {
+    "title": "这是中文标题",
+    "date": "2024-03-01",
+    "tags": [
+      "技术",
+      " 随笔"
+    ],
+    "url": "/posts/2024-03-中文测试.html",
+    "body": "第一段\n这里写中文内容完全没问题，Markdown 本身支持 UTF-8。\n代码示例\n​python\nprint(\"你好世界\")\n​",
+    "type": "post"
+  },
+  {
     "title": "我的第一篇文章",
     "date": "2024-01-01",
     "tags": [

@@ -298,18 +298,15 @@ link: https://github.com/damoxu</p>
 完成后告诉我，我们去写 HTML 模板。You said: 完成完成15:52Claude responded: 现在写三个模板文件。先创建基础模板：现在写三个模板文件。先创建基础模板：
 bashcat &gt; templates/base.html
 粘贴以下内容，Ctrl + D 保存：
-html&lt;!DOCTYPE html&gt;</p>
+html&lt;!DOCTYPE html&gt;
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- 页面标题：子模板可以覆盖 page_title 这个变量 -->
-  <title>{{ page_title }} - {{ blog_title }}</title>
-
-  <link rel="stylesheet" href="/static/style.css">
-</head>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"></p>
+<!-- 页面标题：子模板可以覆盖 page_title 这个变量 -->
+<p><title>{{ page_title }} - {{ blog_title }}</title></p>
+<p><link rel="stylesheet" href="/static/style.css">
+</head></p>
 <body>
 
   <!-- 顶部导航：每个页面都一样 -->
@@ -332,8 +329,7 @@ html&lt;!DOCTYPE html&gt;</p>
   </footer>
 
 </body>
-</html>
-
+<p></html></p>
 <p>然后是文章页模板：
 bashcat &gt; templates/post.html
 html<!-- 继承 base.html，只需要填 content 块 -->
