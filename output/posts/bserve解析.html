@@ -1,0 +1,119 @@
+<!-- 继承 base.html，只需要填 content 块 -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- 页面标题：子模板可以覆盖 page_title 这个变量 -->
+  <title>bserve解析 - 我的博客</title>
+
+  <link rel="stylesheet" href="/damo-/static/style.css">
+</head>
+
+<body>
+
+  <!-- 顶部导航：每个页面都一样 -->
+  <header class="site-header">
+    <a href="/damo-/index.html" class="site-title">我的博客</a>
+    <a href="/damo-/index.html">首页</a>
+    <a href="/damo-/works/">作品集</a>
+    <a href="/damo-/search.html">搜索</a>
+    </nav>
+  </header>
+
+  <!-- 主体内容：由子模板填充 -->
+  <main class="site-main">
+    
+
+  <article class="post">
+
+    <!-- 文章头部：标题、日期、标签 -->
+    <header class="post-header">
+      <h1 class="post-title">bserve解析</h1>
+      <div class="post-meta">
+        <span class="post-date">2026-06-03</span>
+        
+        
+      </div>
+    </header>
+
+    <!-- 文章正文：Markdown 已转成 HTML，用 safe 告诉 Jinja2 不要转义 -->
+    <div class="post-body">
+      <h1>serve.py 解析：本地预览服务器</h1>
+<blockquote>
+<p>改完文章不用每次手动下载文件，直接在浏览器里看效果。</p>
+</blockquote>
+<hr />
+<h2>使用方法</h2>
+<pre><code class="language-bash">python serve.py
+# 然后打开浏览器访问 http://localhost:8000
+</code></pre>
+<p>修改 <code>content/</code>、<code>templates/</code>、<code>static/</code> 里的任何文件，会自动重新构建，刷新浏览器即可看到最新效果。</p>
+<p>按 <code>Ctrl + C</code> 停止服务器。</p>
+<hr />
+<h2>它做了什么</h2>
+<pre><code>启动时
+  ↓
+先构建一次，确保 output/ 是最新的
+  ↓
+启动后台线程：每隔 1 秒扫描文件变化
+  ↓
+启动 HTTP 服务器，提供 output/ 里的文件
+  ↓
+浏览器访问 http://localhost:8000 → 看到博客
+</code></pre>
+<hr />
+<h2>文件结构</h2>
+<pre><code class="language-python"># 1. 配置
+#    PORT = 8000
+#    WATCH_DIRS = [&quot;content&quot;, &quot;templates&quot;, &quot;static&quot;]
+#    CHECK_INTERVAL = 1  # 每秒检查一次
+
+# 2. 文件变化检测
+#    get_all_files_with_mtime()   扫描目录，记录每个文件的修改时间
+#    has_any_file_changed()       对比两次快照，判断是否有变化
+
+# 3. 自动重建监听器
+#    watch_and_rebuild()          后台线程，检测到变化就重新构建
+
+# 4. HTTP 服务器
+#    QuietHandler                 继承标准服务器，关掉请求日志
+
+# 5. 主函数
+#    main()                       启动服务器 + 启动监听器
+</code></pre>
+<hr />
+<h2>核心机制：文件快照对比</h2>
+<pre><code class="language-python"># 第一次扫描，记录所有文件的修改时间
+snapshot = {&quot;content/posts/hello.md&quot;: 1717392000.0, ...}
+
+# 1 秒后再扫描
+new_snapshot = {&quot;content/posts/hello.md&quot;: 1717392060.0, ...}
+
+# 修改时间不一样 → 触发重新构建
+</code></pre>
+<p>这个方法简单可靠，不依赖任何额外的库。</p>
+<hr />
+<h2>注意事项</h2>
+<p>服务器环境没有浏览器，<code>webbrowser.open()</code> 会报警告，忽略即可，不影响使用。</p>
+<p>本地预览和线上部署的路径不同（线上有 <code>/damo-/</code> 前缀），所以本地预览时链接跳转可能有问题，以线上为准。</p>
+    </div>
+
+    <!-- 返回链接 -->
+    <footer class="post-footer">
+      <a href="/damo-/index.html">← 返回首页</a>
+    </footer>
+
+  </article>
+
+
+  </main>
+
+  <!-- 底部 -->
+  <footer class="site-footer">
+    <p>@damoxu · 一个用知识建立起来的小家</p>
+  </footer>
+
+</body>
+</html>

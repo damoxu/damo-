@@ -72,6 +72,7 @@ def collect_all_posts(posts_dir):
             "slug"  : filename.replace(".md", ""),
             "title" : title,
             "date"  : date_str,
+            "project" : meta.get("project", "").strip(), 
             "tags"  : tags,
             "body"  : html_body,
             "url"   : f"posts/{filename.replace('.md', '.html')}",
@@ -229,7 +230,7 @@ def build():
     print("\n🎨 生成作品页面：")
     for work in works:
         output_path = os.path.join(DIR_OUTPUT, work["url"])
-        render_page(env, "work.html", output_path, work=work)
+        render_page(env, "work.html", output_path, work=work, posts=posts)
 
     # 步骤 6：生成首页（把文章列表和作品列表都传进去）
     print("\n🏠 生成首页：")

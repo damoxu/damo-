@@ -17,6 +17,28 @@
       {{ work.body | safe }}
     </div>
 
+    <!-- 相关文章：title 里包含作品名，或 project 字段匹配的文章 -->
+    {% set related = [] %}
+    {% for post in posts %}
+      {% if post.project == work.title %}
+        {% set _ = related.append(post) %}
+      {% endif %}
+    {% endfor %}
+
+    {% if related %}
+    <div class="related-posts">
+      <h3 class="related-title">相关文章</h3>
+      <ul class="post-list">
+        {% for post in related %}
+          <li class="post-list-item">
+            <a href="{{ base_url }}/{{ post.url }}" class="post-list-title">{{ post.title }}</a>
+            <span class="post-list-date">{{ post.date }}</span>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+
     <footer class="post-footer">
       <a href="{{ base_url }}/index.html">← 返回首页</a>
     </footer>

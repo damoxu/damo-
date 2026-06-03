@@ -1,5 +1,29 @@
 [
   {
+    "title": "静态博客搭建笔记",
+    "date": "2026-06-03",
+    "tags": [],
+    "url": "/posts/静态博客搭建笔记.html",
+    "body": "静态博客搭建笔记\n\n用 Python + Markdown 从零搭建个人博客，部署到 GitHub Pages\n\n\n项目结构\nmy-blog/\n├── content/              # 内容目录\n│   ├── posts/            # 文章（.md 文件）\n│   └── works/            # 作品集（.md 文件）\n├── templates/            # HTML 模板\n│   ├── base.html         # 公共骨架（导航、页脚）\n│   ├── index.html        # 首页\n│   ├── post.html         # 文章详情页\n│   ├── work.html         # 作品详情页\n│   ├── works.html        # 作品集列表页\n│   └── search.html       # 搜索页\n├── static/\n│   └── style.css         # 样式（现代卡片 + 米白蓝渐变）\n├── output/      ",
+    "type": "post"
+  },
+  {
+    "title": "模板系统解析",
+    "date": "2026-06-03",
+    "tags": [],
+    "url": "/posts/模板系统解析.html",
+    "body": "模板系统解析：Jinja2 模板\n\n模板决定了每个页面长什么样，数据由 build.py 填入。\n\n\n模板继承关系\nbase.html          ← 公共骨架（导航、页脚、head）\n    ├── index.html      首页\n    ├── post.html       文章详情页\n    ├── work.html       作品详情页\n    ├── works.html      作品集列表页\n    └── search.html     搜索页\n\n所有页面都继承自 base.html，只需要填写各自的内容区域。\n\nbase.html\n公共骨架，每个页面都有的部分：\n&lt;!DOCTYPE html&gt;\n&lt;html lang=&quot;zh-CN&quot;&gt;\n&lt;head&gt;\n  &lt;title&gt;{{ page_title }} - {{ blog_title }}&lt;/title&gt;\n  &lt;link rel=&quot;stylesheet&quot; href=&quot;{{ base_url ",
+    "type": "post"
+  },
+  {
+    "title": "搜素功能解析",
+    "date": "2026-06-03",
+    "tags": [],
+    "url": "/posts/搜素功能解析.html",
+    "body": "搜索功能解析：纯前端搜索\n\n不需要后端，不需要数据库，全部在浏览器里完成。\n\n\n原理\n构建时\n  build.py 扫描所有文章和作品\n      ↓\n  生成 search-index.json\n  （包含每篇文章的标题、正文、标签、链接）\n\n用户搜索时\n  浏览器加载 search-index.json\n      ↓\n  用 JavaScript 过滤匹配的条目\n      ↓\n  实时显示结果，高亮关键词\n\n\nsearch-index.json 结构\n[\n  {\n    &quot;title&quot;: &quot;我的第一篇文章&quot;,\n    &quot;date&quot;: &quot;2024-01-01&quot;,\n    &quot;tags&quot;: [&quot;随笔&quot;, &quot;开始&quot;],\n    &quot;url&quot;: &quot;/posts/2024-01-hello-world.html&quot;,\n    &quot;body&quot;: &quot;这是正文的前500个字...&quot;,\n",
+    "type": "post"
+  },
+  {
     "title": "学习部署静态网志之制作页面",
     "date": "2026-06-03",
     "tags": [],
@@ -8,25 +32,21 @@
     "type": "post"
   },
   {
-    "title": "这是中文标题",
-    "date": "2024-03-01",
+    "title": "build.py 解析",
+    "date": "2026-06-03",
     "tags": [
-      "技术",
-      " 随笔"
+      "技术"
     ],
-    "url": "/posts/2024-03-中文测试.html",
-    "body": "第一段\n这里写中文内容完全没问题，Markdown 本身支持 UTF-8。\n代码示例\n​python\nprint(\"你好世界\")\n​",
+    "url": "/posts/build解析.html",
+    "body": "build.py 解析：博客的构建引擎\n\n整个博客的核心就是这一个文件，约 150 行，负责把 Markdown 变成网站。\n\n\n它做了什么\n你写的 .md 文件\n      ↓\n读取文件内容\n      ↓\n解析头部元数据（title / date / tags）\n      ↓\n正文转成 HTML\n      ↓\n填入 Jinja2 模板\n      ↓\n写到 output/ 目录\n\n每次运行 python build.py，就完成了以上全部步骤。\n\n文件结构\n# 1. 配置区\n#    BLOG_TITLE、AUTHOR_NAME、BASE_URL 等\n#    整个项目只需要改这里\n\n# 2. 工具函数\n#    read_markdown_file()   读取并解析一个 .md 文件\n#    collect_all_posts()    扫描 content/posts/ 收集所有文章\n#    collect_all_works()    扫描 content/works/ 收集所有作品\n\n# 3. 渲染函数\n#    setup_jinja()          初始",
     "type": "post"
   },
   {
-    "title": "我的第一篇文章",
-    "date": "2024-01-01",
-    "tags": [
-      "随笔",
-      " 开始"
-    ],
-    "url": "/posts/2024-01-hello-world.html",
-    "body": "你好，世界\n这是我的第一篇博客文章。\n为什么写博客\n\n记录学习过程\n整理自己的想法\n分享给有需要的人\n\n代码示例\nprint(&quot;hello world&quot;)\n",
+    "title": "bserve解析",
+    "date": "2026-06-03",
+    "tags": [],
+    "url": "/posts/bserve解析.html",
+    "body": "serve.py 解析：本地预览服务器\n\n改完文章不用每次手动下载文件，直接在浏览器里看效果。\n\n\n使用方法\npython serve.py\n# 然后打开浏览器访问 http://localhost:8000\n\n修改 content/、templates/、static/ 里的任何文件，会自动重新构建，刷新浏览器即可看到最新效果。\n按 Ctrl + C 停止服务器。\n\n它做了什么\n启动时\n  ↓\n先构建一次，确保 output/ 是最新的\n  ↓\n启动后台线程：每隔 1 秒扫描文件变化\n  ↓\n启动 HTTP 服务器，提供 output/ 里的文件\n  ↓\n浏览器访问 http://localhost:8000 → 看到博客\n\n\n文件结构\n# 1. 配置\n#    PORT = 8000\n#    WATCH_DIRS = [&quot;content&quot;, &quot;templates&quot;, &quot;static&quot;]\n#    CHECK_INTERVAL = 1  # 每秒检查一次\n\n# 2. 文件变化检测\n#    get_all_files_wi",
     "type": "post"
   },
   {

@@ -1,0 +1,280 @@
+<!-- 继承 base.html，只需要填 content 块 -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- 页面标题：子模板可以覆盖 page_title 这个变量 -->
+  <title>静态博客搭建笔记 - 我的博客</title>
+
+  <link rel="stylesheet" href="/damo-/static/style.css">
+</head>
+
+<body>
+
+  <!-- 顶部导航：每个页面都一样 -->
+  <header class="site-header">
+    <a href="/damo-/index.html" class="site-title">我的博客</a>
+    <a href="/damo-/index.html">首页</a>
+    <a href="/damo-/works/">作品集</a>
+    <a href="/damo-/search.html">搜索</a>
+    </nav>
+  </header>
+
+  <!-- 主体内容：由子模板填充 -->
+  <main class="site-main">
+    
+
+  <article class="post">
+
+    <!-- 文章头部：标题、日期、标签 -->
+    <header class="post-header">
+      <h1 class="post-title">静态博客搭建笔记</h1>
+      <div class="post-meta">
+        <span class="post-date">2026-06-03</span>
+        
+        
+      </div>
+    </header>
+
+    <!-- 文章正文：Markdown 已转成 HTML，用 safe 告诉 Jinja2 不要转义 -->
+    <div class="post-body">
+      <h1>静态博客搭建笔记</h1>
+<blockquote>
+<p>用 Python + Markdown 从零搭建个人博客，部署到 GitHub Pages</p>
+</blockquote>
+<hr />
+<h2>项目结构</h2>
+<pre><code>my-blog/
+├── content/              # 内容目录
+│   ├── posts/            # 文章（.md 文件）
+│   └── works/            # 作品集（.md 文件）
+├── templates/            # HTML 模板
+│   ├── base.html         # 公共骨架（导航、页脚）
+│   ├── index.html        # 首页
+│   ├── post.html         # 文章详情页
+│   ├── work.html         # 作品详情页
+│   ├── works.html        # 作品集列表页
+│   └── search.html       # 搜索页
+├── static/
+│   └── style.css         # 样式（现代卡片 + 米白蓝渐变）
+├── output/               # 构建产物（自动生成，不要手动修改）
+├── .github/
+│   └── workflows/
+│       └── deploy.yml    # GitHub Actions 自动部署
+├── build.py              # 构建脚本
+├── serve.py              # 本地预览服务器
+└── README.md
+</code></pre>
+<hr />
+<h2>环境准备</h2>
+<pre><code class="language-bash"># 确认 Python 版本（需要 3.8+）
+python --version
+
+# 安装依赖
+pip install markdown jinja2
+</code></pre>
+<hr />
+<h2>写文章</h2>
+<p>在 <code>content/posts/</code> 下新建 <code>.md</code> 文件：</p>
+<pre><code class="language-markdown">title: 文章标题
+date: 2024-01-01
+tags: 技术, 随笔
+
+## 正文从这里开始
+
+支持标准 Markdown 语法。
+</code></pre>
+<p><strong>头部字段说明：</strong></p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>是否必填</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>title</td>
+<td>否</td>
+<td>不填则用文件名代替</td>
+</tr>
+<tr>
+<td>date</td>
+<td>否</td>
+<td>不填则用今天日期</td>
+</tr>
+<tr>
+<td>tags</td>
+<td>否</td>
+<td>不填则不显示标签</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>写作品</h2>
+<p>在 <code>content/works/</code> 下新建 <code>.md</code> 文件：</p>
+<pre><code class="language-markdown">title: 作品名称
+desc: 一句话描述
+link: https://github.com/你的用户名/项目名
+
+## 详细介绍
+
+这里写作品的详细说明。
+</code></pre>
+<hr />
+<h2>本地预览</h2>
+<pre><code class="language-bash">python serve.py
+# 打开浏览器访问 http://localhost:8000
+# 修改文件后自动重新构建，刷新浏览器即可看到效果
+</code></pre>
+<hr />
+<h2>构建</h2>
+<pre><code class="language-bash">python build.py
+</code></pre>
+<p>构建完成后，<code>output/</code> 目录就是完整的静态网站。</p>
+<hr />
+<h2>发布新文章（日常流程）</h2>
+<pre><code class="language-bash"># 1. 在 content/posts/ 新建 .md 文件，写好内容
+
+# 2. 本地构建验证
+python build.py
+
+# 3. 推送到 GitHub，自动触发部署
+git add .
+git commit -m &quot;new post: 文章标题&quot;
+git push
+</code></pre>
+<p>等 GitHub Actions 变绿（约 1~2 分钟），博客自动更新。</p>
+<hr />
+<h2>部署配置</h2>
+<h3>GitHub Actions 自动部署</h3>
+<p>每次推送到 <code>main</code> 分支，自动构建并发布到 GitHub Pages。</p>
+<p>配置文件：<code>.github/workflows/deploy.yml</code></p>
+<h3>GitHub Pages 设置</h3>
+<ul>
+<li>仓库 → Settings → Pages</li>
+<li>Source 选 <code>Deploy from a branch</code></li>
+<li>Branch 选 <code>gh-pages</code>，目录选 <code>/ (root)</code></li>
+</ul>
+<h3>在线地址</h3>
+<pre><code>https://damoxu.github.io/damo-/
+</code></pre>
+<hr />
+<h2>Git 推送（SSH 方式）</h2>
+<p>服务器网络限制了 443 端口，需要用 SSH 推送：</p>
+<pre><code class="language-bash"># 第一次配置（已完成，记录备用）
+ssh-keygen -t ed25519 -C &quot;damoxu&quot; -f ~/.ssh/id_ed25519_damoxu
+# 公钥已添加到 GitHub damoxu 账号
+
+# SSH config（~/.ssh/config）
+# Host github-damoxu
+#   HostName github.com
+#   User git
+#   IdentityFile ~/.ssh/id_ed25519_damoxu
+
+# 远程地址
+# git remote set-url origin git@github-damoxu:damoxu/damo-.git
+
+# 每次登录服务器后，如果设置了 passphrase，需要先运行：
+eval &quot;$(ssh-agent -s)&quot;
+ssh-add ~/.ssh/id_ed25519_damoxu
+</code></pre>
+<hr />
+<h2>build.py 核心逻辑</h2>
+<pre><code>读取 Markdown 文件
+    ↓
+提取头部元数据（title / date / tags）
+    ↓
+正文转成 HTML
+    ↓
+填入 Jinja2 模板
+    ↓
+写到 output/ 目录
+</code></pre>
+<p><strong>构建顺序：</strong></p>
+<ol>
+<li>清空 output/ 目录</li>
+<li>复制 static/ 静态文件</li>
+<li>生成每篇文章页面</li>
+<li>生成每个作品页面</li>
+<li>生成作品集列表页</li>
+<li>生成首页</li>
+<li>生成搜索索引（search-index.json）</li>
+<li>生成搜索页</li>
+</ol>
+<hr />
+<h2>常见问题</h2>
+<h3>文章显示"无标题"</h3>
+<p>检查 Markdown 文件头部格式，<code>title:</code> 后面要有空格：</p>
+<pre><code class="language-markdown">title: 这是标题       ← 正确
+title:这是标题        ← 错误，缺少空格
+</code></pre>
+<h3>推送超时</h3>
+<p>服务器 443 端口被封，使用 SSH 方式推送（见上方 Git 推送章节）。</p>
+<h3>页面样式没更新</h3>
+<p>GitHub Pages 有缓存，用无痕窗口或强制刷新：
+- Chrome：<code>Ctrl + Shift + R</code>
+- 或右键刷新按钮 → 清空缓存并硬性重新加载</p>
+<h3>作品集页面 404</h3>
+<p>确认 <code>build.py</code> 里有生成 <code>works/index.html</code> 的步骤，
+且 <code>templates/works.html</code> 文件存在。</p>
+<hr />
+<h2>技术栈</h2>
+<table>
+<thead>
+<tr>
+<th>用途</th>
+<th>选择</th>
+<th>理由</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>构建脚本</td>
+<td>Python 3</td>
+<td>语法直白，零配置</td>
+</tr>
+<tr>
+<td>Markdown 解析</td>
+<td>markdown 库</td>
+<td>一行代码搞定</td>
+</tr>
+<tr>
+<td>模板引擎</td>
+<td>Jinja2</td>
+<td>语法像写 HTML</td>
+</tr>
+<tr>
+<td>样式</td>
+<td>纯 CSS</td>
+<td>不依赖框架</td>
+</tr>
+<tr>
+<td>部署</td>
+<td>GitHub Pages + Actions</td>
+<td>免费，自动化</td>
+</tr>
+</tbody>
+</table>
+    </div>
+
+    <!-- 返回链接 -->
+    <footer class="post-footer">
+      <a href="/damo-/index.html">← 返回首页</a>
+    </footer>
+
+  </article>
+
+
+  </main>
+
+  <!-- 底部 -->
+  <footer class="site-footer">
+    <p>@damoxu · 一个用知识建立起来的小家</p>
+  </footer>
+
+</body>
+</html>
