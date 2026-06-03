@@ -1,0 +1,145 @@
+<!-- 继承 base.html，只需要填 content 块 -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- 页面标题：子模板可以覆盖 page_title 这个变量 -->
+  <title>build解析 - 我的博客</title>
+
+  <link rel="stylesheet" href="/damo-/static/style.css">
+</head>
+
+<body>
+
+  <!-- 顶部导航：每个页面都一样 -->
+  <header class="site-header">
+    <a href="/damo-/index.html" class="site-title">我的博客</a>
+    <a href="/damo-/index.html">首页</a>
+    <a href="/damo-/works/">作品集</a>
+    <a href="/damo-/search.html">搜索</a>
+    </nav>
+  </header>
+
+  <!-- 主体内容：由子模板填充 -->
+  <main class="site-main">
+    
+
+  <article class="post">
+
+    <!-- 文章头部：标题、日期、标签 -->
+    <header class="post-header">
+      <h1 class="post-title">build解析</h1>
+      <div class="post-meta">
+        <span class="post-date">2026-06-03</span>
+        
+      </div>
+    </header>
+
+    <!-- 文章正文：Markdown 已转成 HTML，用 safe 告诉 Jinja2 不要转义 -->
+    <div class="post-body">
+      <h1>build.py 解析：博客的构建引擎</h1>
+<blockquote>
+<p>整个博客的核心就是这一个文件，约 150 行，负责把 Markdown 变成网站。</p>
+</blockquote>
+<hr />
+<h2>它做了什么</h2>
+<pre><code>你写的 .md 文件
+      ↓
+读取文件内容
+      ↓
+解析头部元数据（title / date / tags）
+      ↓
+正文转成 HTML
+      ↓
+填入 Jinja2 模板
+      ↓
+写到 output/ 目录
+</code></pre>
+<p>每次运行 <code>python build.py</code>，就完成了以上全部步骤。</p>
+<hr />
+<h2>文件结构</h2>
+<pre><code class="language-python"># 1. 配置区
+#    BLOG_TITLE、AUTHOR_NAME、BASE_URL 等
+#    整个项目只需要改这里
+
+# 2. 工具函数
+#    read_markdown_file()   读取并解析一个 .md 文件
+#    collect_all_posts()    扫描 content/posts/ 收集所有文章
+#    collect_all_works()    扫描 content/works/ 收集所有作品
+
+# 3. 渲染函数
+#    setup_jinja()          初始化模板引擎
+#    render_page()          把数据填进模板，输出 HTML 文件
+
+# 4. 构建流程
+#    clean_output_dir()     清空 output/ 目录
+#    copy_static_files()    复制 CSS、图片
+#    build_search_index()   生成搜索索引 JSON
+#    build()                主函数，按顺序调用以上所有步骤
+
+# 5. 入口
+#    if __name__ == &quot;__main__&quot;: build()
+</code></pre>
+<hr />
+<h2>核心函数详解</h2>
+<h3>read_markdown_file()</h3>
+<pre><code class="language-python">def read_markdown_file(filepath):
+    with open(filepath, encoding=&quot;utf-8&quot;) as f:
+        raw_text = f.read()
+
+    md = markdown.Markdown(extensions=[&quot;meta&quot;, &quot;fenced_code&quot;, &quot;tables&quot;])
+    html_body = md.convert(raw_text)
+
+    meta = {key: values[0] for key, values in md.Meta.items()}
+    return meta, html_body
+</code></pre>
+<p><strong>做了两件事：</strong>
+- 把 Markdown 正文转成 HTML
+- 把头部的 <code>title:</code>、<code>date:</code>、<code>tags:</code> 提取出来</p>
+<h3>render_page()</h3>
+<pre><code class="language-python">def render_page(env, template_name, output_path, **data):
+    template = env.get_template(template_name)
+    html = template.render(**data, blog_title=BLOG_TITLE, author=AUTHOR_NAME, base_url=BASE_URL)
+
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    with open(output_path, &quot;w&quot;, encoding=&quot;utf-8&quot;) as f:
+        f.write(html)
+</code></pre>
+<p><strong>通用渲染函数：</strong> 传入模板名、输出路径、数据，输出一个 HTML 文件。</p>
+<hr />
+<h2>构建顺序</h2>
+<pre><code>步骤 1   清空 output/
+步骤 2   复制 static/ → output/static/
+步骤 3   生成每篇文章页面  → output/posts/*.html
+步骤 4   生成每个作品页面  → output/works/*.html
+步骤 5   生成作品集列表页  → output/works/index.html
+步骤 6   生成首页          → output/index.html
+步骤 7   生成搜索索引      → output/search-index.json
+步骤 8   生成搜索页        → output/search.html
+</code></pre>
+<hr />
+<h2>日常使用</h2>
+<pre><code class="language-bash">python build.py
+</code></pre>
+<p>看到 <code>✅ 构建完成</code> 就说明一切正常。</p>
+    </div>
+
+    <!-- 返回链接 -->
+    <footer class="post-footer">
+      <a href="/damo-/index.html">← 返回首页</a>
+    </footer>
+
+  </article>
+
+
+  </main>
+
+  <!-- 底部 -->
+  <footer class="site-footer">
+    <p>@damoxu · 一个用知识建立起来的小家</p>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!-- 继承 base.html，只需要填 content 块 -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- 页面标题：子模板可以覆盖 page_title 这个变量 -->
+  <title>模板系统解析 - 我的博客</title>
+
+  <link rel="stylesheet" href="/damo-/static/style.css">
+</head>
+
+<body>
+
+  <!-- 顶部导航：每个页面都一样 -->
+  <header class="site-header">
+    <a href="/damo-/index.html" class="site-title">我的博客</a>
+    <a href="/damo-/index.html">首页</a>
+    <a href="/damo-/works/">作品集</a>
+    <a href="/damo-/search.html">搜索</a>
+    </nav>
+  </header>
+
+  <!-- 主体内容：由子模板填充 -->
+  <main class="site-main">
+    
+
+  <article class="post">
+
+    <!-- 文章头部：标题、日期、标签 -->
+    <header class="post-header">
+      <h1 class="post-title">模板系统解析</h1>
+      <div class="post-meta">
+        <span class="post-date">2026-06-03</span>
+        
+      </div>
+    </header>
+
+    <!-- 文章正文：Markdown 已转成 HTML，用 safe 告诉 Jinja2 不要转义 -->
+    <div class="post-body">
+      <h1>模板系统解析：Jinja2 模板</h1>
+<blockquote>
+<p>模板决定了每个页面长什么样，数据由 build.py 填入。</p>
+</blockquote>
+<hr />
+<h2>模板继承关系</h2>
+<pre><code>base.html          ← 公共骨架（导航、页脚、head）
+    ├── index.html      首页
+    ├── post.html       文章详情页
+    ├── work.html       作品详情页
+    ├── works.html      作品集列表页
+    └── search.html     搜索页
+</code></pre>
+<p>所有页面都继承自 <code>base.html</code>，只需要填写各自的内容区域。</p>
+<hr />
+<h2>base.html</h2>
+<p>公共骨架，每个页面都有的部分：</p>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;zh-CN&quot;&gt;
+&lt;head&gt;
+  &lt;title&gt;{{ page_title }} - {{ blog_title }}&lt;/title&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;{{ base_url }}/static/style.css&quot;&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;header&gt;导航栏&lt;/header&gt;
+
+  &lt;main&gt;
+    {% block content %}{% endblock %}  ← 子模板填这里
+  &lt;/main&gt;
+
+  &lt;footer&gt;页脚&lt;/footer&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<hr />
+<h2>子模板写法</h2>
+<pre><code class="language-html">{% extends &quot;base.html&quot; %}        ← 继承父模板
+
+{% set page_title = post.title %} ← 设置页面标题
+
+{% block content %}               ← 填充内容区域
+  &lt;article&gt;
+    &lt;h1&gt;{{ post.title }}&lt;/h1&gt;
+    {{ post.body | safe }}        ← safe 表示不转义 HTML
+  &lt;/article&gt;
+{% endblock %}
+</code></pre>
+<hr />
+<h2>常用模板语法</h2>
+<pre><code class="language-html">&lt;!-- 输出变量 --&gt;
+{{ post.title }}
+
+&lt;!-- 不转义 HTML --&gt;
+{{ post.body | safe }}
+
+&lt;!-- 循环 --&gt;
+{% for post in posts %}
+  &lt;li&gt;{{ post.title }}&lt;/li&gt;
+{% endfor %}
+
+&lt;!-- 条件判断 --&gt;
+{% if work.link != &quot;#&quot; %}
+  &lt;a href=&quot;{{ work.link }}&quot;&gt;查看项目&lt;/a&gt;
+{% endif %}
+
+&lt;!-- 设置变量 --&gt;
+{% set page_title = &quot;首页&quot; %}
+</code></pre>
+<hr />
+<h2>每个模板接收的数据</h2>
+<table>
+<thead>
+<tr>
+<th>模板</th>
+<th>接收的变量</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>index.html</td>
+<td>posts（列表）、works（列表）</td>
+</tr>
+<tr>
+<td>post.html</td>
+<td>post（单篇文章）</td>
+</tr>
+<tr>
+<td>work.html</td>
+<td>work（单个作品）</td>
+</tr>
+<tr>
+<td>works.html</td>
+<td>works（列表）</td>
+</tr>
+<tr>
+<td>search.html</td>
+<td>posts、works</td>
+</tr>
+</tbody>
+</table>
+<p>以上变量都由 <code>build.py</code> 的 <code>render_page()</code> 传入。</p>
+    </div>
+
+    <!-- 返回链接 -->
+    <footer class="post-footer">
+      <a href="/damo-/index.html">← 返回首页</a>
+    </footer>
+
+  </article>
+
+
+  </main>
+
+  <!-- 底部 -->
+  <footer class="site-footer">
+    <p>@damoxu · 一个用知识建立起来的小家</p>
+  </footer>
+
+</body>
+</html>

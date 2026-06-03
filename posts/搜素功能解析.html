@@ -1,0 +1,135 @@
+<!-- 继承 base.html，只需要填 content 块 -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- 页面标题：子模板可以覆盖 page_title 这个变量 -->
+  <title>搜素功能解析 - 我的博客</title>
+
+  <link rel="stylesheet" href="/damo-/static/style.css">
+</head>
+
+<body>
+
+  <!-- 顶部导航：每个页面都一样 -->
+  <header class="site-header">
+    <a href="/damo-/index.html" class="site-title">我的博客</a>
+    <a href="/damo-/index.html">首页</a>
+    <a href="/damo-/works/">作品集</a>
+    <a href="/damo-/search.html">搜索</a>
+    </nav>
+  </header>
+
+  <!-- 主体内容：由子模板填充 -->
+  <main class="site-main">
+    
+
+  <article class="post">
+
+    <!-- 文章头部：标题、日期、标签 -->
+    <header class="post-header">
+      <h1 class="post-title">搜素功能解析</h1>
+      <div class="post-meta">
+        <span class="post-date">2026-06-03</span>
+        
+      </div>
+    </header>
+
+    <!-- 文章正文：Markdown 已转成 HTML，用 safe 告诉 Jinja2 不要转义 -->
+    <div class="post-body">
+      <h1>搜索功能解析：纯前端搜索</h1>
+<blockquote>
+<p>不需要后端，不需要数据库，全部在浏览器里完成。</p>
+</blockquote>
+<hr />
+<h2>原理</h2>
+<pre><code>构建时
+  build.py 扫描所有文章和作品
+      ↓
+  生成 search-index.json
+  （包含每篇文章的标题、正文、标签、链接）
+
+用户搜索时
+  浏览器加载 search-index.json
+      ↓
+  用 JavaScript 过滤匹配的条目
+      ↓
+  实时显示结果，高亮关键词
+</code></pre>
+<hr />
+<h2>search-index.json 结构</h2>
+<pre><code class="language-json">[
+  {
+    &quot;title&quot;: &quot;我的第一篇文章&quot;,
+    &quot;date&quot;: &quot;2024-01-01&quot;,
+    &quot;tags&quot;: [&quot;随笔&quot;, &quot;开始&quot;],
+    &quot;url&quot;: &quot;/posts/2024-01-hello-world.html&quot;,
+    &quot;body&quot;: &quot;这是正文的前500个字...&quot;,
+    &quot;type&quot;: &quot;post&quot;
+  },
+  {
+    &quot;title&quot;: &quot;我的第一个作品&quot;,
+    &quot;desc&quot;: &quot;一个静态博客生成器&quot;,
+    &quot;url&quot;: &quot;/works/project-one.html&quot;,
+    &quot;body&quot;: &quot;作品详细介绍...&quot;,
+    &quot;type&quot;: &quot;work&quot;
+  }
+]
+</code></pre>
+<hr />
+<h2>JavaScript 搜索逻辑</h2>
+<pre><code class="language-javascript">// 第一步：加载索引文件
+fetch(&quot;/damo-/search-index.json&quot;)
+  .then(response =&gt; response.json())
+  .then(data =&gt; { searchIndex = data; });
+
+// 第二步：过滤匹配项
+function doSearch(query) {
+  const keyword = query.toLowerCase();
+  const matched = searchIndex.filter(item =&gt; {
+    const inTitle = item.title.toLowerCase().includes(keyword);
+    const inBody  = item.body.toLowerCase().includes(keyword);
+    const inTags  = (item.tags || []).join(&quot; &quot;).toLowerCase().includes(keyword);
+    return inTitle || inBody || inTags;
+  });
+  renderResults(matched, query);
+}
+
+// 第三步：高亮关键词
+function highlight(text, query) {
+  const regex = new RegExp(`(${query})`, &quot;gi&quot;);
+  return text.replace(regex, &quot;&lt;mark&gt;$1&lt;/mark&gt;&quot;);
+}
+</code></pre>
+<hr />
+<h2>优缺点</h2>
+<p><strong>优点：</strong>
+- 零后端，纯静态，可以部署到任何地方
+- 响应速度极快，本地过滤无网络延迟
+- 实现简单，代码易读</p>
+<p><strong>缺点：</strong>
+- 文章很多时，search-index.json 体积会变大
+- 不支持模糊搜索（输入"博客"不会匹配"部落格"）
+- 不支持搜索排序（按相关度排序）</p>
+<p>对于个人博客来说，以上缺点完全可以接受。</p>
+    </div>
+
+    <!-- 返回链接 -->
+    <footer class="post-footer">
+      <a href="/damo-/index.html">← 返回首页</a>
+    </footer>
+
+  </article>
+
+
+  </main>
+
+  <!-- 底部 -->
+  <footer class="site-footer">
+    <p>@damoxu · 一个用知识建立起来的小家</p>
+  </footer>
+
+</body>
+</html>
