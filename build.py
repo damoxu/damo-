@@ -140,7 +140,44 @@ def copy_static_files():
     dst = os.path.join(DIR_OUTPUT, "static")
     shutil.copytree(src, dst)
     print(f"  ✓ 复制静态文件：{src} → {dst}")
+def build_search_index(posts, works, output_dir):
+    """
+    把所有文章和作品的标题、正文提取出来，
+    生成一个 JSON 文件供前端搜索使用。
+    """
+    import json
+    import re
 
+    index = []
+
+    for post in posts:
+        # 把 HTML 标签去掉，只保留纯文字
+        plain_text = re.sub(r"<[^>]+>", "", post["body"])
+        index.append({
+            "title" : post["title"],
+            "date"  : post["date"],
+            "tags"  : post["tags"],
+            "url"   : "/" + post["url"],
+            "body"  : plain_text[:500],   # 只取前500字，节省体积
+            "type"  : "post",
+        })
+
+    for work in works:
+        plain_text = re.sub(r"<[^>]+>", "", work["body"])
+        index.append({
+            "title" : work["title"],
+            "desc"  : work["desc"],
+            "url"   : "/" + work["url"],
+            "body"  : plain_text[:500],
+            "type"  : "work",
+        })
+
+    # 写入 JSON 文件
+    index_path = os.path.join(output_dir, "search-index.json")
+    with open(index_path, "w", encoding="utf-8") as f:
+        json.dump(index, f, ensure_ascii=False, indent=2)
+
+    print(f"  ✓ 生成搜索索引：{index_path}")
 
 def build():
     """
@@ -182,6 +219,16 @@ def build():
                 os.path.join(DIR_OUTPUT, "index.html"),
                 posts=posts,
                 works=works)
+    #步骤 7：生成搜索索引
+    print("\n🔍 生成搜索索引：")
+    build_search_index(posts, works, DIR_OUTPUT)
+    # 步骤 8：生成搜索页
+    print("\n🔍 生成搜索页：")
+    render_page(env, "search.html",
+                os.path.join(DIR_OUTPUT, "search.html"),
+                posts=posts,
+                works=works)
+
 
     print("\n✅ 构建完成！打开 output/index.html 查看结果。\n")
 
