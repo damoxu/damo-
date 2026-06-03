@@ -10,7 +10,7 @@
 
     <div class="works-grid">
       {% for work in works %}
-        <a href="/{{ work.url }}" class="work-card">
+      <a href="{{ base_url }}/{{ work.url }}" class="work-card">
           <h3 class="work-card-title">{{ work.title }}</h3>
           <p class="work-card-desc">{{ work.desc }}</p>
         </a>
@@ -25,7 +25,7 @@
     <ul class="post-list">
       {% for post in posts %}
         <li class="post-list-item">
-          <a href="/{{ post.url }}" class="post-list-title">{{ post.title }}</a>
+          <a href="{{ base_url }}/{{ post.url }}" class="post-list-title">{{ post.title }}</a>
           <span class="post-list-date">{{ post.date }}</span>
         </li>
       {% endfor %}
