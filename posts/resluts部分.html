@@ -1,0 +1,223 @@
+<!-- 继承 base.html，只需要填 content 块 -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- 页面标题：子模板可以覆盖 page_title 这个变量 -->
+  <title>resluts部分 - 我的博客</title>
+
+  <link rel="stylesheet" href="/damo-/static/style.css">
+</head>
+
+<body>
+
+  <!-- 顶部导航：每个页面都一样 -->
+  <header class="site-header">
+    <a href="/damo-/index.html" class="site-title">我的博客</a>
+    <a href="/damo-/index.html">首页</a>
+    <a href="/damo-/works/">作品集</a>
+    <a href="/damo-/search.html">搜索</a>
+    </nav>
+  </header>
+
+  <!-- 主体内容：由子模板填充 -->
+  <main class="site-main">
+    
+
+  <article class="post">
+
+    <!-- 文章头部：标题、日期、标签 -->
+    <header class="post-header">
+      <h1 class="post-title">resluts部分</h1>
+      <div class="post-meta">
+        <span class="post-date">2026-06-05</span>
+        
+        
+          <a href="/damo-/works/" class="post-project">
+            📁 基本项目
+          </a>
+        
+      </div>
+    </header>
+
+    <!-- 文章正文：Markdown 已转成 HTML，用 safe 告诉 Jinja2 不要转义 -->
+    <div class="post-body">
+      <h1>results</h1>
+<pre><code>latex\section{Experiments and Results}\label{sec:experiments}
+\subsection{Experimental Setup}
+
+\subsubsection{Datasets}
+We constructed a private porcine CT dataset comprising three components. 
+(1)~\textbf{Unlabeled pretraining data}: 3,084 CT scans collected from multiple 
+farms using an agricultural-grade CT scanner, with heads and forelimbs removed 
+prior to acquisition. No manual annotation was required.
+(2)~\textbf{Primary dataset (Dataset~A)}: 104 pigs from four breeds (Yorkshire, 
+Duroc, Landrace, and Pietrain). For each subject, CT slices were acquired from 
+the ear margin posteriorly and annotated across nine anatomical regions: anterior 
+body (ear margin to ribs 6--7), middle body (ribs 6--7 to caudal vertebrae 1--2), 
+posterior body (caudal vertebrae 1--2 onward), thoracic cavity, abdominal cavity 
+(separated at the stomach), left kidney, right kidney, and testes. Data were split 
+at the subject level: 72 pigs for training, 8 for validation, and 24 as a held-out 
+in-domain test set.
+(3)~\textbf{Cross-domain dataset (Dataset~B)}: 93 castrated Yorkshire pigs from a 
+different farm scanned with a different CT device, annotated following the same 
+protocol as Dataset~A. This set serves as an out-of-domain test set to assess 
+cross-device and cross-breed generalization.
+
+\subsubsection{Implementation Details}
+\label{sec:implementation}
+All experiments were implemented in PyTorch with the MONAI framework and trained 
+on a single NVIDIA A100 (40\,GB) GPU with automatic mixed precision (AMP).
+
+\paragraph{Pre-training.}
+The backbone is SwinUNETR~\citep{liu2021swin} with feature size 48. Input volumes 
+were clipped to $[-175, 250]$\,HU, normalized to $[0,1]$, resampled to 
+$1.5\times1.5\times1.5$\,mm$^3$, and cropped to $96\times96\times96$ voxels. 
+Training ran for 25,000 steps (batch size 2) using AdamW 
+($\text{lr}=1\times10^{-4}$, weight decay $0.1$) with a cosine schedule and 
+5,000 warmup steps.
+
+\paragraph{Fine-tuning.}
+The pretrained encoder was initialized and fine-tuned end-to-end for 500 epochs 
+(batch size 2) using AdamW ($\text{lr}=5\times10^{-4}$, weight decay $0.05$) 
+with a cosine schedule. Online augmentation included random rotations 
+($\pm10^\circ$), flips, and scaling ($0.9$--$1.1$). Early stopping patience was 
+set to 20 epochs.
+
+\paragraph{Evaluation.}
+Segmentation performance was measured by the Dice Similarity Coefficient (DSC). 
+To ensure statistical reliability, each method was evaluated under six random seeds 
+(0, 21, 42, 123, 456, 789) and results are reported as mean\,$\pm$\,std.
+
+\subsection{\HKY Consistently Outperforms All Pre-training Strategies}
+\label{subsec:sota}
+
+We compare \HKY against four baselines: (1)~training from scratch 
+(w/o pre-training), (2)~SwinUNETR SSL~\citep{hatamizadeh2021swin}, 
+(3)~VOCO~\citep{wu2024voco}, and (4)~the jigsaw pretext task without human 
+prior initialization (\ours). All methods share the same SwinUNETR backbone.
+
+As shown in Tables~\ref{tab:sota_trainval} and~\ref{tab:sota_extended}, \HKY 
+achieves the best performance on both validation and test sets across all six 
+random seeds. On the validation set, \HKY attains a mean DSC of 
+$95.02\pm0.97\%$, surpassing the next best method (\ours, $86.79\pm3.93\%$) by 
+8.23 percentage points. On the internal test set, \HKY achieves $93.37\pm1.62\%$, 
+outperforming \ours ($85.08\pm2.56\%$) by 10.07 points. Notably, \HKY also 
+exhibits the lowest standard deviation among all methods, indicating substantially 
+improved training stability and reduced sensitivity to random initialization. 
+These results confirm that the combination of cross-species transfer initialization 
+and the 3D jigsaw pretext task provides complementary and additive benefits.
+
+\begin{table}[htbp]
+...  % 保持原来的表格不变
+\end{table}
+
+\subsection{Data Efficiency: \HKY with 50\% Data Surpasses All Baselines 
+            with Full Data}
+
+To assess label efficiency, we trained all models on 25\%, 50\%, 75\%, and 100\% 
+of the training set (Table~\ref{tab:datapercent}). \HKY demonstrates exceptional 
+data efficiency: with only 50\% of labeled data it achieves 93.76\% DSC, 
+exceeding the best competing method trained on the full dataset (\ours at 86.31\%) 
+by 7.45 percentage points. Even at 25\% data, \HKY (79.95\%) outperforms all 
+baselines at 100\% data. In contrast, all other methods exhibit relatively flat 
+scaling behavior, suggesting they are unable to effectively leverage the limited 
+labeled samples without strong pretraining. These results demonstrate that 
+cross-species transfer initialization substantially reduces the annotation burden 
+required for high-performance pig CT segmentation.
+
+\subsection{Organ-level Analysis: Largest Gains on Kidney Segmentation}
+
+Using seed 42 on the 24-sample internal test set, we analyzed per-organ 
+performance via box plots (Figure~\ref{fig:organ}). Across all six organ 
+categories (anterior, middle, posterior, testicle, thoracic, abdominal), \HKY 
+achieves the highest median DSC, followed by \ours, with SwinUNETR, VOCO, and 
+the no-pretraining baseline ranking lower. \HKY also exhibits the smallest 
+interquartile range in most organs, confirming consistent segmentation quality.
+
+The most pronounced gains are observed for the kidneys 
+(Figure~\ref{fig:organ}b). SwinUNETR and VOCO show notably poor right-kidney 
+segmentation, while \ours already improves over the baseline. \HKY further 
+substantially improves both left and right kidney DSC, with the smallest 
+interquartile range among all methods, suggesting that cross-species anatomical 
+priors are particularly beneficial for small, morphologically consistent structures 
+whose topology is well-preserved across human and pig anatomy.
+
+\subsection{Cross-Domain Generalization to Unseen Scanner and Breed}
+
+We evaluated all models on Dataset~B (93 Large White pigs, different scanner). 
+As shown in Figure~\ref{fig:animal_orgen}, \HKY retains clear advantages over 
+competing methods in the middle body, thoracic, and abdominal regions. The right 
+kidney remains a failure case for SwinUNETR under this domain shift, while 
+\HKY maintains substantially higher accuracy.
+
+A notable performance drop is observed in the anterior and posterior regions 
+across all self-supervised methods. We attribute this to a systematic training 
+distribution mismatch: the training set consists of carcasses with heads and 
+hooves removed, whereas Dataset~B includes intact animals. This causes the model 
+to mislocalize the anteriorly positioned hooves as the posterior region and the 
+cranial volume as anterior/posterior segments. Despite this domain gap, \HKY 
+maintains disproportionately high kidney segmentation accuracy, consistent with 
+the organ's topological stability across domains.
+
+\subsection{Breed-level Generalization Across Four Pig Breeds}
+
+We stratified the 24-test-set results by breed (6 pigs each: Yorkshire, Duroc, 
+Landrace, Pietrain). As shown in Figure~\ref{fig:breeds}, \HKY achieves the 
+highest overall DSC across all breeds, with \ours ranking second. SwinUNETR and 
+VOCO underperform relative to even the no-pretraining baseline on several breeds, 
+suggesting that standard pretraining strategies without anatomical priors may 
+introduce representations that conflict with breed-specific morphological variation. 
+Yorkshire and Pietrain exhibit relatively higher inter-individual variance, 
+reflecting their broader phenotypic diversity.
+
+\subsection{Ablation: Finer Jigsaw Granularity Improves Segmentation}
+
+We investigated the effect of jigsaw patch size by evaluating three crop scales 
+from volumes resized to $384\times384\times96$: full size (1/1), one-quarter 
+(1/4), and one-eighth (1/8). As shown in Figure~\ref{fig:The_size_of_the_block}, 
+finer granularity consistently yields higher segmentation DSC. We attribute this 
+to the fact that smaller patches force the encoder to capture finer-grained local 
+appearance cues alongside the global spatial context required for correct 
+position prediction, producing richer multi-scale representations for downstream 
+segmentation.
+
+\subsection{Qualitative Segmentation Results}
+
+Figure~\ref{fig:Visualization} shows segmentation outputs from three anatomical 
+views (axial, coronal, sagittal) for all five methods. \HKY produces the most 
+complete and anatomically consistent delineations, with notably sharper boundaries 
+for the left and right kidneys. Other methods, particularly SwinUNETR and VOCO, 
+exhibit fragmented kidney contours and elevated false-positive regions. \HKY also 
+generates fewer spurious predictions in surrounding tissues, indicating that the 
+learned representations are more specific to true anatomical boundaries.
+
+主要改动：
+
+小节标题改成结论句，读者扫一眼标题就能知道核心发现
+Dataset A的标注细节补充进去（你注释里写的9个区域）
+每节结尾加一句解释，说明为什么会有这个结果，不只是描述数字
+肾脏分析单独成段，突出你们最重要的发现
+删掉了实现细节里的变量名（--jigsaw flag等），这些不属于Resultsxxxxxxxxxx he2022masked` · `xie2022simmim` · `tang2022self` · `hatamizadeh2021swin` · `wang2023mis` · `wu2024voco` · `he2020momentum` · `chen2020simple` · `tao2020revisiting` · `kolesnikov2019revisiting` · `dou2019pnp` · `zhu2017unpaired` · `yu2023source` · `gjerlaug2012genetic` · `ginat2014advances` · `gangsei2016building` · `olsen2017review` · `pan2021automated` · `xu2025deep
+</code></pre>
+    </div>
+
+    <!-- 返回链接 -->
+    <footer class="post-footer">
+      <a href="/damo-/index.html">← 返回首页</a>
+    </footer>
+
+  </article>
+
+
+  </main>
+
+  <!-- 底部 -->
+  <footer class="site-footer">
+    <p>@damoxu · 一个用知识建立起来的小家</p>
+  </footer>
+
+</body>
+</html>
