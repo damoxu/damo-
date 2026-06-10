@@ -106,6 +106,14 @@
     "type": "post"
   },
   {
+    "title": "CT图片查看器V2",
+    "date": "2026-06-10",
+    "tags": [],
+    "url": "/posts/CT图片查看器V2.html",
+    "body": "\n\n\n\n\nNIfTI Viewer\n\n* { box-sizing: border-box; margin: 0; padding: 0; }\nbody { font-family: system-ui, sans-serif; background: #1a1a1a; color: #e0e0e0; padding: 16px; min-width: 360px; }\nh1 { font-size: 15px; font-weight: 500; margin-bottom: 14px; color: #fff; letter-spacing: .3px; }\n\n/* upload zone */\n.upload-zone { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }\n.upload-card { background: #242424; border: 1.5px dashed #444; border-radius: 9px; padding: 12px 10p",
+    "type": "post"
+  },
+  {
     "title": "基本项目",
     "desc": "未归类的文章都在这里",
     "url": "/works/basic.html",
