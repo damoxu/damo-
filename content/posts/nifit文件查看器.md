@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NIfTI Viewer</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: system-ui, sans-serif; background: #1a1a1a; color: #e0e0e0; padding: 16px; }
+  h1 { font-size: 16px; font-weight: 500; margin-bottom: 14px; color: #fff; }
+  .controls { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+  .ctrl-box { background: #2a2a2a; border-radius: 8px; padding: 10px 14px; }
+  .ctrl-box label { font-size: 11px; color: #888; display: block; margin-bottom: 5px; }
+  .ctrl-row { display: flex; align-items: center; gap: 8px; }
+  input[type=range] { flex: 1; accent-color: #5b9bd5; }
+  input[type=number] { width: 68px; background: #1a1a1a; border: 1px solid #444; border-radius: 5px;
+    color: #e0e0e0; font-size: 13px; font-weight: 500; padding: 3px 6px; text-align: center; }
+  .presets { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+  .presets button { font-size: 12px; padding: 4px 12px; background: #2a2a2a; border: 1px solid #444;
+    border-radius: 5px; color: #ccc; cursor: pointer; }
+  .presets button:hover { background: #3a3a3a; color: #fff; }
+  .axis-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; margin-bottom: 10px; }
+  .axis-bar button { font-size: 12px; padding: 6px; background: #2a2a2a; border: 1px solid #444;
+    border-radius: 5px; color: #aaa; cursor: pointer; }
+  .axis-bar button.active { background: #1a3a5c; border-color: #5b9bd5; color: #5b9bd5; }
+  .slice-row { background: #2a2a2a; border-radius: 8px; padding: 10px 14px; margin-bottom: 12px; }
+  .slice-row label { font-size: 11px; color: #888; }
+  .slice-info { display: flex; justify-content: space-between; margin-bottom: 5px; }
+  .slice-info span { font-size: 13px; font-weight: 500; }
+  .total-row { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; }
+  .total-row span { font-size: 12px; color: #888; }
+  .total-row div { display: flex; align-items: center; gap: 6px; }
+  .apply-btn { font-size: 12px; padding: 4px 10px; background: #333; border: 1px solid #555;
+    border-radius: 5px; color: #ccc; cursor: pointer; }
+  .apply-btn:hover { background: #3a3a3a; }
+  .viewer-wrap { position: relative; background: #000; border-radius: 10px; overflow: hidden;
+    max-width: 420px; margin: 0 auto 10px; aspect-ratio: 1; }
+  #viewer { width: 100%; height: 100%; display: block; image-rendering: pixelated; }
+  .overlay-tl { position: absolute; top: 8px; left: 10px; font-size: 11px; color: #aaa; font-family: monospace; }
+  .overlay-tr { position: absolute; top: 8px; right: 10px; font-size: 11px; color: #777; font-family: monospace; }
+  .overlay-bl { position: absolute; bottom: 8px; left: 10px; font-size: 11px; color: #aaa; font-family: monospace; }
+  .upload-row { text-align: center; margin-top: 10px; }
+  .upload-label { display: inline-block; cursor: pointer; font-size: 13px; padding: 7px 20px;
+    background: #2a2a2a; border: 1px solid #555; border-radius: 6px; color: #ccc; }
+  .upload-label:hover { background: #3a3a3a; color: #fff; }
+  #status { font-size: 12px; color: #5b9bd5; margin-top: 8px; text-align: center; min-height: 18px; line-height: 1.5; }
+  #status.error { color: #e06060; }
+  .footer { text-align: center; font-size: 11px; color: #444; margin-top: 8px; }
+  @media(max-width:500px){ .controls{ grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+<h1>NIfTI Viewer</h1>
+
+<div class="controls">
+  <div class="ctrl-box">
+    <label>窗宽 WW</label>
+    <div class="ctrl-row">
+      <input type="range" id="ww" min="1" max="4000" value="400" step="1">
+      <input type="number" id="ww-num" min="1" max="4000" value="400">
+    </div>
+  </div>
+  <div class="ctrl-box">
+    <label>窗位 WL</label>
+    <div class="ctrl-row">
+      <input type="range" id="wl" min="-1000" max="3000" value="40" step="1">
+      <input type="number" id="wl-num" min="-1000" max="3000" value="40">
+    </div>
+  </div>
+</div>
+
+<div class="presets">
+  <button onclick="setPreset(400,40)">软组织</button>
+  <button onclick="setPreset(1500,-600)">肺窗</button>
+  <button onclick="setPreset(2500,480)">骨窗</button>
+  <button onclick="setPreset(80,40)">脑窗</button>
+  <button onclick="setPreset(350,60)">腹部</button>
+</div>
+
+<div class="axis-bar">
+  <button id="btn-axial" class="active" onclick="setAxis('axial')">轴状位</button>
+  <button id="btn-coronal" onclick="setAxis('coronal')">冠状位</button>
+  <button id="btn-sagittal" onclick="setAxis('sagittal')">矢状位</button>
+</div>
+
+<div class="slice-row">
+  <div class="slice-info">
+    <label>切片</label>
+    <span id="slice-label">33 / 64</span>
+  </div>
+  <input type="range" id="slice" min="0" max="63" value="32" step="1" style="width:100%;accent-color:#5b9bd5">
+  <div class="total-row">
+    <span>总切片数（演示）</span>
+    <div>
+      <input type="number" id="total-slices" min="8" max="512" value="64" step="1">
+      <button class="apply-btn" onclick="applySliceCount()">应用</button>
+    </div>
+  </div>
+</div>
+
+<div class="viewer-wrap">
+  <canvas id="viewer"></canvas>
+  <div class="overlay-tl" id="ww-label">WW:400  WL:40</div>
+  <div class="overlay-tr" id="axis-label">Axial</div>
+  <div class="overlay-bl" id="pos-label">S:33</div>
+</div>
+
+<div class="upload-row">
+  <label class="upload-label" for="nii-upload">↑ 上传 .nii / .nii.gz</label>
+  <input type="file" id="nii-upload" accept=".nii,.gz,.nii.gz" style="display:none" onchange="handleUpload(this)">
+</div>
+<div id="status"></div>
+<div class="footer" id="footer-note">演示用合成幻影数据</div>
+
+<script>
+// ─── 状态 ─────────────────────────────────────────────────────────
+const state = { ww:400, wl:40, slice:32, total:64, axis:'axial' };
+let volumeData = null;
+let volDims = [64,64,64];
+const SZ = 512;
+const canvas = document.getElementById('viewer');
+const ctx = canvas.getContext('2d');
+canvas.width = SZ; canvas.height = SZ;
+
+// ─── 合成幻影 ──────────────────────────────────────────────────────
+function makeSyntheticVolume(nx,ny,nz){
+  const vol=new Float32Array(nx*ny*nz);
+  const cx=nx/2,cy=ny/2,cz=nz/2;
+  for(let z=0;z<nz;z++) for(let y=0;y<ny;y++) for(let x=0;x<nx;x++){
+    const dx=x-cx,dy=y-cy,dz=(z-cz)*(nz/nx);
+    const d=Math.sqrt(dx*dx+dy*dy+dz*dz);
+    let v=-1000;
+    if(d<nx*0.42)v=-600;
+    if(d<nx*0.38)v=50;
+    if(d<nx*0.26)v=40;
+    if(d<nx*0.16){const a=Math.atan2(dy,dx);v=40+(Math.sin(a*3+z*.25)*.5+.5)*100;}
+    if(Math.abs(d-nx*0.38)<nx*0.035){const n=Math.sin(x*.7)*Math.cos(y*.6)*Math.sin(z*.5);v=900+n*250;}
+    const ex=x-(cx+nx*.15),ey=y-(cy-ny*.1),ez=z-(cz+nz*.05);
+    if(Math.sqrt(ex*ex+ey*ey+ez*ez)<nx*.06)v=200;
+    vol[z*nx*ny+y*nx+x]=v+(Math.random()-.5)*8;
+  }
+  return vol;
+}
+function resetVolume(nz){
+  volDims=[64,64,nz]; volumeData=makeSyntheticVolume(64,64,nz);
+}
+resetVolume(64);
+
+// ─── 切片提取 ─────────────────────────────────────────────────────
+function getSlice(axis,idx){
+  const [nx,ny,nz]=volDims;
+  if(axis==='axial'){
+    const zi=Math.min(idx,nz-1),w=nx,h=ny,data=new Float32Array(w*h);
+    for(let y=0;y<ny;y++) for(let x=0;x<nx;x++) data[y*w+x]=volumeData[zi*nx*ny+y*nx+x];
+    return{w,h,data};
+  } else if(axis==='coronal'){
+    const yi=Math.min(idx,ny-1),w=nx,h=nz,data=new Float32Array(w*h);
+    for(let z=0;z<nz;z++) for(let x=0;x<nx;x++) data[z*w+x]=volumeData[z*nx*ny+yi*nx+x];
+    return{w,h,data};
+  } else {
+    const xi=Math.min(idx,nx-1),w=ny,h=nz,data=new Float32Array(w*h);
+    for(let z=0;z<nz;z++) for(let y=0;y<ny;y++) data[z*w+y]=volumeData[z*nx*ny+y*nx+xi];
+    return{w,h,data};
+  }
+}
+
+// ─── 窗函数 & 渲染 ────────────────────────────────────────────────
+function applyWindow(v,ww,wl){
+  const lo=wl-ww/2,hi=wl+ww/2;
+  return v<=lo?0:v>=hi?255:Math.round((v-lo)/ww*255);
+}
+function render(){
+  const{ww,wl,slice,axis}=state;
+  const{w,h,data}=getSlice(axis,slice);
+  const img=ctx.createImageData(SZ,SZ);
+  const scx=SZ/w,scy=SZ/h;
+  for(let py=0;py<SZ;py++){
+    for(let px=0;px<SZ;px++){
+      const sx=Math.min(Math.floor(px/scx),w-1);
+      const sy=Math.min(Math.floor(py/scy),h-1);
+      const g=applyWindow(data[sy*w+sx],ww,wl);
+      const i=(py*SZ+px)*4;
+      img.data[i]=g;img.data[i+1]=g;img.data[i+2]=g;img.data[i+3]=255;
+    }
+  }
+  ctx.putImageData(img,0,0);
+  const max=getAxisMax(axis);
+  document.getElementById('ww-label').textContent=`WW:${ww}  WL:${wl}`;
+  document.getElementById('slice-label').textContent=`${slice+1} / ${max}`;
+  document.getElementById('pos-label').textContent=`S:${slice+1}`;
+  document.getElementById('axis-label').textContent={axial:'Axial',coronal:'Coronal',sagittal:'Sagittal'}[axis];
+}
+function getAxisMax(a){return a==='axial'?volDims[2]:a==='coronal'?volDims[1]:volDims[0];}
+
+// ─── UI 控件 ──────────────────────────────────────────────────────
+function syncSlider(){
+  const max=getAxisMax(state.axis)-1;
+  const sl=document.getElementById('slice');
+  sl.max=max;
+  if(state.slice>max)state.slice=Math.floor(max/2);
+  sl.value=state.slice;
+}
+function setAxis(axis){
+  state.axis=axis;
+  ['axial','coronal','sagittal'].forEach(a=>
+    document.getElementById('btn-'+a).classList.toggle('active',a===axis));
+  syncSlider(); render();
+}
+function setPreset(ww,wl){
+  state.ww=ww;state.wl=wl;
+  document.getElementById('ww').value=ww; document.getElementById('wl').value=wl;
+  document.getElementById('ww-num').value=ww; document.getElementById('wl-num').value=wl;
+  render();
+}
+function applySliceCount(){
+  const n=parseInt(document.getElementById('total-slices').value)||64;
+  resetVolume(n); state.slice=Math.floor(n/2); syncSlider(); render();
+}
+function bindPair(sid,nid,key){
+  const sl=document.getElementById(sid),num=document.getElementById(nid);
+  sl.addEventListener('input',()=>{state[key]=parseInt(sl.value);num.value=sl.value;render();});
+  num.addEventListener('change',()=>{
+    const v=Math.max(parseInt(num.min),Math.min(parseInt(num.max),parseInt(num.value)));
+    state[key]=v;sl.value=v;num.value=v;render();
+  });
+}
+bindPair('ww','ww-num','ww'); bindPair('wl','wl-num','wl');
+document.getElementById('slice').addEventListener('input',e=>{state.slice=parseInt(e.target.value);render();});
+
+// ─── 自动窗宽窗位推断 ─────────────────────────────────────────────
+function autoWindow(vol){
+  // 采样 10000 点估算 P2/P98，避免遍历大体积数据耗时
+  const step=Math.max(1,Math.floor(vol.length/10000));
+  const s=[];
+  for(let i=0;i<vol.length;i+=step)s.push(vol[i]);
+  s.sort((a,b)=>a-b);
+  const p2=s[Math.floor(s.length*.02)],p98=s[Math.floor(s.length*.98)];
+  return{ww:Math.max(1,Math.round(p98-p2)),wl:Math.round((p2+p98)/2)};
+}
+
+// ─── 手动 NIfTI 解析（无依赖） ─────────────────────────────────────
+function parseNIfTI(buf){
+  // 支持 NIfTI-1（348字节头）和 NIfTI-2（540字节头）
+  const dv=new DataView(buf);
+  const sizeof_hdr=dv.getInt32(0,true);
+  const isNii2=(sizeof_hdr===540);
+  let le=true; // 先假设小端
+
+  // 检测字节序：NIfTI-1 sizeof_hdr 必须是 348
+  if(!isNii2 && sizeof_hdr!==348){
+    // 尝试大端
+    if(dv.getInt32(0,false)===348) le=false;
+    else throw new Error('无法识别的 NIfTI 格式（sizeof_hdr='+sizeof_hdr+'）');
+  }
+
+  let datatype,dims,pixdim,vox_offset,scl_slope,scl_inter;
+
+  if(!isNii2){
+    // NIfTI-1
+    datatype = dv.getInt16(70,le);
+    const ndim = dv.getInt16(40,le);
+    dims=[];
+    for(let i=0;i<=ndim&&i<=7;i++) dims.push(dv.getInt16(40+i*2,le));
+    pixdim=[];
+    for(let i=0;i<8;i++) pixdim.push(dv.getFloat32(76+i*4,le));
+    vox_offset = dv.getFloat32(108,le);
+    if(vox_offset<352) vox_offset=352;
+    scl_slope = dv.getFloat32(112,le);
+    scl_inter = dv.getFloat32(116,le);
+  } else {
+    // NIfTI-2
+    datatype = dv.getInt16(12,le);
+    const ndim = dv.getInt64?Number(dv.getBigInt64(16,le)):dv.getInt32(16,le);
+    dims=[ndim];
+    for(let i=1;i<=Math.min(ndim,7);i++) dims.push(Number(dv.getBigInt64(16+i*8,le)));
+    pixdim=[];
+    for(let i=0;i<8;i++) pixdim.push(dv.getFloat64(104+i*8,le));
+    vox_offset = Number(dv.getBigInt64(168,le));
+    scl_slope = dv.getFloat64(176,le);
+    scl_inter = dv.getFloat64(184,le);
+  }
+
+  const nx=dims[1]||1, ny=dims[2]||1, nz=dims[3]||1;
+  if(nx<1||ny<1||nz<1) throw new Error('无效的维度: '+nx+'×'+ny+'×'+nz);
+
+  const offset=Math.round(vox_offset);
+  const imgBuf=buf.slice(offset);
+
+  // 根据 datatype 构建 TypedArray
+  const typeMap={
+    2:Uint8Array, 4:Int16Array, 8:Int32Array,
+    16:Float32Array, 64:Float64Array,
+    256:Int8Array, 512:Uint16Array, 768:Uint32Array
+  };
+  const TypedArr=typeMap[datatype];
+  if(!TypedArr) throw new Error('不支持的 datatype: '+datatype);
+  const raw=new TypedArr(imgBuf,0,Math.min(nx*ny*nz,imgBuf.byteLength/TypedArr.BYTES_PER_ELEMENT));
+
+  // 应用缩放
+  const slope=(scl_slope===0||isNaN(scl_slope))?1:scl_slope;
+  const inter=isNaN(scl_inter)?0:scl_inter;
+  const vol=new Float32Array(nx*ny*nz);
+  for(let i=0;i<vol.length;i++) vol[i]=raw[i]*slope+inter;
+
+  return{vol,nx,ny,nz,pixdim,datatype};
+}
+
+// ─── gzip 解压 ────────────────────────────────────────────────────
+async function decompressGzip(buf){
+  try{
+    const ds=new DecompressionStream('gzip');
+    const writer=ds.writable.getWriter();
+    const reader=ds.readable.getReader();
+    writer.write(new Uint8Array(buf)); writer.close();
+    const chunks=[]; let total=0;
+    while(true){
+      const{done,value}=await reader.read();
+      if(done)break; chunks.push(value); total+=value.length;
+    }
+    const out=new Uint8Array(total); let off=0;
+    for(const c of chunks){out.set(c,off);off+=c.length;}
+    return out.buffer;
+  } catch(e){
+    throw new Error('gzip 解压失败: '+e.message);
+  }
+}
+
+// ─── 主上传处理 ───────────────────────────────────────────────────
+async function handleUpload(input){
+  const file=input.files[0]; if(!file) return;
+  const st=document.getElementById('status');
+  st.className=''; st.textContent='正在读取文件 ('+Math.round(file.size/1024)+'KB)...';
+  try{
+    let buf=await file.arrayBuffer();
+
+    // 判断是否 gzip（魔数 1f 8b）
+    const magic=new Uint8Array(buf,0,2);
+    if(magic[0]===0x1f&&magic[1]===0x8b){
+      st.textContent='正在解压 gzip...';
+      buf=await decompressGzip(buf);
+      st.textContent='解压完成，解析 NIfTI 头...';
+    }
+
+    const{vol,nx,ny,nz,datatype}=parseNIfTI(buf);
+
+    volumeData=vol; volDims=[nx,ny,nz];
+    state.slice=Math.floor(nz/2);
+    document.getElementById('total-slices').value=nz;
+    setAxis('axial');
+
+    const{ww,wl}=autoWindow(vol);
+    setPreset(ww,wl);
+
+    st.className='';
+    st.textContent=`已加载: ${nx}×${ny}×${nz}  datatype:${datatype}  WW:${ww} WL:${wl}`;
+    document.getElementById('footer-note').textContent='真实 NIfTI 数据';
+  } catch(e){
+    st.className='error';
+    st.textContent='解析失败: '+e.message;
+    console.error(e);
+  }
+  input.value='';
+}
+
+render();
+</script>
+</body>
+</html>
