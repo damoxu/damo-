@@ -56,6 +56,14 @@
     "type": "post"
   },
   {
+    "title": "上传笔记V2",
+    "date": "2026-06-12",
+    "tags": [],
+    "url": "/posts/上传笔记V2.html",
+    "body": "\n\n\n\n\n笔记板 · NoteBoard\n\n  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap');\n\n  :root {\n    --bg: #0f0f13;\n    --surface: #18181f;\n    --surface2: #22222c;\n    --border: #2e2e3a;\n    --accent: #7c6af7;\n    --accent2: #a78bfa;\n    --text: #e8e8f0;\n    --text-muted: #8888a0;\n    --green: #4ade80;\n    --red: #f87171;\n    --card-bg: #1c1c26;\n  }\n\n  * { box-sizing: border-box; margin: 0; padding: 0; }\n\n  body {\n    back",
+    "type": "post"
+  },
+  {
     "title": "resluts部分",
     "date": "2026-06-12",
     "tags": [],
