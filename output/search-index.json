@@ -1,7 +1,7 @@
 [
   {
     "title": "静态博客搭建笔记",
-    "date": "2026-06-11",
+    "date": "2026-06-12",
     "tags": [],
     "url": "/posts/静态博客搭建笔记.html",
     "body": "静态博客搭建笔记\n\n用 Python + Markdown 从零搭建个人博客，部署到 GitHub Pages\n\n\n项目结构\nmy-blog/\n├── content/              # 内容目录\n│   ├── posts/            # 文章（.md 文件）\n│   └── works/            # 作品集（.md 文件）\n├── templates/            # HTML 模板\n│   ├── base.html         # 公共骨架（导航、页脚）\n│   ├── index.html        # 首页\n│   ├── post.html         # 文章详情页\n│   ├── work.html         # 作品详情页\n│   ├── works.html        # 作品集列表页\n│   └── search.html       # 搜索页\n├── static/\n│   └── style.css         # 样式（现代卡片 + 米白蓝渐变）\n├── output/      ",
@@ -9,7 +9,7 @@
   },
   {
     "title": "爱心发射器",
-    "date": "2026-06-11",
+    "date": "2026-06-12",
     "tags": [],
     "url": "/posts/爱心发射器.html",
     "body": "\n\n\n  \n  \n  爱心搜索框\n  \n    * { margin: 0; padding: 0; box-sizing: border-box; }\n\n    body {\n      min-height: 100vh;\n      display: flex;\n      flex-direction: column;\n      align-items: center;\n      justify-content: center;\n      background: #fff0f5;\n      font-family: 'Microsoft YaHei', sans-serif;\n      overflow: hidden;\n    }\n\n    h1 {\n      font-size: 22px;\n      color: #e0406a;\n      margin-bottom: 28px;\n      letter-spacing: 2px;\n    }\n\n    .search-box {\n      display: flex;\n      align-ite",
@@ -17,7 +17,7 @@
   },
   {
     "title": "模板系统解析",
-    "date": "2026-06-11",
+    "date": "2026-06-12",
     "tags": [],
     "url": "/posts/模板系统解析.html",
     "body": "模板系统解析：Jinja2 模板\n\n模板决定了每个页面长什么样，数据由 build.py 填入。\n\n\n模板继承关系\nbase.html          ← 公共骨架（导航、页脚、head）\n    ├── index.html      首页\n    ├── post.html       文章详情页\n    ├── work.html       作品详情页\n    ├── works.html      作品集列表页\n    └── search.html     搜索页\n\n所有页面都继承自 base.html，只需要填写各自的内容区域。\n\nbase.html\n公共骨架，每个页面都有的部分：\n&lt;!DOCTYPE html&gt;\n&lt;html lang=&quot;zh-CN&quot;&gt;\n&lt;head&gt;\n  &lt;title&gt;{{ page_title }} - {{ blog_title }}&lt;/title&gt;\n  &lt;link rel=&quot;stylesheet&quot; href=&quot;{{ base_url ",
@@ -25,7 +25,7 @@
   },
   {
     "title": "文章relate_work部分",
-    "date": "2026-06-11",
+    "date": "2026-06-12",
     "tags": [],
     "url": "/posts/文章relate_work部分.html",
     "body": "2. Related Work\n2.1 Self-Supervised Pretraining in 3D Medical Imaging\n现有3D医学图像自监督预训练方法主要依赖掩码重建、对比学习或体积上下文预测任务。掩码图像建模方面，MAE~\\citep{he2022masked}提出随机掩码自编码器重建策略，成为视觉自监督的奠基性工作；SimMIM~\\citep{xie2022simmim}进一步简化了掩码重建流程，无需额外的tokenizer即可实现有效预训练。GMIM~\\citep{qi2024gmim}将自适应掩码建模引入3D医学图像，根据解剖结构动态调整掩码策略，提升了重建任务对组织边界的敏感性，但其仍局限于单域（人类CT）预训练，未建立跨物种迁移机制。\n3D医学图像预训练基础模型方面，MIS-FM~\\citep{wang2023mis}利用11万张无标注CT构建通用3D分割基础模型，展示了大规模自监督预训练的强大表征能力，但其预训练目标为通用重建，未显式编码解剖结构先验，且仅在人类数据上验证。Rubik's Cube+~\\citep{zhuang2020rubik}将3",
@@ -33,7 +33,7 @@
   },
   {
     "title": "搜素功能解析",
-    "date": "2026-06-11",
+    "date": "2026-06-12",
     "tags": [],
     "url": "/posts/搜素功能解析.html",
     "body": "搜索功能解析：纯前端搜索\n\n不需要后端，不需要数据库，全部在浏览器里完成。\n\n\n原理\n构建时\n  build.py 扫描所有文章和作品\n      ↓\n  生成 search-index.json\n  （包含每篇文章的标题、正文、标签、链接）\n\n用户搜索时\n  浏览器加载 search-index.json\n      ↓\n  用 JavaScript 过滤匹配的条目\n      ↓\n  实时显示结果，高亮关键词\n\n\nsearch-index.json 结构\n[\n  {\n    &quot;title&quot;: &quot;我的第一篇文章&quot;,\n    &quot;date&quot;: &quot;2024-01-01&quot;,\n    &quot;tags&quot;: [&quot;随笔&quot;, &quot;开始&quot;],\n    &quot;url&quot;: &quot;/posts/2024-01-hello-world.html&quot;,\n    &quot;body&quot;: &quot;这是正文的前500个字...&quot;,\n",
@@ -41,15 +41,23 @@
   },
   {
     "title": "学习部署静态网志之制作页面",
-    "date": "2026-06-11",
+    "date": "2026-06-12",
     "tags": [],
     "url": "/posts/学习部署静态网志之制作页面.html",
     "body": "静态网志项目完整指南\n适用场景：前端新手，使用 ```python + Markdown 生成纯静态博客，支持本地预览、自动构建、搜索功能，可一键部署到 GitHub Pages。\n\n一、项目结构\n\nmy-blog/\n├── content/               # 存放 Markdown 文章和作品\n│   ├── posts/\n│   │   └── 2024-01-hello-world.md\n│   └── works/\n│       └── project-one.md\n├── templates/             # HTML 模板\n│   ├── base.html\n│   ├── post.html\n│   ├── work.html\n│   ├── index.html\n│   └── search.html\n├── static/                # CSS 和图片\n│   └── style.css\n├── output/                # 构建后的成品（自动生成，不用手动改）\n├── build.py       ",
     "type": "post"
   },
   {
+    "title": "上传笔记的工具",
+    "date": "2026-06-12",
+    "tags": [],
+    "url": "/posts/上传笔记的工具.html",
+    "body": "\n\n\n\n\n笔记板 · NoteBoard\n\n  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap');\n\n  :root {\n    --bg: #0f0f13;\n    --surface: #18181f;\n    --surface2: #22222c;\n    --border: #2e2e3a;\n    --accent: #7c6af7;\n    --accent2: #a78bfa;\n    --text: #e8e8f0;\n    --text-muted: #8888a0;\n    --green: #4ade80;\n    --red: #f87171;\n    --card-bg: #1c1c26;\n  }\n\n  * { box-sizing: border-box; margin: 0; padding: 0; }\n\n  body {\n    back",
+    "type": "post"
+  },
+  {
     "title": "resluts部分",
-    "date": "2026-06-11",
+    "date": "2026-06-12",
     "tags": [],
     "url": "/posts/resluts部分.html",
     "body": "results\nlatex\\section{Experiments and Results}\\label{sec:experiments}\n\\subsection{Experimental Setup}\n\n\\subsubsection{Datasets}\nWe constructed a private porcine CT dataset comprising three components. \n(1)~\\textbf{Unlabeled pretraining data}: 3,084 CT scans collected from multiple \nfarms using an agricultural-grade CT scanner, with heads and forelimbs removed \nprior to acquisition. No manual annotation was required.\n(2)~\\textbf{Primary dataset (Dataset~A)}: 104 pigs from four breeds (Yorkshire, ",
@@ -57,7 +65,7 @@
   },
   {
     "title": "relate_work_v3",
-    "date": "2026-06-11",
+    "date": "2026-06-12",
     "tags": [],
     "url": "/posts/relate_work_v3.html",
     "body": "2. Related Work\n2.1 Self-Supervised Pretraining in 3D Medical Imaging\n自监督学习通过在无标注数据上构建代理任务来学习通用视觉表征，近年来已成为缓解医学图像标注瓶颈的重要手段。在三维医学图像领域，现有方法主要沿掩码图像建模、对比学习与空间上下文预测三条路线发展。\n掩码图像建模方面，He et al. \\citep{he2022masked} 提出了掩码自编码器（MAE），通过随机遮盖图像大面积区域并重建被掩码像素，证明了掩码重建是高度可扩展的视觉自监督范式。SimMIM \\citep{xie2022simmim} 进一步简化了这一框架，无需额外的 tokenizer 即可实现有效预训练。然而，上述方法的预训练目标均为低层次的像素级重建，对解剖组织边界等高层语义不敏感，且最初面向二维自然图像设计，直接推广至三维医学体积数据时未考虑器官的空间刚性约束。\n面向三维医学图像，Tang et al. \\citep{tang2022self} 将掩码建模引入 Swin Transformer，预训练的 SwinUNETR \\cit",
@@ -65,7 +73,7 @@
   },
   {
     "title": "relate_work_v2",
-    "date": "2026-06-11",
+    "date": "2026-06-12",
     "tags": [],
     "url": "/posts/relate_work_v2.html",
     "body": "2. Related Work\n2.1 三维医学图像的自监督预训练方法\n自监督学习通过从无标注数据中构建代理任务来学习通用视觉表征，近年来在医学图像分析领域受到广泛关注~\\citep{rani2023self}。在三维医学图像领域，主流自监督范式包括掩码图像建模、对比学习和空间上下文预测。\n掩码图像建模方面，He et al.~\\citep{he2022masked} 提出了掩码自编码器（MAE），通过随机掩码图像的大面积区域并重建被掩码像素，证明了掩码重建是一种高度可扩展的视觉自监督范式，成为后续方法的重要基础。SimMIM~\\citep{xie2022simmim} 在此基础上进一步简化了掩码重建流程，无需额外的 tokenizer 或非对称编码器-解码器结构即可实现有效预训练，降低了方法复杂度。然而，这两种方法的预训练目标均为低层次的像素级重建，难以显式编码解剖结构的高层语义，且最初设计面向自然二维图像，推广至三维医学体积图像时未考虑器官的空间刚性约束。\n面向三维医学图像，Tang et al.~\\citep{tang2022self} 将掩码图像建模引入 Swin Transf",
@@ -73,7 +81,7 @@
   },
   {
     "title": "project归一化",
-    "date": "2026-06-11",
+    "date": "2026-06-12",
     "tags": [],
     "url": "/posts/project归一化.html",
     "body": "作品集里面可不可以有很多文章?\n可以，作品集里的每个作品本身就是一篇 .md 文件，可以写很长的内容。\n情况一：一个作品下面挂多篇文章 比如\"静态博客项目\"这个作品，下面有\"build.py解析\"、\"模板解析\"、\"部署解析\"几篇子文章。\n情况二：作品集页面像文章列表一样，显示很多条目 现在已经支持了，content/works/ 里有几个 .md 就显示几个卡片。\n情况三：文章可以归属到某个作品/项目下 比如给文章加一个 project: 静态博客 字段，首页按项目分组显示。\n明白了，你是说一篇文章可以同时属于某个作品，比如：\n作品：静态博客项目\n  └── build.py 解析\n  └── 模板系统解析\n  └── 搜索功能解析\n\n想在作品页里能看到相关文章列表，文章页也能看到\"所属项目\"。\n实现方式是给文章加一个 project 字段：\nmarkdown\ntitle: build.py 解析\ndate: 2026-06-03\ntags: 技术\nproject: 静态博客项目    ← 加这一行\n\n然后 build.py 收集文章时把这个字段读出来，作品页模板里过滤出相关文章显示。",
@@ -81,7 +89,7 @@
   },
   {
     "title": "nifit文件查看器",
-    "date": "2026-06-11",
+    "date": "2026-06-12",
     "tags": [],
     "url": "/posts/nifit文件查看器.html",
     "body": "\n\n\n\n\nNIfTI Viewer\n\n  * { box-sizing: border-box; margin: 0; padding: 0; }\n  body { font-family: system-ui, sans-serif; background: #1a1a1a; color: #e0e0e0; padding: 16px; }\n  h1 { font-size: 16px; font-weight: 500; margin-bottom: 14px; color: #fff; }\n  .controls { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }\n  .ctrl-box { background: #2a2a2a; border-radius: 8px; padding: 10px 14px; }\n  .ctrl-box label { font-size: 11px; color: #888; display: block; margin-bott",
@@ -89,7 +97,7 @@
   },
   {
     "title": "github_atention解析",
-    "date": "2026-06-11",
+    "date": "2026-06-12",
     "tags": [],
     "url": "/posts/github_atention解析.html",
     "body": "搜索功能解析：纯前端搜索\n\n不需要后端，不需要数据库，全部在浏览器里完成。\n\n\n原理\n构建时\n  build.py 扫描所有文章和作品\n      ↓\n  生成 search-index.json\n  （包含每篇文章的标题、正文、标签、链接）\n\n用户搜索时\n  浏览器加载 search-index.json\n      ↓\n  用 JavaScript 过滤匹配的条目\n      ↓\n  实时显示结果，高亮关键词\n\n\nsearch-index.json 结构\n[\n  {\n    &quot;title&quot;: &quot;我的第一篇文章&quot;,\n    &quot;date&quot;: &quot;2024-01-01&quot;,\n    &quot;tags&quot;: [&quot;随笔&quot;, &quot;开始&quot;],\n    &quot;url&quot;: &quot;/posts/2024-01-hello-world.html&quot;,\n    &quot;body&quot;: &quot;这是正文的前500个字...&quot;,\n",
@@ -97,7 +105,7 @@
   },
   {
     "title": "build解析",
-    "date": "2026-06-11",
+    "date": "2026-06-12",
     "tags": [
       "技术"
     ],
@@ -107,7 +115,7 @@
   },
   {
     "title": "bserve解析",
-    "date": "2026-06-11",
+    "date": "2026-06-12",
     "tags": [],
     "url": "/posts/bserve解析.html",
     "body": "serve.py 解析：本地预览服务器\n\n改完文章不用每次手动下载文件，直接在浏览器里看效果。\n\n\n使用方法\npython serve.py\n# 然后打开浏览器访问 http://localhost:8000\n\n修改 content/、templates/、static/ 里的任何文件，会自动重新构建，刷新浏览器即可看到最新效果。\n按 Ctrl + C 停止服务器。\n\n它做了什么\n启动时\n  ↓\n先构建一次，确保 output/ 是最新的\n  ↓\n启动后台线程：每隔 1 秒扫描文件变化\n  ↓\n启动 HTTP 服务器，提供 output/ 里的文件\n  ↓\n浏览器访问 http://localhost:8000 → 看到博客\n\n\n文件结构\n# 1. 配置\n#    PORT = 8000\n#    WATCH_DIRS = [&quot;content&quot;, &quot;templates&quot;, &quot;static&quot;]\n#    CHECK_INTERVAL = 1  # 每秒检查一次\n\n# 2. 文件变化检测\n#    get_all_files_wi",
@@ -115,7 +123,7 @@
   },
   {
     "title": "CT图片查看器V2",
-    "date": "2026-06-11",
+    "date": "2026-06-12",
     "tags": [],
     "url": "/posts/CT图片查看器V2.html",
     "body": "\n\n\n\n\nNIfTI Viewer\n\n* { box-sizing: border-box; margin: 0; padding: 0; }\nbody { font-family: system-ui, sans-serif; background: #1a1a1a; color: #e0e0e0; padding: 16px; min-width: 360px; }\nh1 { font-size: 15px; font-weight: 500; margin-bottom: 14px; color: #fff; letter-spacing: .3px; }\n\n/* upload zone */\n.upload-zone { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }\n.upload-card { background: #242424; border: 1.5px dashed #444; border-radius: 9px; padding: 12px 10p",
