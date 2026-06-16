@@ -1,0 +1,2200 @@
+<!-- 继承 base.html，只需要填 content 块 -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- 页面标题：子模板可以覆盖 page_title 这个变量 -->
+  <title>ps自查 - 我的博客</title>
+
+  <link rel="stylesheet" href="/damo-/static/style.css">
+</head>
+
+<body>
+
+  <!-- 顶部导航：每个页面都一样 -->
+  <header class="site-header">
+    <a href="/damo-/index.html" class="site-title">我的博客</a>
+    <a href="/damo-/index.html">首页</a>
+    <a href="/damo-/works/">作品集</a>
+    <a href="/damo-/search.html">搜索</a>
+    </nav>
+  </header>
+
+  <!-- 主体内容：由子模板填充 -->
+  <main class="site-main">
+    
+
+  <article class="post">
+
+    <!-- 文章头部：标题、日期、标签 -->
+    <header class="post-header">
+      <h1 class="post-title">ps自查</h1>
+      <div class="post-meta">
+        <span class="post-date">2026-06-16</span>
+        
+        
+          <a href="/damo-/works/" class="post-project">
+            📁 基本项目
+          </a>
+        
+      </div>
+    </header>
+
+    <!-- 文章正文：Markdown 已转成 HTML，用 safe 告诉 Jinja2 不要转义 -->
+    <div class="post-body">
+      <p>projiect : 基本项目</p>
+<h1>Photoshop 技术自查表（含快捷键）</h1>
+<blockquote>
+<p>适用对象：Photoshop 学习、考核、岗位技能自查
+ 自查方式：逐项操作验证，并在“掌握情况”栏填写：熟练 / 基本掌握 / 不会 / 需复习
+ 说明：不同 Photoshop 版本、语言包、工作区或自定义快捷键可能略有差异，最终以本机「编辑 &gt; 键盘快捷键」导出的快捷键为准。</p>
+</blockquote>
+<hr />
+<h2>一、基础操作自查</h2>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>技术模块</th>
+<th>自查内容</th>
+<th>达标要求</th>
+<th>Windows 快捷键</th>
+<th>macOS 快捷键</th>
+<th>掌握情况</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>文件操作</td>
+<td>新建文档</td>
+<td>能按要求设置尺寸、分辨率、颜色模式</td>
+<td>Ctrl + N</td>
+<td>Cmd + N</td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>文件操作</td>
+<td>打开文件</td>
+<td>能打开 PSD、JPG、PNG 等文件</td>
+<td>Ctrl + O</td>
+<td>Cmd + O</td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>文件操作</td>
+<td>关闭文件</td>
+<td>能正确关闭当前文档</td>
+<td>Ctrl + W</td>
+<td>Cmd + W</td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td>文件操作</td>
+<td>保存文件</td>
+<td>能保存当前文件</td>
+<td>Ctrl + S</td>
+<td>Cmd + S</td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td>文件操作</td>
+<td>另存为</td>
+<td>能另存 PSD、JPG、PNG 等格式</td>
+<td>Ctrl + Shift + S</td>
+<td>Cmd + Shift + S</td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td>文件操作</td>
+<td>打印</td>
+<td>能进入打印设置</td>
+<td>Ctrl + P</td>
+<td>Cmd + P</td>
+<td></td>
+</tr>
+<tr>
+<td>7</td>
+<td>文件操作</td>
+<td>退出软件</td>
+<td>能正常退出 Photoshop</td>
+<td>Ctrl + Q</td>
+<td>Cmd + Q</td>
+<td></td>
+</tr>
+<tr>
+<td>8</td>
+<td>设置操作</td>
+<td>打开首选项</td>
+<td>能调整单位、性能、界面等设置</td>
+<td>Ctrl + K</td>
+<td>Cmd + K</td>
+<td></td>
+</tr>
+<tr>
+<td>9</td>
+<td>快捷键管理</td>
+<td>打开键盘快捷键设置</td>
+<td>能查看、修改、保存快捷键</td>
+<td>Ctrl + Alt + Shift + K</td>
+<td>Cmd + Option + Shift + K</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>二、工具箱快捷键自查</h2>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>工具名称</th>
+<th>自查内容</th>
+<th>Windows 快捷键</th>
+<th>macOS 快捷键</th>
+<th>掌握情况</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>移动工具</td>
+<td>移动图层、选区或对象</td>
+<td>V</td>
+<td>V</td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>矩形选框 / 椭圆选框工具</td>
+<td>创建规则选区</td>
+<td>M</td>
+<td>M</td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>套索工具组</td>
+<td>创建自由或多边形选区</td>
+<td>L</td>
+<td>L</td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td>对象选择 / 快速选择 / 魔棒工具</td>
+<td>按对象或颜色建立选区</td>
+<td>W</td>
+<td>W</td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td>裁剪工具组</td>
+<td>裁剪画面、拉直图像</td>
+<td>C</td>
+<td>C</td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td>吸管工具组</td>
+<td>取样颜色、读取信息</td>
+<td>I</td>
+<td>I</td>
+<td></td>
+</tr>
+<tr>
+<td>7</td>
+<td>修复画笔工具组</td>
+<td>去瑕疵、修补皮肤或背景</td>
+<td>J</td>
+<td>J</td>
+<td></td>
+</tr>
+<tr>
+<td>8</td>
+<td>画笔工具组</td>
+<td>绘制、上色、蒙版涂抹</td>
+<td>B</td>
+<td>B</td>
+<td></td>
+</tr>
+<tr>
+<td>9</td>
+<td>仿制图章工具组</td>
+<td>复制图像纹理或内容</td>
+<td>S</td>
+<td>S</td>
+<td></td>
+</tr>
+<tr>
+<td>10</td>
+<td>历史记录画笔工具组</td>
+<td>恢复局部历史状态</td>
+<td>Y</td>
+<td>Y</td>
+<td></td>
+</tr>
+<tr>
+<td>11</td>
+<td>橡皮擦工具组</td>
+<td>擦除像素或背景</td>
+<td>E</td>
+<td>E</td>
+<td></td>
+</tr>
+<tr>
+<td>12</td>
+<td>渐变 / 油漆桶工具</td>
+<td>填充渐变或颜色</td>
+<td>G</td>
+<td>G</td>
+<td></td>
+</tr>
+<tr>
+<td>13</td>
+<td>减淡 / 加深 / 海绵工具</td>
+<td>调整局部明暗与饱和度</td>
+<td>O</td>
+<td>O</td>
+<td></td>
+</tr>
+<tr>
+<td>14</td>
+<td>钢笔工具组</td>
+<td>创建路径、抠图路径</td>
+<td>P</td>
+<td>P</td>
+<td></td>
+</tr>
+<tr>
+<td>15</td>
+<td>文字工具组</td>
+<td>添加横排或竖排文字</td>
+<td>T</td>
+<td>T</td>
+<td></td>
+</tr>
+<tr>
+<td>16</td>
+<td>路径选择 / 直接选择工具</td>
+<td>选择路径或锚点</td>
+<td>A</td>
+<td>A</td>
+<td></td>
+</tr>
+<tr>
+<td>17</td>
+<td>形状工具组</td>
+<td>绘制矩形、圆形、自定形状</td>
+<td>U</td>
+<td>U</td>
+<td></td>
+</tr>
+<tr>
+<td>18</td>
+<td>抓手工具</td>
+<td>拖动画布视图</td>
+<td>H</td>
+<td>H</td>
+<td></td>
+</tr>
+<tr>
+<td>19</td>
+<td>旋转视图工具</td>
+<td>临时旋转画布显示</td>
+<td>R</td>
+<td>R</td>
+<td></td>
+</tr>
+<tr>
+<td>20</td>
+<td>缩放工具</td>
+<td>放大或缩小视图</td>
+<td>Z</td>
+<td>Z</td>
+<td></td>
+</tr>
+<tr>
+<td>21</td>
+<td>默认前景色 / 背景色</td>
+<td>恢复黑白默认颜色</td>
+<td>D</td>
+<td>D</td>
+<td></td>
+</tr>
+<tr>
+<td>22</td>
+<td>交换前景色 / 背景色</td>
+<td>快速切换前景色与背景色</td>
+<td>X</td>
+<td>X</td>
+<td></td>
+</tr>
+<tr>
+<td>23</td>
+<td>快速蒙版模式</td>
+<td>进入或退出快速蒙版</td>
+<td>Q</td>
+<td>Q</td>
+<td></td>
+</tr>
+<tr>
+<td>24</td>
+<td>屏幕显示模式</td>
+<td>标准、全屏、带菜单全屏切换</td>
+<td>F</td>
+<td>F</td>
+<td></td>
+</tr>
+<tr>
+<td>25</td>
+<td>同组工具切换</td>
+<td>在同快捷键工具间切换</td>
+<td>Shift + 工具快捷键</td>
+<td>Shift + 工具快捷键</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>三、编辑与撤销快捷键自查</h2>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>功能</th>
+<th>自查内容</th>
+<th>Windows 快捷键</th>
+<th>macOS 快捷键</th>
+<th>掌握情况</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>撤销 / 重做</td>
+<td>能撤销或重做上一步操作</td>
+<td>Ctrl + Z</td>
+<td>Cmd + Z</td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>向前一步</td>
+<td>在历史记录中前进一步</td>
+<td>Ctrl + Shift + Z</td>
+<td>Cmd + Shift + Z</td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>向后一步</td>
+<td>在历史记录中后退一步</td>
+<td>Ctrl + Alt + Z</td>
+<td>Cmd + Option + Z</td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td>剪切</td>
+<td>剪切选中内容</td>
+<td>Ctrl + X</td>
+<td>Cmd + X</td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td>复制</td>
+<td>复制选中内容</td>
+<td>Ctrl + C</td>
+<td>Cmd + C</td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td>合并复制</td>
+<td>复制可见合成效果</td>
+<td>Ctrl + Shift + C</td>
+<td>Cmd + Shift + C</td>
+<td></td>
+</tr>
+<tr>
+<td>7</td>
+<td>粘贴</td>
+<td>粘贴内容</td>
+<td>Ctrl + V</td>
+<td>Cmd + V</td>
+<td></td>
+</tr>
+<tr>
+<td>8</td>
+<td>原位粘贴</td>
+<td>粘贴到原始位置</td>
+<td>Ctrl + Shift + V</td>
+<td>Cmd + Shift + V</td>
+<td></td>
+</tr>
+<tr>
+<td>9</td>
+<td>填充</td>
+<td>打开填充命令</td>
+<td>Shift + F5</td>
+<td>Shift + F5</td>
+<td></td>
+</tr>
+<tr>
+<td>10</td>
+<td>自由变换</td>
+<td>缩放、旋转、变形图像</td>
+<td>Ctrl + T</td>
+<td>Cmd + T</td>
+<td></td>
+</tr>
+<tr>
+<td>11</td>
+<td>再次变换</td>
+<td>重复上一次变换</td>
+<td>Ctrl + Shift + T</td>
+<td>Cmd + Shift + T</td>
+<td></td>
+</tr>
+<tr>
+<td>12</td>
+<td>复制并再次变换</td>
+<td>复制对象并重复变换</td>
+<td>Ctrl + Alt + Shift + T</td>
+<td>Cmd + Option + Shift + T</td>
+<td></td>
+</tr>
+<tr>
+<td>13</td>
+<td>内容识别填充</td>
+<td>对选区进行智能填充</td>
+<td>Shift + F5 后选择内容识别</td>
+<td>Shift + F5 后选择内容识别</td>
+<td></td>
+</tr>
+<tr>
+<td>14</td>
+<td>淡化上一步操作</td>
+<td>调整上一步命令效果</td>
+<td>Ctrl + Shift + F</td>
+<td>Cmd + Shift + F</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>四、选区快捷键自查</h2>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>功能</th>
+<th>自查内容</th>
+<th>Windows 快捷键</th>
+<th>macOS 快捷键</th>
+<th>掌握情况</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>全选</td>
+<td>选中整个画布</td>
+<td>Ctrl + A</td>
+<td>Cmd + A</td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>取消选择</td>
+<td>取消当前选区</td>
+<td>Ctrl + D</td>
+<td>Cmd + D</td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>重新选择</td>
+<td>恢复上一次选区</td>
+<td>Ctrl + Shift + D</td>
+<td>Cmd + Shift + D</td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td>反向选择</td>
+<td>选区与非选区互换</td>
+<td>Ctrl + Shift + I</td>
+<td>Cmd + Shift + I</td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td>羽化</td>
+<td>设置选区边缘柔化</td>
+<td>Shift + F6</td>
+<td>Shift + F6</td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td>选择并遮住</td>
+<td>进入抠图边缘优化界面</td>
+<td>Ctrl + Alt + R</td>
+<td>Cmd + Option + R</td>
+<td></td>
+</tr>
+<tr>
+<td>7</td>
+<td>添加到选区</td>
+<td>在原选区基础上增加范围</td>
+<td>Shift + 拖拽</td>
+<td>Shift + 拖拽</td>
+<td></td>
+</tr>
+<tr>
+<td>8</td>
+<td>从选区减去</td>
+<td>从原选区中减去范围</td>
+<td>Alt + 拖拽</td>
+<td>Option + 拖拽</td>
+<td></td>
+</tr>
+<tr>
+<td>9</td>
+<td>与选区交叉</td>
+<td>保留两个选区重叠部分</td>
+<td>Shift + Alt + 拖拽</td>
+<td>Shift + Option + 拖拽</td>
+<td></td>
+</tr>
+<tr>
+<td>10</td>
+<td>载入图层透明选区</td>
+<td>根据图层透明度建立选区</td>
+<td>Ctrl + 单击图层缩略图</td>
+<td>Cmd + 单击图层缩略图</td>
+<td></td>
+</tr>
+<tr>
+<td>11</td>
+<td>载入通道选区</td>
+<td>根据通道建立选区</td>
+<td>Ctrl + 单击通道缩略图</td>
+<td>Cmd + 单击通道缩略图</td>
+<td></td>
+</tr>
+<tr>
+<td>12</td>
+<td>移动选区内容</td>
+<td>选区内像素移动</td>
+<td>V 后拖拽</td>
+<td>V 后拖拽</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>五、图层快捷键自查</h2>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>功能</th>
+<th>自查内容</th>
+<th>Windows 快捷键</th>
+<th>macOS 快捷键</th>
+<th>掌握情况</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>新建图层</td>
+<td>创建空白图层</td>
+<td>Ctrl + Shift + N</td>
+<td>Cmd + Shift + N</td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>通过拷贝新建图层</td>
+<td>将选区复制到新图层</td>
+<td>Ctrl + J</td>
+<td>Cmd + J</td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>通过剪切新建图层</td>
+<td>将选区剪切到新图层</td>
+<td>Ctrl + Shift + J</td>
+<td>Cmd + Shift + J</td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td>编组图层</td>
+<td>将多个图层放入组</td>
+<td>Ctrl + G</td>
+<td>Cmd + G</td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td>取消编组</td>
+<td>解散图层组</td>
+<td>Ctrl + Shift + G</td>
+<td>Cmd + Shift + G</td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td>创建剪贴蒙版</td>
+<td>上层内容受下层形状限制</td>
+<td>Ctrl + Alt + G</td>
+<td>Cmd + Option + G</td>
+<td></td>
+</tr>
+<tr>
+<td>7</td>
+<td>向下合并图层</td>
+<td>合并当前图层与下方图层</td>
+<td>Ctrl + E</td>
+<td>Cmd + E</td>
+<td></td>
+</tr>
+<tr>
+<td>8</td>
+<td>合并可见图层</td>
+<td>合并所有可见图层</td>
+<td>Ctrl + Shift + E</td>
+<td>Cmd + Shift + E</td>
+<td></td>
+</tr>
+<tr>
+<td>9</td>
+<td>盖印可见图层</td>
+<td>保留原图层并生成合成图层</td>
+<td>Ctrl + Alt + Shift + E</td>
+<td>Cmd + Option + Shift + E</td>
+<td></td>
+</tr>
+<tr>
+<td>10</td>
+<td>图层置顶</td>
+<td>将图层移到最上方</td>
+<td>Ctrl + Shift + ]</td>
+<td>Cmd + Shift + ]</td>
+<td></td>
+</tr>
+<tr>
+<td>11</td>
+<td>图层上移一层</td>
+<td>将图层向上移动一层</td>
+<td>Ctrl + ]</td>
+<td>Cmd + ]</td>
+<td></td>
+</tr>
+<tr>
+<td>12</td>
+<td>图层下移一层</td>
+<td>将图层向下移动一层</td>
+<td>Ctrl + [</td>
+<td>Cmd + [</td>
+<td></td>
+</tr>
+<tr>
+<td>13</td>
+<td>图层置底</td>
+<td>将图层移到最下方</td>
+<td>Ctrl + Shift + [</td>
+<td>Cmd + Shift + [</td>
+<td></td>
+</tr>
+<tr>
+<td>14</td>
+<td>选择上一图层</td>
+<td>选中上方图层</td>
+<td>Alt + ]</td>
+<td>Option + ]</td>
+<td></td>
+</tr>
+<tr>
+<td>15</td>
+<td>选择下一图层</td>
+<td>选中下方图层</td>
+<td>Alt + [</td>
+<td>Option + [</td>
+<td></td>
+</tr>
+<tr>
+<td>16</td>
+<td>调整图层不透明度</td>
+<td>使用移动工具时输入数字</td>
+<td>数字键 1–0</td>
+<td>数字键 1–0</td>
+<td></td>
+</tr>
+<tr>
+<td>17</td>
+<td>调整图层填充</td>
+<td>使用移动工具时调整填充</td>
+<td>Shift + 数字键</td>
+<td>Shift + 数字键</td>
+<td></td>
+</tr>
+<tr>
+<td>18</td>
+<td>临时切换自动选择</td>
+<td>移动工具下快速选择图层</td>
+<td>Ctrl + 单击画面对象</td>
+<td>Cmd + 单击画面对象</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>六、图像调整快捷键自查</h2>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>功能</th>
+<th>自查内容</th>
+<th>Windows 快捷键</th>
+<th>macOS 快捷键</th>
+<th>掌握情况</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>色阶</td>
+<td>调整黑白场和中间调</td>
+<td>Ctrl + L</td>
+<td>Cmd + L</td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>曲线</td>
+<td>精细调整明暗和色彩</td>
+<td>Ctrl + M</td>
+<td>Cmd + M</td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>色相 / 饱和度</td>
+<td>调整颜色、饱和度、明度</td>
+<td>Ctrl + U</td>
+<td>Cmd + U</td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td>色彩平衡</td>
+<td>调整阴影、中间调、高光色彩</td>
+<td>Ctrl + B</td>
+<td>Cmd + B</td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td>去色</td>
+<td>快速变为灰度效果</td>
+<td>Ctrl + Shift + U</td>
+<td>Cmd + Shift + U</td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td>反相</td>
+<td>颜色反相</td>
+<td>Ctrl + I</td>
+<td>Cmd + I</td>
+<td></td>
+</tr>
+<tr>
+<td>7</td>
+<td>自动色调</td>
+<td>自动校正色调</td>
+<td>Ctrl + Shift + L</td>
+<td>Cmd + Shift + L</td>
+<td></td>
+</tr>
+<tr>
+<td>8</td>
+<td>自动对比度</td>
+<td>自动校正对比度</td>
+<td>Ctrl + Alt + Shift + L</td>
+<td>Cmd + Option + Shift + L</td>
+<td></td>
+</tr>
+<tr>
+<td>9</td>
+<td>自动颜色</td>
+<td>自动校正颜色</td>
+<td>Ctrl + Shift + B</td>
+<td>Cmd + Shift + B</td>
+<td></td>
+</tr>
+<tr>
+<td>10</td>
+<td>黑白</td>
+<td>打开黑白调整</td>
+<td>Ctrl + Alt + Shift + B</td>
+<td>Cmd + Option + Shift + B</td>
+<td></td>
+</tr>
+<tr>
+<td>11</td>
+<td>图像大小</td>
+<td>调整像素尺寸和分辨率</td>
+<td>Ctrl + Alt + I</td>
+<td>Cmd + Option + I</td>
+<td></td>
+</tr>
+<tr>
+<td>12</td>
+<td>画布大小</td>
+<td>调整画布范围</td>
+<td>Ctrl + Alt + C</td>
+<td>Cmd + Option + C</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>七、视图与导航快捷键自查</h2>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>功能</th>
+<th>自查内容</th>
+<th>Windows 快捷键</th>
+<th>macOS 快捷键</th>
+<th>掌握情况</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>放大</td>
+<td>放大画布视图</td>
+<td>Ctrl + +</td>
+<td>Cmd + +</td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>缩小</td>
+<td>缩小画布视图</td>
+<td>Ctrl + -</td>
+<td>Cmd + -</td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>适合屏幕</td>
+<td>将画面适配窗口</td>
+<td>Ctrl + 0</td>
+<td>Cmd + 0</td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td>100% 显示</td>
+<td>按实际像素显示</td>
+<td>Ctrl + 1</td>
+<td>Cmd + 1</td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td>临时抓手</td>
+<td>任意工具下拖动画布</td>
+<td>Space + 拖拽</td>
+<td>Space + 拖拽</td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td>临时放大</td>
+<td>临时切换放大工具</td>
+<td>Ctrl + Space</td>
+<td>Cmd + Space</td>
+<td></td>
+</tr>
+<tr>
+<td>7</td>
+<td>临时缩小</td>
+<td>临时切换缩小工具</td>
+<td>Alt + Space</td>
+<td>Option + Space</td>
+<td></td>
+</tr>
+<tr>
+<td>8</td>
+<td>标尺</td>
+<td>显示或隐藏标尺</td>
+<td>Ctrl + R</td>
+<td>Cmd + R</td>
+<td></td>
+</tr>
+<tr>
+<td>9</td>
+<td>参考线</td>
+<td>显示或隐藏参考线</td>
+<td>Ctrl + ;</td>
+<td>Cmd + ;</td>
+<td></td>
+</tr>
+<tr>
+<td>10</td>
+<td>网格</td>
+<td>显示或隐藏网格</td>
+<td>Ctrl + '</td>
+<td>Cmd + '</td>
+<td></td>
+</tr>
+<tr>
+<td>11</td>
+<td>额外内容</td>
+<td>显示或隐藏选区边缘、路径等</td>
+<td>Ctrl + H</td>
+<td>Cmd + H</td>
+<td></td>
+</tr>
+<tr>
+<td>12</td>
+<td>校样颜色</td>
+<td>开启或关闭颜色校样</td>
+<td>Ctrl + Y</td>
+<td>Cmd + Y</td>
+<td></td>
+</tr>
+<tr>
+<td>13</td>
+<td>色域警告</td>
+<td>显示超出印刷色域区域</td>
+<td>Ctrl + Shift + Y</td>
+<td>Cmd + Shift + Y</td>
+<td></td>
+</tr>
+<tr>
+<td>14</td>
+<td>显示 / 隐藏面板</td>
+<td>隐藏或显示所有面板</td>
+<td>Tab</td>
+<td>Tab</td>
+<td></td>
+</tr>
+<tr>
+<td>15</td>
+<td>仅隐藏右侧面板</td>
+<td>保留工具栏，隐藏面板</td>
+<td>Shift + Tab</td>
+<td>Shift + Tab</td>
+<td></td>
+</tr>
+<tr>
+<td>16</td>
+<td>屏幕模式切换</td>
+<td>标准 / 全屏显示切换</td>
+<td>F</td>
+<td>F</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>八、画笔与修图快捷键自查</h2>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>功能</th>
+<th>自查内容</th>
+<th>Windows 快捷键</th>
+<th>macOS 快捷键</th>
+<th>掌握情况</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>选择画笔工具</td>
+<td>使用画笔绘制或涂抹蒙版</td>
+<td>B</td>
+<td>B</td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>减小画笔大小</td>
+<td>缩小笔刷直径</td>
+<td>[</td>
+<td>[</td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>增大画笔大小</td>
+<td>放大笔刷直径</td>
+<td>]</td>
+<td>]</td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td>降低画笔硬度</td>
+<td>让边缘更柔和</td>
+<td>Shift + [</td>
+<td>Shift + [</td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td>提高画笔硬度</td>
+<td>让边缘更清晰</td>
+<td>Shift + ]</td>
+<td>Shift + ]</td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td>调整画笔不透明度</td>
+<td>输入数字调整不透明度</td>
+<td>数字键 1–0</td>
+<td>数字键 1–0</td>
+<td></td>
+</tr>
+<tr>
+<td>7</td>
+<td>调整画笔流量</td>
+<td>输入数字调整流量</td>
+<td>Shift + 数字键</td>
+<td>Shift + 数字键</td>
+<td></td>
+</tr>
+<tr>
+<td>8</td>
+<td>临时吸管</td>
+<td>绘画时临时取色</td>
+<td>Alt</td>
+<td>Option</td>
+<td></td>
+</tr>
+<tr>
+<td>9</td>
+<td>切换前景 / 背景色</td>
+<td>快速切换绘制颜色</td>
+<td>X</td>
+<td>X</td>
+<td></td>
+</tr>
+<tr>
+<td>10</td>
+<td>恢复默认黑白色</td>
+<td>前景黑色、背景白色</td>
+<td>D</td>
+<td>D</td>
+<td></td>
+</tr>
+<tr>
+<td>11</td>
+<td>仿制图章取样</td>
+<td>设置仿制源</td>
+<td>Alt + 单击</td>
+<td>Option + 单击</td>
+<td></td>
+</tr>
+<tr>
+<td>12</td>
+<td>修复画笔取样</td>
+<td>设置修复源</td>
+<td>Alt + 单击</td>
+<td>Option + 单击</td>
+<td></td>
+</tr>
+<tr>
+<td>13</td>
+<td>精确光标</td>
+<td>切换精确十字光标</td>
+<td>Caps Lock</td>
+<td>Caps Lock</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>九、文字快捷键自查</h2>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>功能</th>
+<th>自查内容</th>
+<th>Windows 快捷键</th>
+<th>macOS 快捷键</th>
+<th>掌握情况</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>文字工具</td>
+<td>添加文字图层</td>
+<td>T</td>
+<td>T</td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>提交文字</td>
+<td>完成文字输入</td>
+<td>Ctrl + Enter</td>
+<td>Cmd + Return</td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>取消文字输入</td>
+<td>退出当前文字编辑</td>
+<td>Esc</td>
+<td>Esc</td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td>左对齐</td>
+<td>文字段落左对齐</td>
+<td>Ctrl + Shift + L</td>
+<td>Cmd + Shift + L</td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td>居中对齐</td>
+<td>文字段落居中</td>
+<td>Ctrl + Shift + C</td>
+<td>Cmd + Shift + C</td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td>右对齐</td>
+<td>文字段落右对齐</td>
+<td>Ctrl + Shift + R</td>
+<td>Cmd + Shift + R</td>
+<td></td>
+</tr>
+<tr>
+<td>7</td>
+<td>增大字号</td>
+<td>放大选中文字</td>
+<td>Ctrl + Shift + &gt;</td>
+<td>Cmd + Shift + &gt;</td>
+<td></td>
+</tr>
+<tr>
+<td>8</td>
+<td>减小字号</td>
+<td>缩小选中文字</td>
+<td>Ctrl + Shift + &lt;</td>
+<td>Cmd + Shift + &lt;</td>
+<td></td>
+</tr>
+<tr>
+<td>9</td>
+<td>增大字距</td>
+<td>增加字符间距</td>
+<td>Alt + →</td>
+<td>Option + →</td>
+<td></td>
+</tr>
+<tr>
+<td>10</td>
+<td>减小字距</td>
+<td>减少字符间距</td>
+<td>Alt + ←</td>
+<td>Option + ←</td>
+<td></td>
+</tr>
+<tr>
+<td>11</td>
+<td>增大行距</td>
+<td>增加行间距</td>
+<td>Alt + ↓</td>
+<td>Option + ↓</td>
+<td></td>
+</tr>
+<tr>
+<td>12</td>
+<td>减小行距</td>
+<td>减少行间距</td>
+<td>Alt + ↑</td>
+<td>Option + ↑</td>
+<td></td>
+</tr>
+<tr>
+<td>13</td>
+<td>基线升高</td>
+<td>文字向上偏移</td>
+<td>Shift + Alt + ↑</td>
+<td>Shift + Option + ↑</td>
+<td></td>
+</tr>
+<tr>
+<td>14</td>
+<td>基线降低</td>
+<td>文字向下偏移</td>
+<td>Shift + Alt + ↓</td>
+<td>Shift + Option + ↓</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>十、滤镜与特效快捷键自查</h2>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>功能</th>
+<th>自查内容</th>
+<th>Windows 快捷键</th>
+<th>macOS 快捷键</th>
+<th>掌握情况</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>重复上次滤镜</td>
+<td>再次应用最近一次滤镜</td>
+<td>Ctrl + F</td>
+<td>Cmd + F</td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>Camera Raw 滤镜</td>
+<td>进入 Camera Raw 调色界面</td>
+<td>Ctrl + Shift + A</td>
+<td>Cmd + Shift + A</td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>液化</td>
+<td>进入液化修形界面</td>
+<td>Ctrl + Shift + X</td>
+<td>Cmd + Shift + X</td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td>消失点</td>
+<td>进入透视修图界面</td>
+<td>Ctrl + Alt + V</td>
+<td>Cmd + Option + V</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>十一、面板快捷键自查</h2>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>面板 / 功能</th>
+<th>自查内容</th>
+<th>Windows 快捷键</th>
+<th>macOS 快捷键</th>
+<th>掌握情况</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>画笔设置面板</td>
+<td>打开画笔设置</td>
+<td>F5</td>
+<td>F5</td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>颜色面板</td>
+<td>打开颜色面板</td>
+<td>F6</td>
+<td>F6</td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>图层面板</td>
+<td>打开图层面板</td>
+<td>F7</td>
+<td>F7</td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td>信息面板</td>
+<td>打开信息面板</td>
+<td>F8</td>
+<td>F8</td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td>动作面板</td>
+<td>打开动作面板</td>
+<td>Alt + F9</td>
+<td>Option + F9</td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td>隐藏 / 显示所有面板</td>
+<td>整理工作界面</td>
+<td>Tab</td>
+<td>Tab</td>
+<td></td>
+</tr>
+<tr>
+<td>7</td>
+<td>隐藏 / 显示右侧面板</td>
+<td>保留工具栏，只隐藏面板</td>
+<td>Shift + Tab</td>
+<td>Shift + Tab</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>十二、路径、形状与钢笔自查</h2>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>功能</th>
+<th>自查内容</th>
+<th>Windows 快捷键</th>
+<th>macOS 快捷键</th>
+<th>掌握情况</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>钢笔工具</td>
+<td>创建路径、抠图轮廓</td>
+<td>P</td>
+<td>P</td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>路径选择工具</td>
+<td>选择完整路径</td>
+<td>A</td>
+<td>A</td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>直接选择工具</td>
+<td>选择锚点或路径段</td>
+<td>Shift + A</td>
+<td>Shift + A</td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td>形状工具</td>
+<td>绘制矢量形状</td>
+<td>U</td>
+<td>U</td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td>添加锚点</td>
+<td>钢笔工具下添加节点</td>
+<td>鼠标指向路径单击</td>
+<td>鼠标指向路径单击</td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td>删除锚点</td>
+<td>钢笔工具下删除节点</td>
+<td>鼠标指向锚点单击</td>
+<td>鼠标指向锚点单击</td>
+<td></td>
+</tr>
+<tr>
+<td>7</td>
+<td>转换锚点</td>
+<td>调整直角点和曲线点</td>
+<td>Alt + 拖拽锚点手柄</td>
+<td>Option + 拖拽锚点手柄</td>
+<td></td>
+</tr>
+<tr>
+<td>8</td>
+<td>路径转选区</td>
+<td>将路径载入为选区</td>
+<td>Ctrl + Enter</td>
+<td>Cmd + Return</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>十三、蒙版与通道自查</h2>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>功能</th>
+<th>自查内容</th>
+<th>Windows 快捷键</th>
+<th>macOS 快捷键</th>
+<th>掌握情况</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>快速蒙版</td>
+<td>进入或退出快速蒙版编辑</td>
+<td>Q</td>
+<td>Q</td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>查看蒙版</td>
+<td>单独查看图层蒙版</td>
+<td>Alt + 单击蒙版缩略图</td>
+<td>Option + 单击蒙版缩略图</td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>禁用 / 启用蒙版</td>
+<td>临时关闭或开启蒙版</td>
+<td>Shift + 单击蒙版缩略图</td>
+<td>Shift + 单击蒙版缩略图</td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td>载入蒙版为选区</td>
+<td>根据蒙版建立选区</td>
+<td>Ctrl + 单击蒙版缩略图</td>
+<td>Cmd + 单击蒙版缩略图</td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td>反相蒙版</td>
+<td>黑白蒙版反转</td>
+<td>Ctrl + I</td>
+<td>Cmd + I</td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td>前景色填充蒙版</td>
+<td>用前景色填充当前蒙版</td>
+<td>Alt + Backspace</td>
+<td>Option + Delete</td>
+<td></td>
+</tr>
+<tr>
+<td>7</td>
+<td>背景色填充蒙版</td>
+<td>用背景色填充当前蒙版</td>
+<td>Ctrl + Backspace</td>
+<td>Cmd + Delete</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>十四、颜色与填充快捷键自查</h2>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>功能</th>
+<th>自查内容</th>
+<th>Windows 快捷键</th>
+<th>macOS 快捷键</th>
+<th>掌握情况</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>前景色填充</td>
+<td>使用前景色填充选区或图层</td>
+<td>Alt + Backspace</td>
+<td>Option + Delete</td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>背景色填充</td>
+<td>使用背景色填充选区或图层</td>
+<td>Ctrl + Backspace</td>
+<td>Cmd + Delete</td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>打开填充对话框</td>
+<td>选择颜色、内容识别等填充方式</td>
+<td>Shift + F5</td>
+<td>Shift + F5</td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td>默认黑白色</td>
+<td>恢复默认前景色和背景色</td>
+<td>D</td>
+<td>D</td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td>交换前景 / 背景色</td>
+<td>前景色与背景色互换</td>
+<td>X</td>
+<td>X</td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td>打开拾色器</td>
+<td>修改前景色或背景色</td>
+<td>单击颜色块</td>
+<td>单击颜色块</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>十五、综合实操自查任务</h2>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>实操任务</th>
+<th>要求</th>
+<th>涉及快捷键</th>
+<th>完成情况</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>证件照换底色</td>
+<td>能完成抠图、蒙版、换背景色、导出</td>
+<td>W、Q、B、X、D、Alt + Backspace、Ctrl + S</td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>海报基础排版</td>
+<td>能完成新建画布、置入图片、文字排版、图层分组</td>
+<td>Ctrl + N、V、T、Ctrl + T、Ctrl + G、Ctrl + S</td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>人像基础修图</td>
+<td>能完成瑕疵修复、肤色调整、局部明暗处理</td>
+<td>J、S、B、O、Ctrl + M、Ctrl + U</td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td>产品图精修</td>
+<td>能完成抠图、路径、阴影、颜色调整</td>
+<td>P、Ctrl + Enter、Ctrl + J、Ctrl + T、Ctrl + L</td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td>图片调色</td>
+<td>能完成色阶、曲线、色相饱和度、Camera Raw 调整</td>
+<td>Ctrl + L、Ctrl + M、Ctrl + U、Ctrl + Shift + A</td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td>图层管理</td>
+<td>能完成命名、分组、合并、盖印、剪贴蒙版</td>
+<td>Ctrl + G、Ctrl + E、Ctrl + Shift + E、Ctrl + Alt + Shift + E、Ctrl + Alt + G</td>
+<td></td>
+</tr>
+<tr>
+<td>7</td>
+<td>网页 / 电商图导出</td>
+<td>能按尺寸、格式、清晰度要求导出文件</td>
+<td>Ctrl + Alt + I、Ctrl + Shift + S、Ctrl + S</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>十六、自评总结</h2>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>自评内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>最熟练的模块</td>
+<td></td>
+</tr>
+<tr>
+<td>最薄弱的模块</td>
+<td></td>
+</tr>
+<tr>
+<td>最常用快捷键</td>
+<td></td>
+</tr>
+<tr>
+<td>需要重点复习的快捷键</td>
+<td></td>
+</tr>
+<tr>
+<td>下一步练习目标</td>
+<td></td>
+</tr>
+<tr>
+<td>自查日期</td>
+<td></td>
+</tr>
+<tr>
+<td>自查人</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>十七、快捷键总览速查</h2>
+<table>
+<thead>
+<tr>
+<th>类别</th>
+<th>Windows</th>
+<th>macOS</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>文件</td>
+<td>Ctrl + N</td>
+<td>Cmd + N</td>
+<td>新建</td>
+</tr>
+<tr>
+<td>文件</td>
+<td>Ctrl + O</td>
+<td>Cmd + O</td>
+<td>打开</td>
+</tr>
+<tr>
+<td>文件</td>
+<td>Ctrl + S</td>
+<td>Cmd + S</td>
+<td>保存</td>
+</tr>
+<tr>
+<td>文件</td>
+<td>Ctrl + Shift + S</td>
+<td>Cmd + Shift + S</td>
+<td>另存为</td>
+</tr>
+<tr>
+<td>文件</td>
+<td>Ctrl + W</td>
+<td>Cmd + W</td>
+<td>关闭</td>
+</tr>
+<tr>
+<td>文件</td>
+<td>Ctrl + P</td>
+<td>Cmd + P</td>
+<td>打印</td>
+</tr>
+<tr>
+<td>文件</td>
+<td>Ctrl + Q</td>
+<td>Cmd + Q</td>
+<td>退出</td>
+</tr>
+<tr>
+<td>编辑</td>
+<td>Ctrl + Z</td>
+<td>Cmd + Z</td>
+<td>撤销 / 重做</td>
+</tr>
+<tr>
+<td>编辑</td>
+<td>Ctrl + Shift + Z</td>
+<td>Cmd + Shift + Z</td>
+<td>向前一步</td>
+</tr>
+<tr>
+<td>编辑</td>
+<td>Ctrl + Alt + Z</td>
+<td>Cmd + Option + Z</td>
+<td>向后一步</td>
+</tr>
+<tr>
+<td>编辑</td>
+<td>Ctrl + X</td>
+<td>Cmd + X</td>
+<td>剪切</td>
+</tr>
+<tr>
+<td>编辑</td>
+<td>Ctrl + C</td>
+<td>Cmd + C</td>
+<td>复制</td>
+</tr>
+<tr>
+<td>编辑</td>
+<td>Ctrl + Shift + C</td>
+<td>Cmd + Shift + C</td>
+<td>合并复制</td>
+</tr>
+<tr>
+<td>编辑</td>
+<td>Ctrl + V</td>
+<td>Cmd + V</td>
+<td>粘贴</td>
+</tr>
+<tr>
+<td>编辑</td>
+<td>Ctrl + T</td>
+<td>Cmd + T</td>
+<td>自由变换</td>
+</tr>
+<tr>
+<td>编辑</td>
+<td>Shift + F5</td>
+<td>Shift + F5</td>
+<td>填充</td>
+</tr>
+<tr>
+<td>选区</td>
+<td>Ctrl + A</td>
+<td>Cmd + A</td>
+<td>全选</td>
+</tr>
+<tr>
+<td>选区</td>
+<td>Ctrl + D</td>
+<td>Cmd + D</td>
+<td>取消选择</td>
+</tr>
+<tr>
+<td>选区</td>
+<td>Ctrl + Shift + D</td>
+<td>Cmd + Shift + D</td>
+<td>重新选择</td>
+</tr>
+<tr>
+<td>选区</td>
+<td>Ctrl + Shift + I</td>
+<td>Cmd + Shift + I</td>
+<td>反向选择</td>
+</tr>
+<tr>
+<td>选区</td>
+<td>Shift + F6</td>
+<td>Shift + F6</td>
+<td>羽化</td>
+</tr>
+<tr>
+<td>图层</td>
+<td>Ctrl + Shift + N</td>
+<td>Cmd + Shift + N</td>
+<td>新建图层</td>
+</tr>
+<tr>
+<td>图层</td>
+<td>Ctrl + J</td>
+<td>Cmd + J</td>
+<td>通过拷贝新建图层</td>
+</tr>
+<tr>
+<td>图层</td>
+<td>Ctrl + Shift + J</td>
+<td>Cmd + Shift + J</td>
+<td>通过剪切新建图层</td>
+</tr>
+<tr>
+<td>图层</td>
+<td>Ctrl + G</td>
+<td>Cmd + G</td>
+<td>图层编组</td>
+</tr>
+<tr>
+<td>图层</td>
+<td>Ctrl + Shift + G</td>
+<td>Cmd + Shift + G</td>
+<td>取消编组</td>
+</tr>
+<tr>
+<td>图层</td>
+<td>Ctrl + E</td>
+<td>Cmd + E</td>
+<td>合并图层</td>
+</tr>
+<tr>
+<td>图层</td>
+<td>Ctrl + Shift + E</td>
+<td>Cmd + Shift + E</td>
+<td>合并可见图层</td>
+</tr>
+<tr>
+<td>图层</td>
+<td>Ctrl + Alt + Shift + E</td>
+<td>Cmd + Option + Shift + E</td>
+<td>盖印可见图层</td>
+</tr>
+<tr>
+<td>图层</td>
+<td>Ctrl + Alt + G</td>
+<td>Cmd + Option + G</td>
+<td>创建剪贴蒙版</td>
+</tr>
+<tr>
+<td>图像</td>
+<td>Ctrl + L</td>
+<td>Cmd + L</td>
+<td>色阶</td>
+</tr>
+<tr>
+<td>图像</td>
+<td>Ctrl + M</td>
+<td>Cmd + M</td>
+<td>曲线</td>
+</tr>
+<tr>
+<td>图像</td>
+<td>Ctrl + U</td>
+<td>Cmd + U</td>
+<td>色相 / 饱和度</td>
+</tr>
+<tr>
+<td>图像</td>
+<td>Ctrl + B</td>
+<td>Cmd + B</td>
+<td>色彩平衡</td>
+</tr>
+<tr>
+<td>图像</td>
+<td>Ctrl + I</td>
+<td>Cmd + I</td>
+<td>反相</td>
+</tr>
+<tr>
+<td>图像</td>
+<td>Ctrl + Shift + U</td>
+<td>Cmd + Shift + U</td>
+<td>去色</td>
+</tr>
+<tr>
+<td>图像</td>
+<td>Ctrl + Alt + I</td>
+<td>Cmd + Option + I</td>
+<td>图像大小</td>
+</tr>
+<tr>
+<td>图像</td>
+<td>Ctrl + Alt + C</td>
+<td>Cmd + Option + C</td>
+<td>画布大小</td>
+</tr>
+<tr>
+<td>视图</td>
+<td>Ctrl + +</td>
+<td>Cmd + +</td>
+<td>放大</td>
+</tr>
+<tr>
+<td>视图</td>
+<td>Ctrl + -</td>
+<td>Cmd + -</td>
+<td>缩小</td>
+</tr>
+<tr>
+<td>视图</td>
+<td>Ctrl + 0</td>
+<td>Cmd + 0</td>
+<td>适合屏幕</td>
+</tr>
+<tr>
+<td>视图</td>
+<td>Ctrl + 1</td>
+<td>Cmd + 1</td>
+<td>100% 显示</td>
+</tr>
+<tr>
+<td>视图</td>
+<td>Ctrl + R</td>
+<td>Cmd + R</td>
+<td>标尺</td>
+</tr>
+<tr>
+<td>视图</td>
+<td>Ctrl + H</td>
+<td>Cmd + H</td>
+<td>显示 / 隐藏额外内容</td>
+</tr>
+<tr>
+<td>视图</td>
+<td>Ctrl + ;</td>
+<td>Cmd + ;</td>
+<td>显示 / 隐藏参考线</td>
+</tr>
+<tr>
+<td>视图</td>
+<td>Ctrl + '</td>
+<td>Cmd + '</td>
+<td>显示 / 隐藏网格</td>
+</tr>
+<tr>
+<td>视图</td>
+<td>Tab</td>
+<td>Tab</td>
+<td>显示 / 隐藏面板</td>
+</tr>
+<tr>
+<td>视图</td>
+<td>Shift + Tab</td>
+<td>Shift + Tab</td>
+<td>显示 / 隐藏右侧面板</td>
+</tr>
+<tr>
+<td>滤镜</td>
+<td>Ctrl + F</td>
+<td>Cmd + F</td>
+<td>重复上次滤镜</td>
+</tr>
+<tr>
+<td>滤镜</td>
+<td>Ctrl + Shift + A</td>
+<td>Cmd + Shift + A</td>
+<td>Camera Raw 滤镜</td>
+</tr>
+<tr>
+<td>滤镜</td>
+<td>Ctrl + Shift + X</td>
+<td>Cmd + Shift + X</td>
+<td>液化</td>
+</tr>
+<tr>
+<td>工具</td>
+<td>V</td>
+<td>V</td>
+<td>移动工具</td>
+</tr>
+<tr>
+<td>工具</td>
+<td>M</td>
+<td>M</td>
+<td>选框工具</td>
+</tr>
+<tr>
+<td>工具</td>
+<td>L</td>
+<td>L</td>
+<td>套索工具</td>
+</tr>
+<tr>
+<td>工具</td>
+<td>W</td>
+<td>W</td>
+<td>对象选择 / 快速选择 / 魔棒</td>
+</tr>
+<tr>
+<td>工具</td>
+<td>C</td>
+<td>C</td>
+<td>裁剪工具</td>
+</tr>
+<tr>
+<td>工具</td>
+<td>I</td>
+<td>I</td>
+<td>吸管工具</td>
+</tr>
+<tr>
+<td>工具</td>
+<td>J</td>
+<td>J</td>
+<td>修复工具</td>
+</tr>
+<tr>
+<td>工具</td>
+<td>B</td>
+<td>B</td>
+<td>画笔工具</td>
+</tr>
+<tr>
+<td>工具</td>
+<td>S</td>
+<td>S</td>
+<td>仿制图章</td>
+</tr>
+<tr>
+<td>工具</td>
+<td>Y</td>
+<td>Y</td>
+<td>历史记录画笔</td>
+</tr>
+<tr>
+<td>工具</td>
+<td>E</td>
+<td>E</td>
+<td>橡皮擦</td>
+</tr>
+<tr>
+<td>工具</td>
+<td>G</td>
+<td>G</td>
+<td>渐变 / 油漆桶</td>
+</tr>
+<tr>
+<td>工具</td>
+<td>O</td>
+<td>O</td>
+<td>减淡 / 加深 / 海绵</td>
+</tr>
+<tr>
+<td>工具</td>
+<td>P</td>
+<td>P</td>
+<td>钢笔工具</td>
+</tr>
+<tr>
+<td>工具</td>
+<td>T</td>
+<td>T</td>
+<td>文字工具</td>
+</tr>
+<tr>
+<td>工具</td>
+<td>A</td>
+<td>A</td>
+<td>路径选择 / 直接选择</td>
+</tr>
+<tr>
+<td>工具</td>
+<td>U</td>
+<td>U</td>
+<td>形状工具</td>
+</tr>
+<tr>
+<td>工具</td>
+<td>H</td>
+<td>H</td>
+<td>抓手工具</td>
+</tr>
+<tr>
+<td>工具</td>
+<td>R</td>
+<td>R</td>
+<td>旋转视图工具</td>
+</tr>
+<tr>
+<td>工具</td>
+<td>Z</td>
+<td>Z</td>
+<td>缩放工具</td>
+</tr>
+<tr>
+<td>工具</td>
+<td>D</td>
+<td>D</td>
+<td>默认前景 / 背景色</td>
+</tr>
+<tr>
+<td>工具</td>
+<td>X</td>
+<td>X</td>
+<td>交换前景 / 背景色</td>
+</tr>
+<tr>
+<td>工具</td>
+<td>Q</td>
+<td>Q</td>
+<td>快速蒙版</td>
+</tr>
+<tr>
+<td>工具</td>
+<td>F</td>
+<td>F</td>
+<td>屏幕模式切换</td>
+</tr>
+<tr>
+<td>:::</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+    </div>
+
+    <!-- 返回链接 -->
+    <footer class="post-footer">
+      <a href="/damo-/index.html">← 返回首页</a>
+    </footer>
+
+  </article>
+
+
+  </main>
+
+  <!-- 底部 -->
+  <footer class="site-footer">
+    <p>@damoxu · 一个用知识建立起来的小家</p>
+  </footer>
+
+</body>
+</html>
